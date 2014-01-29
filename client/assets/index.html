@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>RPG</title>
+
+
+
+  <script type="text/javascript" src="vendor.js"></script>
+  <script type="text/javascript" src="application.js"></script>
+
+
+
+
+  <style type="text/css">
+    #content {
+      user-select: none;
+      background-color:#000000;
+      width: 1920px;
+      height: 1200px;
+    }
+  </style>
+</head>
+
+<body onload="require('application').init()">
+
+
+  <div id="content">
+    <canvas id="gameCanvas" width="1920" height="1200"></canvas>
+  </div>
+
+</body>
+</html>
