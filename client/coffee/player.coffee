@@ -1,16 +1,13 @@
-module.exports = class Player
-  constructor: (@sprite, @stage) ->
+Character = require 'coffee/character'
+module.exports = class Player extends Character
+  constructor: (sprite) ->
+    super sprite
 
     @MAX_VELOCITY = 20
     @lastKey
-    @player
-    @playerBody
 
-  init: () =>
-
-    @playerBody = @sprite
-
-    @addChild @playerBody
+  init: (pos) =>
+    super pos
 
     @vX = 0
     @vY = 0

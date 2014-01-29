@@ -62,14 +62,13 @@ module.exports = class Game
     #hide anything on stage
     @stage.removeAllChildren()
 
+    playerPos =
+      x: @canvas.width/2 - 200
+      y: @canvas.height/2 + 200
+
     #create the player
     @player = _.extend (new Player(@playerSprite, @stage)), (new createjs.Container())
-    @player.init()
-    @player.x = @canvas.width/2
-    @player.y = @canvas.height/2
-
-    @player.width = 165;
-    @player.height = 292;
+    @player.init(playerPos)
 
     @keyInput.reset()
 

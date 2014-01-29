@@ -8,6 +8,11 @@ exports.config =
       joinTo:
         'application.js': /^(client)/
         'vendor.js': /^(bower_components|vendor)/
+      order:
+        before: [
+          'coffee/character.coffee'
+        ]
+
 
     stylesheets:
       defaultExtension: 'scss'
