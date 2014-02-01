@@ -1,5 +1,7 @@
 NPC = require 'coffee/npc'
 Character = require 'coffee/character'
+Level = require 'coffee/level'
+
 module.exports = class Player extends Character
   constructor: (sprite, @stage) ->
     super sprite
@@ -24,11 +26,14 @@ module.exports = class Player extends Character
       bottom: @y +  @playerBody.spriteSheet._frameHeight
 
     for child in @stage.children
+      dir = {}
       if child instanceof NPC
-        if (dir = child.collide data)
-          if dir.whore then @x -= @vX
-          if dir.green then @y -= @vY
+        dir = child.collide data
+      else if child.type is 'tile'
+        dir = Level.collide data, child
 
+      if dir.whore then @x -= @vX
+      if dir.green then @y -= @vY
   accelerate: (keys) =>
     @vX = 0
     @vY = 0
