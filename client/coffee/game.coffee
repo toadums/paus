@@ -1,6 +1,7 @@
 KeyInput = require('coffee/input')
 Player   = require('coffee/player')
 Level   = require('coffee/level')
+NPC   = require('coffee/npc')
 
 module.exports = class Game
   constructor: () ->
@@ -13,6 +14,8 @@ module.exports = class Game
     @level = undefined
     @playerSprite = undefined
     @init()
+
+    @npcs = []
 
   init: () =>
     @canvas = document.getElementById("gameCanvas")
@@ -35,11 +38,11 @@ module.exports = class Game
     data = new createjs.SpriteSheet(
       images: [@loader.getResult("player")]
       frames:
-        regX: 100
-        height: 292
+        regX: 0
+        height: 206
         count: 12
-        regY: 165 / 2
-        width: 165
+        regY: 0
+        width: 130
 
       animations:
         up: [0, 2, "up"]
@@ -76,6 +79,20 @@ module.exports = class Game
     @stage.clear()
     @level = new Level(@stage)
     @stage.addChild @player
+
+
+    for i in [0..1] by 1
+
+      playerPos =
+        x: Math.random()*@canvas.width
+        y: Math.random()*@canvas.height
+
+      #create the player
+      npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
+      npc.init(playerPos)
+      @stage.addChild npc
+
+      @npcs.push npc
 
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")

@@ -11,6 +11,8 @@ exports.config =
       order:
         before: [
           'coffee/character.coffee'
+          'coffee/player.coffee'
+          'coffee/npc.coffee'
         ]
 
 

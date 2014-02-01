@@ -1,6 +1,7 @@
+NPC = require 'coffee/npc'
 Character = require 'coffee/character'
 module.exports = class Player extends Character
-  constructor: (sprite) ->
+  constructor: (sprite, @stage) ->
     super sprite
 
     @MAX_VELOCITY = 20
@@ -16,6 +17,18 @@ module.exports = class Player extends Character
     @x += @vX
     @y += @vY
 
+    data =
+      top: @y
+      left: @x
+      right: @x + @playerBody.spriteSheet._frameWidth
+      bottom: @y +  @playerBody.spriteSheet._frameHeight
+
+    for child in @stage.children
+      if child instanceof NPC
+        if (dir = child.collide data)
+          if dir.whore then @x -= @vX
+          if dir.green then @y -= @vY
+
   accelerate: (keys) =>
     @vX = 0
     @vY = 0
@@ -28,10 +41,6 @@ module.exports = class Player extends Character
       @vY += @MAX_VELOCITY if key is "down"
       latestKey = key
 
-    if latestKey isnt false
-      @playerBody.gotoAndPlay "run"  if @playerBody.currentAnimation isnt "run"
-    else
-      @playerBody.gotoAndPlay "idle"
     switch latestKey
       when "left"
         if @playerBody.currentAnimation isnt "left"

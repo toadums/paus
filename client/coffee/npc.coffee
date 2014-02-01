@@ -1,6 +1,6 @@
 Character = require 'coffee/character'
 
-module.exports = class npc extends Character
+module.exports = class NPC extends Character
   constructor: (sprite) ->
     super sprite
 
