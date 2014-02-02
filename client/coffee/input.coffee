@@ -1,5 +1,6 @@
 module.exports = class KeyInput
   constructor: () ->
+    # KeyDown/Up defines
     @KEYCODE_UP = 38
     @KEYCODE_LEFT = 37
     @KEYCODE_RIGHT = 39
@@ -8,15 +9,20 @@ module.exports = class KeyInput
     @KEYCODE_A = 65
     @KEYCODE_S = 83
     @KEYCODE_D = 68
+    @ACTION = 69
+
     @lfHeld = undefined
     @rtHeld = undefined
     @fwdHeld = undefined
     @dnHeld = undefined
+    # E key. Talk to people, interact etc
+    @actionheld = undefined
 
     window.setTimeout(
       () =>
         document.onkeydown = @handleKeyDown
         document.onkeyup = @handleKeyUp
+        document.onkeypress = @handleKeyPress
       1000
     )
   #allow for WASD and arrow control scheme
@@ -36,6 +42,8 @@ module.exports = class KeyInput
       when @KEYCODE_S, @KEYCODE_DOWN
         @dnHeld = true
         false
+      when @ACTION
+        @actionHeld = true
 
   handleKeyUp: (e) =>
     e = window.event  unless e
@@ -48,6 +56,8 @@ module.exports = class KeyInput
         @fwdHeld = false
       when @KEYCODE_S, @KEYCODE_DOWN
         @dnHeld = false
+      when @ACTION
+        @actionHeld = false
 
   reset: () =>
     @lfHeld = @rtHeld = @fwdHeld = @dnHeld = false

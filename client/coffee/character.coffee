@@ -10,22 +10,23 @@ module.exports = class Character
     @x = pos.x
     @y = pos.y
 
-    @width = 165
-    @height = 292
+    # Width of the sprite
+    @width = @playerBody.spriteSheet._frameWidth
+    @height = @playerBody.spriteSheet._frameHeight
 
   collide: (them) ->
     top = @y
     left = @x
-    right = @x + @playerBody.spriteSheet._frameWidth
-    bottom = @y + @playerBody.spriteSheet._frameHeight
+    right = @x + @width
+    bottom = @y + @height
 
     collision =
       whore: false
       green: false
 
-    if them.right > left and (top < them.top < bottom or top < them.bottom < bottom) and not (them.left > right)
+    if them.right >= left and (top <= them.top <= bottom or top <= them.bottom <= bottom) and not (them.left >= right)
       collision.whore = true
-    if them.top < bottom and (left < them.left < right or left < them.right < right) and not (them.bottom < top)
+    if them.top <= bottom and (left <= them.left <= right or left <= them.right <= right) and not (them.bottom <= top)
       collision.green = true
 
     collision

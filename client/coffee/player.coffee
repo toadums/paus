@@ -3,7 +3,11 @@ Character = require 'coffee/character'
 Level = require 'coffee/level'
 
 module.exports = class Player extends Character
-  constructor: (sprite, @stage) ->
+  constructor: (sprite, @stage, @delegate) ->
+    {
+      @startDialog
+    } = @delegate
+
     super sprite
 
     @MAX_VELOCITY = 20
@@ -22,9 +26,10 @@ module.exports = class Player extends Character
     data =
       top: @y
       left: @x
-      right: @x + @playerBody.spriteSheet._frameWidth
-      bottom: @y +  @playerBody.spriteSheet._frameHeight
+      right: @x + @width
+      bottom: @y + @height
 
+    # Collision detection
     for child in @stage.children
       dir = {}
       if child instanceof NPC
@@ -34,6 +39,33 @@ module.exports = class Player extends Character
 
       if dir.whore then @x -= @vX
       if dir.green then @y -= @vY
+
+  # If the player is holding the E key, and the character is within 300px from an NPC,
+  # play that NPCs dialog
+  checkActions: (npcs) =>
+    # We are going from the CENTERS of the characters
+    me =
+      x: @x + @width/2
+      y: @y + @height/2
+
+    for npc in npcs
+      them =
+        x: npc.x + npc.width/2
+        y: npc.y + npc.height/2
+
+      # Vector from me to them
+      v =
+        x: me.x - them.x
+        y: me.y - them.y
+
+      # Distance between centers
+      d = Math.sqrt(v.x*v.x + v.y*v.y)
+
+      if d < 300 # Random number
+        if (dialog = npc.dialog)
+          @startDialog dialog
+
+
   accelerate: (keys) =>
     @vX = 0
     @vY = 0

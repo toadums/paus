@@ -2,9 +2,13 @@ KeyInput = require('coffee/input')
 Player   = require('coffee/player')
 Level   = require('coffee/level')
 NPC   = require('coffee/npc')
+{Dialog, YesNoDialog} = require('coffee/dialog')
 
 module.exports = class Game
   constructor: () ->
+    # If the player is in an action, they can't do anything
+    @IN_ACTION = false
+
     @canvas = undefined
     @stage = undefined
     @loader = undefined
@@ -70,7 +74,7 @@ module.exports = class Game
       y: @canvas.height/2 + 200
 
     #create the player
-    @player = _.extend (new Player(@playerSprite, @stage)), (new createjs.Container())
+    @player = _.extend (new Player(@playerSprite, @stage, @)), (new createjs.Container())
     @player.init(playerPos)
 
     @keyInput.reset()
@@ -100,17 +104,33 @@ module.exports = class Game
   tick: (event) =>
     keys = []
 
-    #handle thrust
-    keys.push "up"  if @keyInput.fwdHeld
-    keys.push "down"  if @keyInput.dnHeld
-    keys.push "left"  if @keyInput.lfHeld
-    keys.push "right"  if @keyInput.rtHeld
+    # If the user is 'doing something' dont let them do anything else..
+    if not @IN_ACTION
+      #handle thrust
+      keys.push "up"  if @keyInput.fwdHeld
+      keys.push "down"  if @keyInput.dnHeld
+      keys.push "left"  if @keyInput.lfHeld
+      keys.push "right"  if @keyInput.rtHeld
 
-    @player.accelerate keys
+      @player.accelerate keys
+
+      # Check if the user is interacting with anythin (for right now just NPCs)
+      if @keyInput.actionHeld
+        @player.checkActions @npcs
 
     #call sub ticks
     @player.tick event, @level
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event
+
+  # Open a dialog
+  startDialog: (dialog) =>
+    @IN_ACTION = true
+    dialog = new YesNoDialog dialog, @
+
+  endAction: () =>
+    @IN_ACTION = false
+
+
 
