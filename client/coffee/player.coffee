@@ -1,6 +1,7 @@
 NPC = require 'coffee/npc'
 Character = require 'coffee/character'
 Level = require 'coffee/level'
+Collections = require 'coffee/collections'
 
 module.exports = class Player extends Character
   constructor: (sprite, @stage, @delegate) ->
@@ -63,7 +64,7 @@ module.exports = class Player extends Character
 
       if d < 300 # Random number
         if (dialog = npc.dialog)
-          @startDialog dialog
+          @startDialog Collections.findModel(dialog)
 
 
   accelerate: (keys) =>

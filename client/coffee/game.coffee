@@ -2,7 +2,7 @@ KeyInput = require('coffee/input')
 Player   = require('coffee/player')
 Level   = require('coffee/level')
 NPC   = require('coffee/npc')
-{Dialog, YesNoDialog} = require('coffee/dialog')
+{DialogManager} = require('coffee/dialog')
 
 module.exports = class Game
   constructor: () ->
@@ -18,12 +18,12 @@ module.exports = class Game
     @level = undefined
     @playerSprite = undefined
     @init()
-
     @npcs = []
 
   init: () =>
     @canvas = document.getElementById("gameCanvas")
     @stage = new createjs.Stage(@canvas)
+    @dialogManager = new DialogManager @
 
     manifest = [
       src: "images/runningRpg.png"
@@ -127,10 +127,7 @@ module.exports = class Game
   # Open a dialog
   startDialog: (dialog) =>
     @IN_ACTION = true
-    dialog = new YesNoDialog dialog, @
+    @dialogManager.showDialog dialog
 
   endAction: () =>
     @IN_ACTION = false
-
-
-

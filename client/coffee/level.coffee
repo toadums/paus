@@ -27,7 +27,6 @@ module.exports = class Level
 
   initLayer: (layerData, tilesetSheet, tilewidth, tileheight) =>
     y = 0
-    console.log layerData
     while y < layerData.height
       x = 0
 
