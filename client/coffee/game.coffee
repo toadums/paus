@@ -91,9 +91,29 @@ module.exports = class Game
         x: Math.random()*@canvas.width
         y: Math.random()*@canvas.height
 
+      data =
+        pos: playerPos
+
+      if i is 0
+        dialogs = [
+          { type: 'questpart', quest: 900, part: 802, dialog: 128 }
+          { type: 'questpart', quest: 900, part: 801, dialog: 125 }
+          { type: 'questdone', quest: 900, dialog: 129 }
+          { type: 'else', dialog: 123 }
+        ]
+      else if i is 1
+        dialogs =
+          [
+            { type: 'questpart', quest: 900, part: 801, dialog: 127 }
+            { type: 'questpart', quest: 900, part: 802, dialog: 130 }
+            { type: 'questdone', quest: 900, dialog: 130 }
+          ]
+
+      data.dialogs = dialogs
+
       #create the player
       npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
-      npc.init(playerPos)
+      npc.init(data)
       @stage.addChild npc
 
       @npcs.push npc

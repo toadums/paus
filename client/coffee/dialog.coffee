@@ -44,7 +44,8 @@ class DialogManager
       @lines.push text
       i++
 
-  showDialog: (dialog) =>
+  showDialog: (id) =>
+    dialog = Collections.findModel id
 
     # Position relative to the viewport
     pos =
@@ -115,12 +116,25 @@ class Controls
   handleNext: (action) =>
     if action.type is 'goto'
       next = action.value
-      newDialog = Collections.findModel(next)
 
       @close()
-      return unless newDialog
+      return unless next
 
-      @showDialog newDialog
+      @showDialog next
+    else if action.type is 'queststart'
+
+      if (quest = Collections.findModel action.value.quest)
+        quest.start()
+
+      @close()
+      @endAction()
+
+    else if action.type is 'questpart'
+      if (quest = Collections.findModel action.value.quest)?
+        quest.completePart action.value.part
+
+      @close()
+      @endAction()
     else
       @close()
       @endAction()

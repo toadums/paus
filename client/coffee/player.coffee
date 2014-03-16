@@ -63,8 +63,8 @@ module.exports = class Player extends Character
       d = Math.sqrt(v.x*v.x + v.y*v.y)
 
       if d < 300 # Random number
-        if (dialog = npc.dialog)
-          @startDialog Collections.findModel(dialog)
+        if (dialog = npc.getDialog())
+          @startDialog npc.getDialog()
 
 
   accelerate: (keys) =>
