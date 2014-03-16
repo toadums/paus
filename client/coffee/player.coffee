@@ -35,7 +35,7 @@ module.exports = class Player extends Character
     # Collision detection
     for child in @stage.children
       dir = {}
-      if child instanceof NPC or child instanceof Monster or (child.type is 'tile' and (child.hit))
+      if child instanceof NPC or (child instanceof Monster and child.dying is false) or (child.type is 'tile' and (child.hit))
 
         data =
           top: child.y
@@ -73,28 +73,35 @@ module.exports = class Player extends Character
             bottom: child.y + child.height
           dir = @collide data, vel
 
-          if child instanceof Monster
+          if child instanceof Monster and !child.dying 
 
             if dir.green or dir.whore
-              if @facing == 1
-                #punch down
-                child.y += 80
-              else if @facing == 0
-                child.y -= 80
-                #punch up
-              else if @facing == 3
-                child.x += 80
-                #punch right
-              else if @facing == 2
-                child.x -= 80
-                #punch left
+              child.life -= 1
+
               child.playerBody.spriteSheet = child.hitsprite.spriteSheet
 
               revertSprite = () ->
-
                 child.playerBody.spriteSheet = child.regsprite.spriteSheet
 
               setTimeout revertSprite, 100
+
+              if child.life <= 0
+                child.dying = true
+                child.kill()
+              else
+                if @facing == 1
+                  #punch down
+                  child.y += 80
+                else if @facing == 0
+                  child.y -= 80
+                  #punch up
+                else if @facing == 3
+                  child.x += 80
+                  #punch right
+                else if @facing == 2
+                  child.x -= 80
+                  #punch left
+              
 
 
 

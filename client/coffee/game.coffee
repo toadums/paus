@@ -28,6 +28,7 @@ module.exports = class Game
     @monsterSprite3red = undefined
     @monsterSprite4red = undefined
     @monsterSprite5red = undefined
+    @blood = undefined
 
     @init()
     @npcs = []
@@ -83,6 +84,10 @@ module.exports = class Game
         src: "images/bunny5red.png"
         id: "monster5red"
       },
+      {
+        src: "images/blood.png"
+        id: "bloodPool"
+      }
     ]
     @loader = new createjs.LoadQueue(false)
     @loader.addEventListener "complete", @handleComplete
@@ -347,6 +352,28 @@ module.exports = class Game
     @monsterSprite5red = new createjs.Sprite(data, "right_idle")
     @monsterSprite5red.framerate = 10
 
+    data = new createjs.SpriteSheet(
+      images: [@loader.getResult("bloodPool")]
+      frames:
+        regX: 0
+        height: 130
+        count: 1
+        regY: 0
+        width: 130
+
+      animations:
+        down: [0, 0, "down"]
+        left: [0, 0, "left"]
+        right: [0, 0, "right"]
+        up: [0, 0, "up"]
+        left_idle: [0, 0]
+        right_idle: [0, 0]
+        up_idle: [0, 0]
+        down_idle: [0, 0]
+    )
+
+    @blood = data
+
     @restart()
 
   #reset all game logic
@@ -367,6 +394,33 @@ module.exports = class Game
     #ensure stage is blank and add the ship
     @stage.clear()
     @level = new Level(@stage)
+
+    for i in [0..40] by 1
+
+      playerPos =
+        x: Math.random()*@canvas.width
+        y: Math.random()*@canvas.height
+
+      while 950 <= playerPos.x <= 1450
+        playerPos.x = Math.random()*@canvas.width
+
+      color = Math.floor(Math.random() * 5)
+      switch color
+        when 0
+          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterSpritered), @stage)), (new createjs.Container())
+        when 1
+          monster = _.extend (new Monster(_.clone(@monsterSprite2), _.clone(@monsterSprite2red), @stage)), (new createjs.Container())
+        when 2
+          monster = _.extend (new Monster(_.clone(@monsterSprite3), _.clone(@monsterSprite3red), @stage)), (new createjs.Container())
+        when 3
+          monster = _.extend (new Monster(_.clone(@monsterSprite4), _.clone(@monsterSprite4red), @stage)), (new createjs.Container())
+        when 4
+          monster = _.extend (new Monster(_.clone(@monsterSprite5), _.clone(@monsterSprite5red), @stage)), (new createjs.Container())
+
+      monster.init(playerPos,@blood)
+      @stage.addChild monster
+      @monsters.push monster
+    
     @stage.addChild @player
 
 
@@ -403,32 +457,6 @@ module.exports = class Game
       @stage.addChild npc
 
       @npcs.push npc
-
-    for i in [0..40] by 1
-
-      playerPos =
-        x: Math.random()*@canvas.width
-        y: Math.random()*@canvas.height
-
-      while 950 <= playerPos.x <= 1450
-        playerPos.x = Math.random()*@canvas.width
-
-      color = Math.floor(Math.random() * 5)
-      switch color
-        when 0
-          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterSpritered), @stage)), (new createjs.Container())
-        when 1
-          monster = _.extend (new Monster(_.clone(@monsterSprite2), _.clone(@monsterSprite2red), @stage)), (new createjs.Container())
-        when 2
-          monster = _.extend (new Monster(_.clone(@monsterSprite3), _.clone(@monsterSprite3red), @stage)), (new createjs.Container())
-        when 3
-          monster = _.extend (new Monster(_.clone(@monsterSprite4), _.clone(@monsterSprite4red), @stage)), (new createjs.Container())
-        when 4
-          monster = _.extend (new Monster(_.clone(@monsterSprite5), _.clone(@monsterSprite5red), @stage)), (new createjs.Container())
-
-      monster.init(playerPos)
-      @stage.addChild monster
-      @monsters.push monster
 
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")

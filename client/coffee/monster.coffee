@@ -8,8 +8,10 @@ module.exports = class Monster extends Character
     super sprite
     @tickCount = 0
     @waitCount = 0
+    @dying = false
 
-  init: (@pos) =>
+  init: (@pos,blood) =>
+    @bloodSprite = blood
     super @pos
     @facing = Math.floor(Math.random() * 4) #0 - up, 1 - down, 2 - left, 3 - right
     switch @facing
@@ -25,11 +27,24 @@ module.exports = class Monster extends Character
       when 3
         if @playerBody.currentAnimation isnt "right"
           @playerBody.gotoAndPlay "right"
+    @life = 2
 
   hit: (direction) =>
     #do hit here
 
+  kill: () =>
+    killChild = () =>
+      @stage.removeChild this
+    setTimeout killChild, 4000
+    @playerBody.spriteSheet = _.clone(@bloodSprite)
+    @playerBody.gotoAndPlay "left_idle"
+
+
   tick: (event, level) =>
+    if @dying
+      @playerBody.spriteSheet = @bloodSprite
+      return false
+    
     @tickCount++
 
     if @waitCount > 0
