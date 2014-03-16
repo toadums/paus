@@ -164,11 +164,11 @@ dialogs.push
 ######################
 dialogs.push
   id: 130
-  text: "BURP"
+  text: "DASD% $%@$%@$% $ %@#% #% DYSAD^% DS(^^SD *TSA *D^&& ST(S^&*D^SA&*D^(*&SD^ *())))"
   actions:[
     {
       type: "done"
-      text: "??"
+      text: "???"
     }
   ]
 

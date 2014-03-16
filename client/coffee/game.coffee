@@ -86,14 +86,6 @@ module.exports = class Game
 
 
     for i in [0..1] by 1
-
-      playerPos =
-        x: Math.random()*@canvas.width
-        y: Math.random()*@canvas.height
-
-      data =
-        pos: playerPos
-
       if i is 0
         dialogs = [
           { type: 'questpart', quest: 900, part: 802, dialog: 128 }
@@ -101,15 +93,24 @@ module.exports = class Game
           { type: 'questdone', quest: 900, dialog: 129 }
           { type: 'else', dialog: 123 }
         ]
+
+        pos =
+          x: 300
+          y: 500
+
       else if i is 1
         dialogs =
           [
             { type: 'questpart', quest: 900, part: 801, dialog: 127 }
-            { type: 'questpart', quest: 900, part: 802, dialog: 130 }
-            { type: 'questdone', quest: 900, dialog: 130 }
+            { type: 'else', dialog: 130 }
           ]
 
-      data.dialogs = dialogs
+        pos =
+          x: 900
+          y: 1200
+
+
+      data = {pos, dialogs}
 
       #create the player
       npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
@@ -154,6 +155,7 @@ module.exports = class Game
 
     #call sub ticks
     @player.tick event, @level
+    npc.tick event, @level for npc in @npcs
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event
