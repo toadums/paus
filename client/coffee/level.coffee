@@ -27,7 +27,6 @@ module.exports = class Level
 
   initLayer: (layerData, tilesetSheet, tilewidth, tileheight) =>
     y = 0
-    console.log layerData
     while y < layerData.height
       x = 0
 
@@ -45,7 +44,10 @@ module.exports = class Level
           cellSprite.y = y * tileheight
           cellSprite.num = layerData.name
 
-          cellSprite.hit = layerData.properties.hit
+          cellSprite.height = 96
+          cellSprite.width = 96
+
+          cellSprite.hit = if layerData.properties.hit is "true" then true else false
           cellSprite.type = 'tile'
 
           @stage.addChild cellSprite
@@ -64,20 +66,20 @@ module.exports = class Level
         @tileset.onLoad = @initLayers()
 
 
-  @collide: (them, tile) ->
-    return {} unless tile.hit is "true"
-    top = tile.y
-    left = tile.x
-    right = tile.x + tile.spriteSheet._frameWidth
-    bottom = tile.y + tile.spriteSheet._frameHeight
+  # @collide: (them, tile) ->
+  #   return {} unless tile.hit is "true"
+  #   top = tile.y
+  #   left = tile.x
+  #   right = tile.x + tile.spriteSheet._frameWidth
+  #   bottom = tile.y + tile.spriteSheet._frameHeight
 
-    collision =
-      whore: false
-      green: false
+  #   collision =
+  #     whore: false
+  #     green: false
 
-    if them.right >= left and (top <= them.top <= bottom or top <= them.bottom <= bottom) and not (them.left >= right)
-      collision.whore = true
-    if them.top <= bottom and (left <= them.left <= right or left <= them.right <= right) and not (them.bottom <= top)
-      collision.green = true
+  #   if them.right >= left and (top <= them.top <= bottom or top <= them.bottom <= bottom) and not (them.left >= right)
+  #     collision.whore = true
+  #   if them.top <= bottom and (left <= them.left <= right or left <= them.right <= right) and not (them.bottom <= top)
+  #     collision.green = true
 
-    collision
+  #   collision
