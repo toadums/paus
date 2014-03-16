@@ -2,6 +2,7 @@ NPC = require 'coffee/npc'
 Monster = require 'coffee/monster'
 Character = require 'coffee/character'
 Level = require 'coffee/level'
+Collections = require 'coffee/collections'
 
 module.exports = class Player extends Character
   constructor: (sprite, @stage, @delegate) ->
@@ -119,8 +120,8 @@ module.exports = class Player extends Character
       d = Math.sqrt(v.x*v.x + v.y*v.y)
 
       if d < 300 # Random number
-        if (dialog = npc.dialog)
-          @startDialog dialog
+        if (dialog = npc.getDialog())
+          @startDialog npc.getDialog()
 
 
   accelerate: (keys) =>

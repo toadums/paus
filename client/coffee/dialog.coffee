@@ -1,67 +1,150 @@
+Collections = require 'coffee/collections'
+{ wrap } = require 'coffee/utils'
 # Dialog class for dialogs. For right now just a yes/no box. We could make a 'done' box too
 # WORK IN PROGRESS. We need to figure out a better way. use containers
-class Dialog
 
-  constructor: (@dialog, @delegate) ->
+class DialogManager
+  constructor: (@delegate) ->
     {
+      @canvas
       @stage
       @endAction
     } = @delegate
 
-    @text = null
+    @currentDialog = null
+    @dialog = null
+    @lines = []
+    @margin = 40
+    @padding = 20
+    @w = @stage.canvas.width - @margin*2
+    @h = 160
 
-    # Position relative to the viewport
-    @pos =
-      x: @stage.x*-1 + 50
-      y: @stage.y*-1 + 50
-
-    # The backing box of the dialog
-    @box = new createjs.Shape();
-    @box.graphics.beginStroke("#000");
+  # Draw the box that holds the dialog
+  createBox: (pos) ->
+    @box = new createjs.Shape()
+    @box.graphics.beginStroke("#000")
     @box.graphics.beginFill("#51D9FF")
-    @box.graphics.setStrokeStyle(2);
-    @box.snapToPixel = true;
-    @box.graphics.drawRect(@pos.x - 20, @pos.y - 20, 300, 200);
+    @box.graphics.setStrokeStyle(2)
+    @box.snapToPixel = true
+    @box.graphics.drawRect(pos.x, pos.y, @w, @h)
     @stage.addChild @box
 
-    @changeText @dialog.text
+  # Render the text inside the dialog
+  createText: (pos, dialog) =>
+    lines = wrap(@canvas.getContext('2d'), dialog.text, @w - @padding*2, "20px Arial")
+    i = 0
 
-  # Set the text of the dialog
-  changeText: (text) =>
-    @text = new createjs.Text(text, "20px Arial", "black")
-    @text.x = @pos.x
-    @text.y = @pos.y
-    @text.snapToPixel = true
-    @text.textBaseline = "alphabetic"
+    for line in lines
+      text = new createjs.Text(line, "20px Arial", "black")
+      text.x = pos.x + @padding
+      text.y = pos.y + i * 30 + @padding
+      text.snapToPixel = true
+      text.textBaseline = "alphabetic"
+      @stage.addChild text
+      @lines.push text
+      i++
 
-    @stage.addChild @text
+  showDialog: (id) =>
+    dialog = Collections.findModel id
+
+    # Position relative to the viewport
+    pos =
+      x: @stage.x*-1 + @margin
+      y: @stage.y*-1 + @stage.canvas.height - @h - @margin
+
+    @createBox pos
+    @createText pos, dialog
+
+    @dialog = new Controls dialog, pos, @
+
+
+  close: =>
+    @stage.removeChild text for text in @lines
+    @lines = []
+    @stage.removeChild @box
+    @currentDialog = null
+    @dialog = null
+
+  keyPress: (key) =>
+    switch key
+      when "left", "right"
+        @dialog.changeSelection key
+      when "enter"
+        @dialog.enterPress()
 
 # Simple dialog with yes/no buttons
-class YesNoDialog extends Dialog
-  constructor: (dialog, delegate) ->
-    super dialog, delegate
+class Controls
+  constructor: (@dialog, pos, @delegate) ->
+    {
+      close: @delegateClose
+      @stage
+      @showDialog
+      @endAction
+      @padding
+      @h
+    } = @delegate
 
-    @yes = new createjs.Text("Yes", "20px Arial", "black")
-    @yes.x = @pos.x
-    @yes.y = @pos.y + 100
-    @yes.textBaseline = "alphabetic"
+    @active = 0
 
-    @yes.addEventListener "click", @handleYes
+    @buttons = []
+    i = 0
+    for action in dialog.actions
+      button = new createjs.Text(action.text, "20px Arial", if i is 0 then "red" else "black")
+      button.x = pos.x + @padding + i * 300
+      button.y = pos.y + @h - @padding
+      button.textBaseline = "alphabetic"
 
-    @stage.addChild @yes
+      button.addEventListener "click", _.partial(@handleNext, action)
+      @buttons.push button
+      @stage.addChild button
+      i++
+
+  changeSelection: (direction) ->
+    if direction is "right" and @active < @buttons.length - 1
+      @buttons[@active].color = "black"
+      @active++
+    else if direction is "left" and @active > 0
+      @buttons[@active].color = "black"
+      @active--
+
+    @buttons[@active].color = "red"
+
+  enterPress: =>
+    @buttons[@active].dispatchEvent('click')
 
   # Close the dialog when a yes/no button is hit
-  handleYes: () =>
-    @stage.removeChild @text
-    @stage.removeChild @yes
-    @stage.removeChild @box
-    @endAction()
-  handleNo: () =>
-    @endAction()
+  handleNext: (action) =>
+    if action.type is 'goto'
+      next = action.value
 
+      @close()
+      return unless next
+
+      @showDialog next
+    else if action.type is 'queststart'
+
+      if (quest = Collections.findModel action.value.quest)
+        quest.start()
+
+      @close()
+      @endAction()
+
+    else if action.type is 'questpart'
+      if (quest = Collections.findModel action.value.quest)?
+        quest.completePart action.value.part
+
+      @close()
+      @endAction()
+    else
+      @close()
+      @endAction()
+
+  close: =>
+    @stage.removeChild button for button in @buttons
+    @buttons = []
+    @delegateClose()
 
 
 
 module.exports =
-  YesNoDialog: YesNoDialog
-  Dialog:      Dialog
+  DialogManager: DialogManager

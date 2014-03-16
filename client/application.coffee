@@ -5,5 +5,3 @@ module.exports = class Application
   @init: ->
     console.log "Initializing!"
     game = new Game()
-
-

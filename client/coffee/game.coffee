@@ -3,9 +3,7 @@ Player   = require('coffee/player')
 Monster   = require('coffee/monster')
 Level   = require('coffee/level')
 NPC   = require('coffee/npc')
-
-
-{Dialog, YesNoDialog} = require('coffee/dialog')
+{DialogManager} = require('coffee/dialog')
 
 module.exports = class Game
   constructor: () ->
@@ -32,13 +30,13 @@ module.exports = class Game
     @monsterSprite5red = undefined
 
     @init()
-
     @npcs = []
     @monsters = []
 
   init: () =>
     @canvas = document.getElementById("gameCanvas")
     @stage = new createjs.Stage(@canvas)
+    @dialogManager = new DialogManager @
 
     manifest = [
       {
@@ -373,14 +371,35 @@ module.exports = class Game
 
 
     for i in [0..1] by 1
+      if i is 0
+        dialogs = [
+          { type: 'questpart', quest: 900, part: 802, dialog: 128 }
+          { type: 'questpart', quest: 900, part: 801, dialog: 125 }
+          { type: 'questdone', quest: 900, dialog: 129 }
+          { type: 'else', dialog: 123 }
+        ]
 
-      playerPos =
-        x: Math.random()*@canvas.width
-        y: Math.random()*@canvas.height
+        pos =
+          x: 300
+          y: 500
+
+      else if i is 1
+        dialogs =
+          [
+            { type: 'questpart', quest: 900, part: 801, dialog: 127 }
+            { type: 'else', dialog: 130 }
+          ]
+
+        pos =
+          x: 900
+          y: 1200
+
+
+      data = {pos, dialogs}
 
       #create the player
       npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
-      npc.init(playerPos)
+      npc.init(data)
       @stage.addChild npc
 
       @npcs.push npc
@@ -418,7 +437,7 @@ module.exports = class Game
     keys = []
 
     # If the user is 'doing something' dont let them do anything else..
-    if not @IN_ACTION
+    if not @IN_DIALOG
       #handle thrust
       keys.push "up"  if @keyInput.fwdHeld
       keys.push "down"  if @keyInput.dnHeld
@@ -434,20 +453,32 @@ module.exports = class Game
       if @keyInput.spaceHeld
         @player.punch()
 
+    else
+      if @keyInput.lfHeld
+        @dialogManager.keyPress "left"
+        @keyInput.lfHeld = false
+
+      else if @keyInput.rtHeld
+        @dialogManager.keyPress "right"
+        @keyInput.rtHeld = false
+
+      if @keyInput.enterHeld
+        @dialogManager.keyPress "enter"
+        @keyInput.enterHeld = false
+
+
     #call sub ticks
     @player.tick event, @level
-
     for i in [0..@monsters.length-1] by 1
       @monsters[i].tick()
-
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event, @level
 
   # Open a dialog
   startDialog: (dialog) =>
-    @IN_ACTION = true
-    dialog = new YesNoDialog dialog, @
+    @IN_DIALOG = true
+    @dialogManager.showDialog dialog
 
   endAction: () =>
-    @IN_ACTION = false
+    @IN_DIALOG = false
