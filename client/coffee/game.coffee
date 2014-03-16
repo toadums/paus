@@ -105,7 +105,7 @@ module.exports = class Game
     keys = []
 
     # If the user is 'doing something' dont let them do anything else..
-    if not @IN_ACTION
+    if not @IN_DIALOG
       #handle thrust
       keys.push "up"  if @keyInput.fwdHeld
       keys.push "down"  if @keyInput.dnHeld
@@ -118,6 +118,20 @@ module.exports = class Game
       if @keyInput.actionHeld
         @player.checkActions @npcs
 
+    else
+      if @keyInput.lfHeld
+        @dialogManager.keyPress "left"
+        @keyInput.lfHeld = false
+
+      else if @keyInput.rtHeld
+        @dialogManager.keyPress "right"
+        @keyInput.rtHeld = false
+
+      if @keyInput.enterHeld
+        @dialogManager.keyPress "enter"
+        @keyInput.enterHeld = false
+
+
     #call sub ticks
     @player.tick event, @level
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
@@ -126,8 +140,8 @@ module.exports = class Game
 
   # Open a dialog
   startDialog: (dialog) =>
-    @IN_ACTION = true
+    @IN_DIALOG = true
     @dialogManager.showDialog dialog
 
   endAction: () =>
-    @IN_ACTION = false
+    @IN_DIALOG = false

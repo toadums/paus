@@ -10,6 +10,7 @@ module.exports = class KeyInput
     @KEYCODE_S = 83
     @KEYCODE_D = 68
     @ACTION = 69
+    @ENTER = 13
 
     @lfHeld = undefined
     @rtHeld = undefined
@@ -44,6 +45,8 @@ module.exports = class KeyInput
         false
       when @ACTION
         @actionHeld = true
+      when @ENTER
+        @enterHeld = true
 
   handleKeyUp: (e) =>
     e = window.event  unless e
@@ -58,6 +61,8 @@ module.exports = class KeyInput
         @dnHeld = false
       when @ACTION
         @actionHeld = false
+      when @ENTER
+        @enterHeld = false
 
   reset: () =>
-    @lfHeld = @rtHeld = @fwdHeld = @dnHeld = false
+    @lfHeld = @rtHeld = @fwdHeld = @dnHeld = @enterHeld = @actionHeld = false
