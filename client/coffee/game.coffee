@@ -4,11 +4,13 @@ Monster   = require('coffee/monster')
 Level   = require('coffee/level')
 NPC   = require('coffee/npc')
 {DialogManager} = require('coffee/dialog')
+{Inventory} = require('coffee/inventory')
 
 module.exports = class Game
   constructor: () ->
     # If the player is in an action, they can't do anything
     @IN_ACTION = false
+    @IN_INVENTORY = false
 
     @canvas = undefined
     @stage = undefined
@@ -38,6 +40,7 @@ module.exports = class Game
     @canvas = document.getElementById("gameCanvas")
     @stage = new createjs.Stage(@canvas)
     @dialogManager = new DialogManager @
+    @inventory = new Inventory @
 
     manifest = [
       {
@@ -464,7 +467,7 @@ module.exports = class Game
     keys = []
 
     # If the user is 'doing something' dont let them do anything else..
-    if not @IN_DIALOG
+    if not @IN_DIALOG and not @IN_INVENTORY
       #handle thrust
       keys.push "up"  if @keyInput.fwdHeld
       keys.push "down"  if @keyInput.dnHeld
@@ -480,7 +483,11 @@ module.exports = class Game
       if @keyInput.spaceHeld
         @player.punch()
 
-    else
+      if @keyInput.iHeld
+        @IN_INVENTORY = true
+        @inventory.showInventory()
+
+    else if not @IN_INVENTORY
       if @keyInput.lfHeld
         @dialogManager.keyPress "left"
         @keyInput.lfHeld = false
@@ -492,6 +499,9 @@ module.exports = class Game
       if @keyInput.enterHeld
         @dialogManager.keyPress "enter"
         @keyInput.enterHeld = false
+    else
+      if @keyInput.escHeld
+        @inventory.keyPress "esc"
 
 
     #call sub ticks
@@ -509,3 +519,6 @@ module.exports = class Game
 
   endAction: () =>
     @IN_DIALOG = false
+
+  endInventory: () =>
+    @IN_INVENTORY = false

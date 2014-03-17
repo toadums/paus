@@ -12,12 +12,16 @@ module.exports = class KeyInput
     @KEYCODE_SPACE = 32
     @ACTION = 69
     @ENTER = 13
+    @KEYCODE_ESCAPE = 27
+    @KEYCODE_I = 73
 
     @lfHeld = undefined
     @rtHeld = undefined
     @fwdHeld = undefined
     @dnHeld = undefined
     @spaceHeld = undefined
+    @escHeld = undefined
+    @iHeld = undefined
     # E key. Talk to people, interact etc
     @actionheld = undefined
 
@@ -48,6 +52,12 @@ module.exports = class KeyInput
       when @KEYCODE_SPACE
         @spaceHeld = true
         false
+      when @KEYCODE_ESCAPE
+        @escHeld = true
+        false
+      when @KEYCODE_I
+        @iHeld = true
+        false
       when @ACTION
         @actionHeld = true
       when @ENTER
@@ -66,6 +76,10 @@ module.exports = class KeyInput
         @dnHeld = false
       when @KEYCODE_SPACE
         @spaceHeld = false
+      when@KEYCODE_ESCAPE
+        @escHeld = false
+      when @KEYCODE_I
+        @iHeld = false
       when @ACTION
         @actionHeld = false
       when @ENTER
