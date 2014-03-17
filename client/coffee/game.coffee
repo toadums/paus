@@ -5,6 +5,7 @@ Level   = require('coffee/level')
 NPC   = require('coffee/npc')
 {DialogManager} = require('coffee/dialog')
 {Inventory} = require('coffee/inventory')
+_npcs = require 'coffee/data/npcs'
 
 module.exports = class Game
   constructor: () ->
@@ -424,36 +425,10 @@ module.exports = class Game
       @stage.addChild monster
       @monsters.push monster
 
-    for i in [0..1] by 1
-      if i is 0
-        dialogs = [
-          { type: 'questpart', quest: 900, part: 802, dialog: 128 }
-          { type: 'questpart', quest: 900, part: 801, dialog: 125 }
-          { type: 'questdone', quest: 900, dialog: 129 }
-          { type: 'else', dialog: 123 }
-        ]
-
-        pos =
-          x: 300
-          y: 500
-
-      else if i is 1
-        dialogs =
-          [
-            { type: 'questpart', quest: 900, part: 801, dialog: 127 }
-            { type: 'else', dialog: 130 }
-          ]
-
-        pos =
-          x: 900
-          y: 1200
-
-
-      data = {pos, dialogs}
-
+    for npcData in _npcs
       #create the player
       npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
-      npc.init(data)
+      npc.init(npcData)
       @stage.addChild npc
 
       @npcs.push npc

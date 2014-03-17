@@ -1,8 +1,8 @@
 {
-  "author": "My brunch with sass app",
-  "name": "brunch-with-sass-app",
-  "description": "Brunch with sass, coffeescript, font-awesome, bourbon",
-  "version": "0.0.1",
+  "author": "Furreous",
+  "name": "Furreous",
+  "description": "ts400 hommie",
+  "version": "0.0.1-4",
   "homepage": "http://github.com/bradens/sassy-brunch-minimal",
   "repository": "http://github.com/bradens/sassy-brunch-minimal",
   "scripts": {
@@ -28,5 +28,9 @@
   },
   "devDependencies": {
     "mocha": "~1.11.0"
+  },
+  "subdomain": "furreous",
+  "engines": {
+    "node": "0.10.x"
   }
 }
