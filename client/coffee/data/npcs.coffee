@@ -4,7 +4,7 @@ module.exports =[
       { type: 'questpart', quest: 900, part: 802, dialog: 128 }
       { type: 'questpart', quest: 900, part: 801, dialog: 125 }
       { type: 'questdone', quest: 900, dialog: 129 }
-      { type: 'else', dialog: 123 }
+      { type: 'queststart', quest: 900, dialog: 123 }
     ]
 
     pos:
