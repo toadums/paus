@@ -420,9 +420,6 @@ module.exports = class Game
       monster.init(playerPos,@blood)
       @stage.addChild monster
       @monsters.push monster
-    
-    @stage.addChild @player
-
 
     for i in [0..1] by 1
       if i is 0
@@ -457,6 +454,8 @@ module.exports = class Game
       @stage.addChild npc
 
       @npcs.push npc
+
+    @stage.addChild @player
 
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")

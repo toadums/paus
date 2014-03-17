@@ -15,7 +15,7 @@ module.exports = class Character
     @height = @playerBody.spriteSheet._frameHeight
 
   collide: (them, vel) ->
-    top = @y
+    top = @y + @height/2
     left = @x
     right = @x + @width
     bottom = @y + @height
