@@ -1,6 +1,6 @@
 Quest = require 'coffee/models/quest'
-_dialogs = require('coffee/data/dialogs').dialogs
-_quests = require('coffee/data/quests').quests
+_dialogs = require 'coffee/data/dialogs'
+_quests = require 'coffee/data/quests'
 
 console.log _quests
 
