@@ -1,7 +1,5 @@
 Collections = require 'coffee/collections'
 { wrap } = require 'coffee/utils'
-# Dialog class for dialogs. For right now just a yes/no box. We could make a 'done' box too
-# WORK IN PROGRESS. We need to figure out a better way. use containers
 
 class DialogManager
   constructor: (@delegate) ->
@@ -65,6 +63,7 @@ class DialogManager
     @currentDialog = null
     @dialog = null
 
+  # Handle key events in the dialogs
   keyPress: (key) =>
     switch key
       when "left", "right"
@@ -88,6 +87,8 @@ class Controls
 
     @buttons = []
     i = 0
+
+    # Add the buttons
     for action in dialog.actions
       button = new createjs.Text(action.text, "20px Arial", if i is 0 then "red" else "black")
       button.x = pos.x + @padding + i * 300
@@ -99,6 +100,7 @@ class Controls
       @stage.addChild button
       i++
 
+  # Change which button is active
   changeSelection: (direction) ->
     if direction is "right" and @active < @buttons.length - 1
       @buttons[@active].color = "black"
@@ -109,6 +111,7 @@ class Controls
 
     @buttons[@active].color = "red"
 
+  # Enter was pressed. Handle the action for the active button
   enterPress: =>
     @buttons[@active].dispatchEvent('click')
 
@@ -121,6 +124,7 @@ class Controls
       return unless next
 
       @showDialog next
+    # Start a quest!!
     else if action.type is 'queststart'
 
       if (quest = Collections.findModel action.value.quest)
@@ -129,6 +133,7 @@ class Controls
       @close()
       @endAction()
 
+    # Complete a quest part
     else if action.type is 'questpart'
       if (quest = Collections.findModel action.value.quest)?
         quest.completePart action.value.part

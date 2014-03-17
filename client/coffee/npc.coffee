@@ -9,7 +9,9 @@ module.exports = class NPC extends Character
     super data.pos
     @dialogs = data.dialogs
 
+  # Figure out which dialog this person whould show.
   getDialog: () =>
+    # Loop over all of their dialogs. For each one, check if it should be the one they display
     for dialog in @dialogs
       quest = Collections.findModel dialog.quest
 
