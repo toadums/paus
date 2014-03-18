@@ -2,11 +2,12 @@ Character = require 'coffee/character'
 Collections = require 'coffee/collections'
 
 module.exports = class NPC extends Character
-  constructor: (sprite, giver) ->
+  constructor: (sprite, @exclamation, @question, @stage) ->
     super sprite
-    @giverSprite = giver
-    @setGiver = false
-    @defaultSprite = sprite.spriteSheet
+    @hasQuestion = false
+    @hasExlaimation = false
+
+
 
   init: (data) =>
     super data.pos
@@ -28,7 +29,7 @@ module.exports = class NPC extends Character
         if quest.inProgress
           return dialog.dialog
       else if dialog.type is 'queststart'
-        if not quest.inProgress
+        if not quest.inProgress and not quest.isComplete
           return dialog.dialog
       else
         return dialog.dialog
@@ -41,23 +42,28 @@ module.exports = class NPC extends Character
         if quest.checkPartStatus(dialog.part)
           return dialog.state
       else if dialog.type is 'queststart'
-        if not quest.inProgress
+        if not quest.inProgress and not quest.isComplete
           return dialog.state
 
   tick: (event, level) =>
     switch @getQuestState()
       when 'hasquest'
-        if @playerBody.currentAnimation isnt "stand"
-          @playerBody.spriteSheet = _.clone(@giverSprite)
-          @playerBody.gotoAndPlay "stand"
-          @playerBody.framerate = 7
-          @setGiver = true
-        console.log "Show exclamation point"
-
+        if not @hasExclamation
+          @stage.addChild @exclamation
+          @exclamation.x = @x + @width/2 - 33.5
+          @exclamation.y = @y - @height/2 - 80
+          @hasExclamation = true
       when 'return'
-        console.log 'return to me precious child'
-
+        if not @hasQuestion
+          @stage.addChild @question
+          @question.x = @x + @width/2 - 33.5
+          @question.y = @y - @height/2 - 80
+          @hasQuestion = true
       else
-        if @playerBody.currentAnimation is "stand"
-          @playerBody.spriteSheet = _.clone(@defaultSprite)
-          @playerBody.gotoAndPlay "down_idle"
+        if @hasQuestion
+          @stage.removeChild @question
+          @hasQuestion = false
+
+        if @hasExclamation
+          @stage.removeChild @exclamation
+          @hasExclamation = false

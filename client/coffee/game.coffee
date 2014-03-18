@@ -97,6 +97,14 @@ module.exports = class Game
         src: "images/questBouncing.png"
         id: "questGiver"
       }
+      {
+        src: "images/exclamation.png"
+        id: "exclamation"
+      }
+      {
+        src: "images/question.png"
+        id: "question"
+      }
     ]
     @loader = new createjs.LoadQueue(false)
     @loader.addEventListener "complete", @handleComplete
@@ -130,6 +138,38 @@ module.exports = class Game
 
     @playerSprite = new createjs.Sprite(data, "right_idle")
     @playerSprite.framerate = 10
+
+    data = new createjs.SpriteSheet(
+      images: [@loader.getResult("exclamation")]
+      frames:
+        regX: 0
+        height: 201
+        count: 9
+        regY: 0
+        width: 67
+
+      animations:
+        bounce: [0, 8, "bounce"]
+    )
+
+    @exclamation = new createjs.Sprite(data, "bounce")
+    @exclamation.framerate = 10
+
+    data = new createjs.SpriteSheet(
+      images: [@loader.getResult("question")]
+      frames:
+        regX: 0
+        height: 201
+        count: 9
+        regY: 0
+        width: 67
+
+      animations:
+        bounce: [0, 8, "bounce"]
+    )
+
+    @question = new createjs.Sprite(data, "bounce")
+    @question.framerate = 10
 
     @questGiver = new createjs.SpriteSheet(
       images: [@loader.getResult("questGiver")]
@@ -445,7 +485,7 @@ module.exports = class Game
 
     for npcData in _npcs
       #create the player
-      npc = _.extend (new NPC(_.clone(@playerSprite), _.clone(@questGiver))), (new createjs.Container())
+      npc = _.extend (new NPC(_.clone(@playerSprite), _.clone(@exclamation), _.clone(@question), @stage)), (new createjs.Container())
       npc.init(npcData)
       @stage.addChild npc
       @npcs.push npc
