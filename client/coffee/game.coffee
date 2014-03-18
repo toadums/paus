@@ -498,6 +498,9 @@ module.exports = class Game
 
     #call sub ticks
     @player.tick event, @level
+
+    npc.tick(event, @level) for npc in @npcs
+
     for i in [0..@monsters.length-1] by 1
       @monsters[i].tick()
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5

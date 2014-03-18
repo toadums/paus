@@ -24,8 +24,26 @@ module.exports = class NPC extends Character
       else if dialog.type is 'quest'
         if quest.inProgress
           return dialog.dialog
+      else if dialog.type is 'queststart'
+        if not quest.inProgress
+          return dialog.dialog
       else
         return dialog.dialog
 
+  getQuestState: () =>
+    for dialog in @dialogs
+      quest = Collections.findModel dialog.quest
+
+      if dialog.type is 'questpart'
+        if quest.checkPartStatus(dialog.part)
+          return 'questpart'
+      else if dialog.type is 'queststart'
+        if not quest.inProgress
+          return 'queststart'
+
   tick: (event, level) =>
-    # They probably aren't going to do much. Could make some walk around or some shit
+    switch @getQuestState()
+      when 'queststart'
+        console.log "Show exclamation point"
+      when 'questpart'
+        console.log 'show question mark'
