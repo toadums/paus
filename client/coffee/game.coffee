@@ -21,6 +21,7 @@ module.exports = class Game
     @keyInput = new KeyInput
     @level = undefined
     @playerSprite = undefined
+    @questGiver = undefined
     @monsterSprite = undefined
     @monsterSprite2 = undefined
     @monsterSprite3 = undefined
@@ -125,6 +126,22 @@ module.exports = class Game
 
     @playerSprite = new createjs.Sprite(data, "right_idle")
     @playerSprite.framerate = 10
+
+    data = new createjs.SpriteSheet(
+      images: [@loader.getResult("questGiver")]
+      frames:
+        regX: 0
+        height: 206
+        count: 8
+        regY: 0
+        width: 130
+
+      animations:
+        stand: [0,7, "stand"]
+    )
+
+    @questGiver = new createjs.Sprite(data, "stand")
+    @questGiver.framerate = 10
 
     data = new createjs.SpriteSheet(
       images: [@loader.getResult("monster")]
