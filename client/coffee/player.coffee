@@ -5,6 +5,8 @@ Level = require 'coffee/level'
 Collections = require 'coffee/collections'
 
 module.exports = class Player extends Character
+
+  # Static inventory. Should be refactored at a later date
   constructor: (sprite, @stage, @delegate) ->
     {
       @startDialog
@@ -73,7 +75,7 @@ module.exports = class Player extends Character
             bottom: child.y + child.height
           dir = @collide data, vel
 
-          if child instanceof Monster and !child.dying 
+          if child instanceof Monster and !child.dying
 
             if dir.green or dir.whore
               child.life -= 1
@@ -101,7 +103,7 @@ module.exports = class Player extends Character
                 else if @facing == 2
                   child.x -= 80
                   #punch left
-              
+
 
 
 

@@ -1,3 +1,4 @@
+Inventory = require 'coffee/inventory'
 Marker = require 'coffee/models/questpart'
 
 module.exports = class Quest
@@ -11,6 +12,7 @@ module.exports = class Quest
     @ordered = data.ordered or true
     @inProgress = false
     @isComplete
+    @onComplete = data.onComplete
 
   completePart: (part) =>
     return unless @inProgress
@@ -21,7 +23,9 @@ module.exports = class Quest
     @state = part.pos + 1
 
     if @checkComplete()
-      console.log "You finished the quest!"
+
+      @complete()
+
       @inProgress = false
       @isComplete = true
 
@@ -37,3 +41,10 @@ module.exports = class Quest
 
   getPart: (id) =>
     _.find @markers, (m) => m.id is id
+
+  complete: () =>
+    return unless @onComplete?
+    switch @onComplete.type
+      when 'item'
+        Inventory.items.push @onComplete.id
+        console.log 'here', @onComplete.id, Inventory.items

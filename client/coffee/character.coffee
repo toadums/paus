@@ -38,7 +38,8 @@ module.exports = class Character
       ((them.left >= left and them.left <= right) and (them.top >= top and them.top <= bottom)) or
       ((them.right >= left and them.right <= right) and (them.bottom >= top and them.bottom <= bottom)) or
       ((them.left >= left and them.left <= right) and (them.bottom >= top and them.bottom <= bottom))
-        
+
+
         if right >= them.left and vel.x > 0 and left <= them.left
           collision.whore = true
         else if left <= them.right and vel.x < 0 and right >= them.right
@@ -49,30 +50,5 @@ module.exports = class Character
         else if bottom >= them.top and vel.y > 0 and top <= them.top
           collision.green = true
 
-
-    # if ((right >= them.left and right <= them.right) and (top >= them.top and top <= them.bottom))
-    #   #right top corner inside
-    #   if(vel.x > 0)
-    #     collision.whore = true
-    #   if(vel.y < 0)
-    #     collision.green = true
-    # else if((left >= them.left and left <= them.right) and (top >= them.top and top <= them.bottom))
-    #   #left top corner inside
-    #   if(vel.x < 0)
-    #     collision.whore = true
-    #   if(vel.y < 0)
-    #     collision.green = true
-    # else if((right >= them.left and right <= them.right) and (bottom >= them.top and bottom <= them.bottom))
-    #   #bottom right corner inside
-    #   if(vel.x > 0)
-    #     collision.whore = true
-    #   if(vel.y > 0)
-    #     collision.green = true
-    # else if((left >= them.left and left <= them.right) and (bottom >= them.top and bottom <= them.bottom))
-    #   #bottom left corner inside
-    #   if(vel.x < 0)
-    #     collision.whore = true
-    #   if(vel.y > 0)
-    #     collision.green = true
 
     collision
