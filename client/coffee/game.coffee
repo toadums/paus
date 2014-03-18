@@ -4,7 +4,7 @@ Monster   = require('coffee/monster')
 Level   = require('coffee/level')
 NPC   = require('coffee/npc')
 {DialogManager} = require('coffee/dialog')
-{Inventory} = require('coffee/inventory')
+Inventory = require('coffee/inventory')
 _npcs = require 'coffee/data/npcs'
 
 module.exports = class Game
@@ -460,6 +460,7 @@ module.exports = class Game
 
       if @keyInput.iHeld
         @IN_INVENTORY = true
+        @keyInput.iHeld = false
         @inventory.showInventory()
 
     else if not @IN_INVENTORY
@@ -475,9 +476,9 @@ module.exports = class Game
         @dialogManager.keyPress "enter"
         @keyInput.enterHeld = false
     else
-      if @keyInput.escHeld
+      if @keyInput.escHeld or @keyInput.iHeld
+        @keyInput.iHeld = false
         @inventory.keyPress "esc"
-
 
     #call sub ticks
     @player.tick event, @level
