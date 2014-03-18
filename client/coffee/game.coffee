@@ -125,7 +125,7 @@ module.exports = class Game
         left_idle: [9, 9]
         right_idle: [3, 3]
         up_idle: [0, 0]
-        down_idle: [6, 6]
+        down_idle: [7, 7]
     )
 
     @playerSprite = new createjs.Sprite(data, "right_idle")

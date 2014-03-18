@@ -6,6 +6,7 @@ module.exports = class NPC extends Character
     super sprite
     @giverSprite = giver
     @setGiver = false
+    @defaultSprite = sprite.spriteSheet
 
   init: (data) =>
     super data.pos
@@ -38,19 +39,25 @@ module.exports = class NPC extends Character
 
       if dialog.type is 'questpart'
         if quest.checkPartStatus(dialog.part)
-          return 'questpart'
+          return dialog.state
       else if dialog.type is 'queststart'
         if not quest.inProgress
-          return 'queststart'
+          return dialog.state
 
   tick: (event, level) =>
     switch @getQuestState()
-      when 'queststart'
+      when 'hasquest'
         if @playerBody.currentAnimation isnt "stand"
           @playerBody.spriteSheet = _.clone(@giverSprite)
           @playerBody.gotoAndPlay "stand"
           @playerBody.framerate = 7
           @setGiver = true
         console.log "Show exclamation point"
-      when 'questpart'
-        console.log 'show question mark'
+
+      when 'return'
+        console.log 'return to me precious child'
+
+      else
+        if @playerBody.currentAnimation is "stand"
+          @playerBody.spriteSheet = _.clone(@defaultSprite)
+          @playerBody.gotoAndPlay "down_idle"
