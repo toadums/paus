@@ -92,6 +92,10 @@ module.exports = class Game
       {
         src: "images/blood.png"
         id: "bloodPool"
+      },
+      {
+        src: "images/questBouncing.png"
+        id: "questGiver"
       }
     ]
     @loader = new createjs.LoadQueue(false)
@@ -127,7 +131,7 @@ module.exports = class Game
     @playerSprite = new createjs.Sprite(data, "right_idle")
     @playerSprite.framerate = 10
 
-    data = new createjs.SpriteSheet(
+    @questGiver = new createjs.SpriteSheet(
       images: [@loader.getResult("questGiver")]
       frames:
         regX: 0
@@ -139,9 +143,6 @@ module.exports = class Game
       animations:
         stand: [0,7, "stand"]
     )
-
-    @questGiver = new createjs.Sprite(data, "stand")
-    @questGiver.framerate = 10
 
     data = new createjs.SpriteSheet(
       images: [@loader.getResult("monster")]
@@ -444,10 +445,9 @@ module.exports = class Game
 
     for npcData in _npcs
       #create the player
-      npc = _.extend (new NPC(_.clone(@playerSprite), @stage)), (new createjs.Container())
+      npc = _.extend (new NPC(_.clone(@playerSprite), _.clone(@questGiver))), (new createjs.Container())
       npc.init(npcData)
       @stage.addChild npc
-
       @npcs.push npc
 
     @stage.addChild @player

@@ -2,8 +2,10 @@ Character = require 'coffee/character'
 Collections = require 'coffee/collections'
 
 module.exports = class NPC extends Character
-  constructor: (sprite) ->
+  constructor: (sprite, giver) ->
     super sprite
+    @giverSprite = giver
+    @setGiver = false
 
   init: (data) =>
     super data.pos
@@ -44,6 +46,11 @@ module.exports = class NPC extends Character
   tick: (event, level) =>
     switch @getQuestState()
       when 'queststart'
+        if @playerBody.currentAnimation isnt "stand"
+          @playerBody.spriteSheet = _.clone(@giverSprite)
+          @playerBody.gotoAndPlay "stand"
+          @playerBody.framerate = 7
+          @setGiver = true
         console.log "Show exclamation point"
       when 'questpart'
         console.log 'show question mark'
