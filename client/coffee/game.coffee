@@ -15,17 +15,11 @@ module.exports = class Game
     @IN_ACTION = false
     @IN_INVENTORY = false
 
-    @canvas = undefined
-    @stage = undefined
-    @loader = undefined
-    @player = undefined
-
-    @keyInput = new KeyInput
-    @level = undefined
-
-    @init()
     @npcs = []
     @monsters = []
+
+    @keyInput = new KeyInput
+    @init()
 
   init: () =>
     @canvas = document.getElementById("gameCanvas")
@@ -45,6 +39,7 @@ module.exports = class Game
 
   handleComplete: (event) =>
 
+    # Coffeescript sugar. Creates a new class variable for each sprite in system/sprites
     _.each Sprites, (val, name) =>
       @[name] = val(@loader)
 
@@ -60,7 +55,7 @@ module.exports = class Game
       y: @canvas.height/2 + 200
 
     #create the player
-    @player = _.extend (new Player(@playerSprite, @stage, @)), (new createjs.Container())
+    @player = _.extend (new Player @), (new createjs.Container())
     @player.init(playerPos)
 
     @keyInput.reset()
@@ -97,7 +92,7 @@ module.exports = class Game
 
     for npcData in _npcs
       #create the player
-      npc = _.extend (new NPC(_.clone(@playerSprite), _.clone(@exclamationSprite), _.clone(@questionSprite), @stage)), (new createjs.Container())
+      npc = _.extend (new NPC @), (new createjs.Container())
       npc.init(npcData)
       @stage.addChild npc
       @npcs.push npc

@@ -2,12 +2,21 @@ Character = require 'coffee/character'
 Collections = require 'coffee/collections'
 
 module.exports = class NPC extends Character
-  constructor: (sprite, @exclamation, @question, @stage) ->
+  constructor: (@delegate) ->
+    {
+      @stage
+      questionSprite
+      exclamationSprite
+      playerSprite
+    } = @delegate
+
+    @questionSprite = _.clone questionSprite
+    @exclamationSprite = _.clone exclamationSprite
+    sprite = _.clone playerSprite
+
     super sprite
     @hasQuestion = false
     @hasExlaimation = false
-
-
 
   init: (data) =>
     super data.pos
@@ -49,21 +58,21 @@ module.exports = class NPC extends Character
     switch @getQuestState()
       when 'hasquest'
         if not @hasExclamation
-          @stage.addChild @exclamation
-          @exclamation.x = @x + @width/2 - 33.5
-          @exclamation.y = @y - @height/2 - 80
+          @stage.addChild @exclamationSprite
+          @exclamationSprite.x = @x + @width/2 - 33.5
+          @exclamationSprite.y = @y - @height/2 - 80
           @hasExclamation = true
       when 'return'
         if not @hasQuestion
-          @stage.addChild @question
-          @question.x = @x + @width/2 - 33.5
-          @question.y = @y - @height/2 - 80
+          @stage.addChild @questionSprite
+          @questionSprite.x = @x + @width/2 - 33.5
+          @questionSprite.y = @y - @height/2 - 80
           @hasQuestion = true
       else
         if @hasQuestion
-          @stage.removeChild @question
+          @stage.removeChild @questionSprite
           @hasQuestion = false
 
         if @hasExclamation
-          @stage.removeChild @exclamation
+          @stage.removeChild @exclamationSprite
           @hasExclamation = false
