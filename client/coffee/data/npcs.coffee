@@ -6,7 +6,7 @@ module.exports =[
       { type: 'queststart', quest: 900, dialog: 123, state: 'hasquest' }
       { type: 'questdone', quest: 900, dialog: 129 }
     ]
-
+    id: 2
     pos:
       x: 300
       y: 500
@@ -18,7 +18,7 @@ module.exports =[
         { type: 'questpart', quest: 900, part: 801, dialog: 127, state: 'return' }
         { type: 'else', dialog: 130 }
       ]
-
+    id: 3
     pos:
       x: 900
       y: 1200

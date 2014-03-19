@@ -8,6 +8,7 @@ Inventory = require('coffee/inventory')
 _npcs = require 'coffee/data/npcs'
 Manifest = require 'coffee/data/manifest'
 Sprites = require 'coffee/system/sprites'
+Collections = require 'coffee/collections'
 
 module.exports = class Game
   constructor: () ->
@@ -105,6 +106,7 @@ module.exports = class Game
   tick: (event) =>
     keys = []
 
+
     # If the user is 'doing something' dont let them do anything else..
     if not @IN_DIALOG and not @IN_INVENTORY
       #handle thrust
@@ -154,6 +156,44 @@ module.exports = class Game
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event, @level
+
+    _.defer(
+      (quest) =>
+        quest = Collections.findModel quest
+        partNPC = quest.markers[quest.state]
+        npc = _.find @npcs, (npc) =>
+          npc.id is partNPC.npc
+
+        v =
+          x: npc.x - @player.x
+          y: npc.y - @player.y
+
+        len = Math.sqrt(v.x*v.x + v.y*v.y)
+
+        v.x /= len
+        v.y /= len
+
+        v.x *= 300
+        v.y *= 300
+
+        v.x += (@stage.x*-1 + @canvas.width / 2)
+        v.y += (@stage.y*-1 + @canvas.height / 2)
+
+        if @box?
+          @stage.removeChild @box
+
+        @box = new createjs.Shape()
+        @box.graphics.beginStroke("#000")
+        @box.graphics.beginFill("#51D9FF")
+        @box.graphics.setStrokeStyle(2)
+        @box.snapToPixel = true
+        @box.graphics.drawRect(v.x, v.y, 20, 20)
+        @stage.addChild @box
+
+
+
+      900
+    )
 
   # Open a dialog
   startDialog: (dialog) =>

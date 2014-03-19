@@ -20,6 +20,7 @@ module.exports = class NPC extends Character
 
   init: (data) =>
     super data.pos
+    @id = data.id
     @dialogs = data.dialogs
 
   # Figure out which dialog this person whould show.
