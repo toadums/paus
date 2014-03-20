@@ -1,5 +1,57 @@
 module.exports = [
   {
+    id: 150
+    text: "What? Another Human??? If you want to survive the rabbit invasion go to SSM."
+    actions: [
+      {
+        type: 'queststart'
+        text: 'What the hell..'
+        value: {quest: 901}
+      }
+    ]
+  }
+
+  {
+    id: 151
+    text: "No new messages D:"
+    actions: [
+      {
+        type: 'done'
+        text: '...'
+      }
+    ]
+  }
+
+  {
+    id: 152
+    text: "You find a hole in the tree."
+    actions: [
+      {
+        type: 'goto'
+        text: 'investigate'
+        value: 153
+      }
+      {
+        type: 'done'
+        text: 'Leave it'
+      }
+    ]
+  }
+
+  {
+    id: 153
+    text: "ZOMG, ITS A BUNNY KILLING DEVICE!!!!!!!"
+    actions: [
+      {
+        type: "questpart"
+        text: "Now I just need to figure out how to turn it on..."
+        value: {quest: 901, part: 850}
+      }
+    ]
+  }
+
+
+  {
     id: 123
     text: "Hello Traveller!"
     actions:[

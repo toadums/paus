@@ -24,5 +24,30 @@ module.exports =[
       y: 1200
   }
 
+  ## Message left by old man. Prompt us to start quest
+  {
+    dialogs:
+      [
+        {type: 'queststart', quest: 901, dialog: 150, state: 'hasquest'}
+        {type: 'else', quest: 901, dialog: 151}
+      ]
+    id: 4
+    pos:
+      x: 200
+      y: 200
+  }
+
+  ## Look under a tree for the bunny disabler
+  {
+    dialogs:
+      [
+        {type: 'questpart', quest: 901, part: 850, dialog: 152, state: 'return'}
+      ]
+    id: 5
+    pos:
+      x: 900
+      y: 900
+  }
+
 
 ]

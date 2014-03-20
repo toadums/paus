@@ -18,4 +18,20 @@ module.exports = [
       id: 300
     }
   }
+
+  {
+    name: "message left by man quest"
+    pos: 0
+    id: 901
+    npc: 4
+    ordered: true
+    markers: [
+      { pos: 0, id: 850, description: "GO to SSM", npc: 5}
+    ]
+    onComplete: {
+      type: "item"
+      id: 351
+    }
+  }
+
 ]

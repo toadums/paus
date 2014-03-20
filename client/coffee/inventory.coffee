@@ -56,9 +56,9 @@ module.exports = class Inventory
       # w and h better be factors of inventory.w/h
       @w = 50
       @h = 50
-
+      console.log pos
       @box = new createjs.Shape()
-      @box.graphics.beginStroke(if sprite is 300 then 'red')
+      @box.graphics.beginStroke('red')
       @box.graphics.beginFill("#8A8A8A")
       @box.graphics.setStrokeStyle(10)
       @box.snapToPixel = true

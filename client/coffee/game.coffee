@@ -160,24 +160,24 @@ module.exports = class Game
     _.defer(
       (quest) =>
         quest = Collections.findModel quest
-        partNPC = quest.markers[quest.state]
-        npc = _.find @npcs, (npc) =>
-          npc.id is partNPC.npc
+        return unless (partNPC = quest.markers[quest.state])?
+        return unless (npc = _.find @npcs, (npc) => npc.id is partNPC.npc)?
 
         v =
-          x: npc.x - @player.x
-          y: npc.y - @player.y
+          x: (npc.x + npc.width/2) - (@player.x + @player.width/2)
+          y: (npc.y + npc.height/2) - (@player.y + @player.height/2)
 
         len = Math.sqrt(v.x*v.x + v.y*v.y)
 
         v.x /= len
         v.y /= len
 
+
         v.x *= 300
         v.y *= 300
 
-        v.x += (@stage.x*-1 + @canvas.width / 2)
-        v.y += (@stage.y*-1 + @canvas.height / 2)
+        v.x += (@player.x + @player.width/2)
+        v.y += (@player.y + @player.height/2)
 
         if @box?
           @stage.removeChild @box
@@ -192,7 +192,7 @@ module.exports = class Game
 
 
 
-      900
+      901
     )
 
   # Open a dialog
