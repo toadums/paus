@@ -7,9 +7,11 @@ Collections = require 'coffee/collections'
 module.exports = class Player extends Character
 
   # Static inventory. Should be refactored at a later date
-  constructor: (sprite, @stage, @delegate) ->
+  constructor: (@delegate) ->
     {
       @startDialog
+      playerSprite: sprite
+      @stage
     } = @delegate
 
     super sprite

@@ -3,3 +3,4 @@ module.exports = class Marker
     @pos = data.pos
     @id = data.id
     @done = false
+    @npc = data.npc

@@ -6,9 +6,9 @@ module.exports = class Quest
     @name = data.name
     @state = 0
     @id = data.id
-    @markers = []
+    @markers = {}
     for marker in data.markers
-      @markers.push new Marker(marker)
+      @markers[marker.pos] = new Marker(marker)
     @ordered = data.ordered or true
     @inProgress = false
     @isComplete
