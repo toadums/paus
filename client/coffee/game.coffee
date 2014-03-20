@@ -154,6 +154,13 @@ module.exports = class Game
       if @keyInput.escHeld or @keyInput.iHeld
         @keyInput.iHeld = false
         @inventory.keyPress "esc"
+      else if @keyInput.lfHeld
+        @keyInput.lfHeld = false
+        @inventory.keyPress "left"
+      else if @keyInput.rtHeld
+        @keyInput.rtHeld = false
+        @inventory.keyPress "right"
+
 
     #call sub ticks
     @player.tick event, @level

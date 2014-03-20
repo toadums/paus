@@ -47,4 +47,3 @@ module.exports = class Quest
     switch @onComplete.type
       when 'item'
         Inventory.items.push @onComplete.id
-        console.log 'here', @onComplete.id, Inventory.items
