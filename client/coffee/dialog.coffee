@@ -7,6 +7,7 @@ class DialogManager
       @canvas
       @stage
       @endAction
+      @setQuest
     } = @delegate
 
     @currentDialog = null
@@ -81,6 +82,7 @@ class Controls
       @endAction
       @padding
       @h
+      @setQuest
     } = @delegate
 
     @active = 0
@@ -129,7 +131,7 @@ class Controls
 
       if (quest = Collections.findModel action.value.quest)
         quest.start()
-
+        @setQuest quest
       @close()
       @endAction()
 

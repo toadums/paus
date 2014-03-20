@@ -22,6 +22,8 @@ module.exports = class Game
     @keyInput = new KeyInput
     @init()
 
+    @currentQuest = null
+
   init: () =>
     @canvas = document.getElementById("gameCanvas")
     @stage = new createjs.Stage(@canvas)
@@ -37,6 +39,9 @@ module.exports = class Game
 
   handleClick: =>
     @canvas.onclick = null
+
+  setQuest: (quest) =>
+    @currentQuest = quest
 
   handleComplete: (event) =>
 
@@ -106,6 +111,10 @@ module.exports = class Game
   tick: (event) =>
     keys = []
 
+    if @currentQuest?.isComplete
+      @currentQuest = null
+      @stage.removeChild @questArrow
+      @questArrow = null
 
     # If the user is 'doing something' dont let them do anything else..
     if not @IN_DIALOG and not @IN_INVENTORY
@@ -159,7 +168,7 @@ module.exports = class Game
 
     _.defer(
       (quest) =>
-        quest = Collections.findModel quest
+        return unless quest?
         return unless (partNPC = quest.markers[quest.state])?
         return unless (npc = _.find @npcs, (npc) => npc.id is partNPC.npc)?
 
@@ -179,20 +188,19 @@ module.exports = class Game
         v.x += (@player.x + @player.width/2)
         v.y += (@player.y + @player.height/2)
 
-        if @box?
-          @stage.removeChild @box
+        if @questArrow
+          @stage.removeChild @questArrow
 
-        @box = new createjs.Shape()
-        @box.graphics.beginStroke("#000")
-        @box.graphics.beginFill("#51D9FF")
-        @box.graphics.setStrokeStyle(2)
-        @box.snapToPixel = true
-        @box.graphics.drawRect(v.x, v.y, 20, 20)
-        @stage.addChild @box
+        @questArrow = new createjs.Shape()
+        @questArrow.graphics.beginStroke("#000")
+        @questArrow.graphics.beginFill("#51D9FF")
+        @questArrow.graphics.setStrokeStyle(2)
+        @questArrow.snapToPixel = true
+        @questArrow.graphics.drawRect(v.x, v.y, 20, 20)
+        @stage.addChild @questArrow
 
 
-
-      901
+      @currentQuest
     )
 
   # Open a dialog
