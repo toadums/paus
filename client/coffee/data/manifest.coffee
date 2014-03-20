@@ -59,4 +59,8 @@ module.exports = [
     src: "images/question.png"
     id: "question"
   }
+  {
+    src: "images/arrow.png"
+    id: "arrow"
+  }
 ]

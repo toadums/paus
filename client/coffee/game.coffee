@@ -181,6 +181,7 @@ module.exports = class Game
         v.x /= len
         v.y /= len
 
+        angle = Math.atan2(v.y, v.x) * 180 / Math.PI
 
         v.x *= 300
         v.y *= 300
@@ -191,12 +192,11 @@ module.exports = class Game
         if @questArrow
           @stage.removeChild @questArrow
 
-        @questArrow = new createjs.Shape()
-        @questArrow.graphics.beginStroke("#000")
-        @questArrow.graphics.beginFill("#51D9FF")
-        @questArrow.graphics.setStrokeStyle(2)
+        @questArrow = _.clone(@arrowSprite)
         @questArrow.snapToPixel = true
-        @questArrow.graphics.drawRect(v.x, v.y, 20, 20)
+        @questArrow.x = v.x
+        @questArrow.y = v.y
+        @questArrow.rotation = angle
         @stage.addChild @questArrow
 
 

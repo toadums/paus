@@ -332,6 +332,23 @@ bloodSprite = (loader) ->
 
   data
 
+arrowSprite = (loader) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("arrow")]
+    frames:
+      regX: 0
+      height: 50
+      count: 12
+      regY: 0
+      width: 50
+
+    animations:
+      default: [0, 0]
+  )
+
+  arrowSprite = new createjs.Sprite(data, "default")
+  arrowSprite.framerate = 10
+  arrowSprite
 
 module.exports =
   playerSprite: playerSprite
@@ -348,3 +365,4 @@ module.exports =
   monsterRed4Sprite: monsterRed4Sprite
   monsterRed5Sprite: monsterRed5Sprite
   bloodSprite: bloodSprite
+  arrowSprite: arrowSprite
