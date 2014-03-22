@@ -63,6 +63,7 @@ class DialogManager
     @stage.removeChild @box
     @currentDialog = null
     @dialog = null
+    @endAction()
 
   # Handle key events in the dialogs
   keyPress: (key) =>
