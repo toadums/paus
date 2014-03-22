@@ -13,10 +13,19 @@ canvas {
 
 #content {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   width: 100%;
   height: 100%;
 
+}
+
+.controls {
+  td {
+    &:nth-child(n+2) {
+      padding-left: 20px;
+    }
+  }
 }
