@@ -73,6 +73,19 @@ module.exports =[
       y: 900
   }
 
+  ## Sign to pick carrots
+  {
+    dialogs:
+      [
+        {type: 'questpart', quest: 911, part: 862, dialog: 173, state: 'return'}
+      ]
+    id: 9
+    pos:
+      x: 1000
+      y: 400
+  }
+
+
   {
     dialogs:
       [

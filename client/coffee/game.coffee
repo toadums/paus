@@ -70,7 +70,7 @@ module.exports = class Game
     @stage.clear()
     @level = new Level(@stage)
 
-    for i in [0..40] by 1
+    for i in [0..0] by 1
 
       playerPos =
         x: Math.random()*@canvas.width

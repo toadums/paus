@@ -77,7 +77,7 @@ module.exports = [
       {
         type: "gameover"
         text: "Kill the old man"
-        value: { text: "The old man was your only hope..." }
+        value: "The old man was your only hope..."
       }
     ]
   }
@@ -161,7 +161,27 @@ module.exports = [
     ]
   }
 
+  {
+    id: 173
+    text: "Carrots... There is a pretty good chance you will die if you eat them"
+    actions: [
+      {
+        type: 'questpart'
+        text: "Pick Carrots"
+        value: {quest: 911, part: 862}
+      }
+      {
+        type: 'done'
+        text: "Leave them"
+      }
+      {
+        type: 'gameover'
+        text: "Eat Carrots #YOLO"
+        value: "You are not invicible, Protaggy.."
+      }
 
+    ]
+  }
 
 
 
