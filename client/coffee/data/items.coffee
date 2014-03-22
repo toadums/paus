@@ -22,7 +22,7 @@ module.exports = [
   }
   {
     id: 351
-    name: "Bunny Neutralizer"
+    name: "Bunny Remote"
     description: "Not sure how to turn this thing on....Maybe I should find a power source"
   }
 

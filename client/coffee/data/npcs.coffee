@@ -49,5 +49,39 @@ module.exports =[
       y: 1200
   }
 
+  ## The old man!
+  {
+    dialogs:
+      [
+        {type: 'queststart', quest: 911, dialog: 161, state: 'hasquest'}
+      ]
+    id: 6
+    pos:
+      x: 20
+      y: 120
+  }
+
+  ## Note by 451
+  {
+    dialogs:
+      [
+        {type: 'questpart', quest: 911, part: 861, dialog: 172, state: 'return'}
+      ]
+    id: 8
+    pos:
+      x: 300
+      y: 900
+  }
+
+  {
+    dialogs:
+      [
+        {type: 'easteregg', dialog: 171}
+      ]
+    id: 7
+    pos:
+      x: 500
+      y: 900
+  }
 
 ]

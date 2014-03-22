@@ -30,8 +30,19 @@ module.exports = [
     ]
     onComplete: {
       type: "item"
-      id: 351
+      id: 300
     }
+  }
+
+  {
+    name: "Main quest to get the bunny killing device"
+    pos: 0
+    id: 911
+    npc: 6
+    ordered: false
+    markers: [
+      { pos: 0, id: 861, description: "Get the remote", npc: 8, onComplete: {type: 'item', id: 351} }
+    ]
   }
 
 ]

@@ -4,3 +4,4 @@ module.exports = class Marker
     @id = data.id
     @done = false
     @npc = data.npc
+    @onComplete = data.onComplete
