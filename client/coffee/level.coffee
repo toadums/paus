@@ -49,7 +49,6 @@ module.exports = class Level
 
           cellSprite.hit = if layerData.properties.hit is "true" then true else false
           cellSprite.type = 'tile'
-
           @stage.addChild cellSprite
         x++
       y++
