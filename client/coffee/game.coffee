@@ -128,12 +128,14 @@ module.exports = class Game
 
       # Check if the user is interacting with anythin (for right now just NPCs)
       if @keyInput.actionHeld
+        @player.accelerate []
         @player.checkActions @npcs
 
       if @keyInput.spaceHeld
         @player.punch()
 
       if @keyInput.iHeld
+        @player.accelerate []
         @IN_INVENTORY = true
         @keyInput.iHeld = false
         @inventory.showInventory()
@@ -173,6 +175,7 @@ module.exports = class Game
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event, @level
 
+    # Whenever the callstack is clear, re-calculate arrow position
     _.defer(
       (quest) =>
         return unless quest?
