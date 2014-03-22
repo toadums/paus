@@ -188,12 +188,12 @@ module.exports = class Game
 
         len = Math.sqrt(v.x*v.x + v.y*v.y)
 
-        if len > 300
+        if len > 200
           v.x /= len
           v.y /= len
 
-          v.x *= 300
-          v.y *= 300
+          v.x *= 200
+          v.y *= 200
 
         angle = Math.atan2(v.y, v.x) * 180 / Math.PI
 

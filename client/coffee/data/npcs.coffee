@@ -8,8 +8,8 @@ module.exports =[
     ]
     id: 2
     pos:
-      x: 300
-      y: 500
+      x: 100
+      y: 1500
   }
 
   {
@@ -20,8 +20,8 @@ module.exports =[
       ]
     id: 3
     pos:
-      x: 900
-      y: 1200
+      x: 1800
+      y: 100
   }
 
   ## Message left by old man. Prompt us to start quest
@@ -33,8 +33,8 @@ module.exports =[
       ]
     id: 4
     pos:
-      x: 200
-      y: 200
+      x: 700
+      y: 300
   }
 
   ## Look under a tree for the bunny disabler
@@ -46,7 +46,7 @@ module.exports =[
     id: 5
     pos:
       x: 900
-      y: 900
+      y: 1200
   }
 
 
