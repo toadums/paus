@@ -152,6 +152,12 @@ module.exports = class Game
       if @keyInput.enterHeld
         @dialogManager.keyPress "enter"
         @keyInput.enterHeld = false
+
+      else if @keyInput.escHeld
+        @keyInput.escHeld = false
+        @dialogManager.keyPress "esc"
+
+
     else
       if @keyInput.escHeld or @keyInput.iHeld
         @keyInput.iHeld = false
