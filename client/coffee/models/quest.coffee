@@ -22,6 +22,10 @@ module.exports = class Quest
     part.done = true
     @state = part.pos + 1
 
+    if (com = part.onComplete)?
+      if com.type is 'item'
+        Inventory.items.push com.id
+
     if @checkComplete()
 
       @complete()

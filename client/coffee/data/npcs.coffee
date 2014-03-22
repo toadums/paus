@@ -8,8 +8,8 @@ module.exports =[
     ]
     id: 2
     pos:
-      x: 300
-      y: 500
+      x: 100
+      y: 1500
   }
 
   {
@@ -20,8 +20,8 @@ module.exports =[
       ]
     id: 3
     pos:
-      x: 900
-      y: 1200
+      x: 1800
+      y: 100
   }
 
   ## Message left by old man. Prompt us to start quest
@@ -33,8 +33,8 @@ module.exports =[
       ]
     id: 4
     pos:
-      x: 200
-      y: 200
+      x: 700
+      y: 300
   }
 
   ## Look under a tree for the bunny disabler
@@ -46,8 +46,55 @@ module.exports =[
     id: 5
     pos:
       x: 900
+      y: 1200
+  }
+
+  ## The old man!
+  {
+    dialogs:
+      [
+        {type: 'queststart', quest: 911, dialog: 161, state: 'hasquest'}
+      ]
+    id: 6
+    pos:
+      x: 20
+      y: 120
+  }
+
+  ## Note by 451
+  {
+    dialogs:
+      [
+        {type: 'questpart', quest: 911, part: 861, dialog: 172, state: 'return'}
+      ]
+    id: 8
+    pos:
+      x: 300
       y: 900
   }
 
+  ## Sign to pick carrots
+  {
+    dialogs:
+      [
+        {type: 'questpart', quest: 911, part: 862, dialog: 173, state: 'return'}
+      ]
+    id: 9
+    pos:
+      x: 1000
+      y: 400
+  }
+
+
+  {
+    dialogs:
+      [
+        {type: 'easteregg', dialog: 171}
+      ]
+    id: 7
+    pos:
+      x: 500
+      y: 900
+  }
 
 ]

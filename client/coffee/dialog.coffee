@@ -63,6 +63,7 @@ class DialogManager
     @stage.removeChild @box
     @currentDialog = null
     @dialog = null
+    @endAction()
 
   # Handle key events in the dialogs
   keyPress: (key) =>
@@ -71,6 +72,8 @@ class DialogManager
         @dialog.changeSelection key
       when "enter"
         @dialog.enterPress()
+      when "esc"
+        @dialog.close()
 
 # Simple dialog with yes/no buttons
 class Controls

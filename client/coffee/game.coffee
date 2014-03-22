@@ -70,7 +70,7 @@ module.exports = class Game
     @stage.clear()
     @level = new Level(@stage)
 
-    for i in [0..40] by 1
+    for i in [0..0] by 1
 
       playerPos =
         x: Math.random()*@canvas.width
@@ -128,12 +128,14 @@ module.exports = class Game
 
       # Check if the user is interacting with anythin (for right now just NPCs)
       if @keyInput.actionHeld
+        @player.accelerate []
         @player.checkActions @npcs
 
       if @keyInput.spaceHeld
         @player.punch()
 
       if @keyInput.iHeld
+        @player.accelerate []
         @IN_INVENTORY = true
         @keyInput.iHeld = false
         @inventory.showInventory()
@@ -150,6 +152,12 @@ module.exports = class Game
       if @keyInput.enterHeld
         @dialogManager.keyPress "enter"
         @keyInput.enterHeld = false
+
+      else if @keyInput.escHeld
+        @keyInput.escHeld = false
+        @dialogManager.keyPress "esc"
+
+
     else
       if @keyInput.escHeld or @keyInput.iHeld
         @keyInput.iHeld = false
@@ -173,6 +181,7 @@ module.exports = class Game
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
     @stage.update event, @level
 
+    # Whenever the callstack is clear, re-calculate arrow position
     _.defer(
       (quest) =>
         return unless quest?
@@ -185,12 +194,12 @@ module.exports = class Game
 
         len = Math.sqrt(v.x*v.x + v.y*v.y)
 
-        if len > 300
+        if len > 200
           v.x /= len
           v.y /= len
 
-          v.x *= 300
-          v.y *= 300
+          v.x *= 200
+          v.y *= 200
 
         angle = Math.atan2(v.y, v.x) * 180 / Math.PI
 

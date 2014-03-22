@@ -14,6 +14,7 @@ module.exports = class Inventory
     @w = 428
     @h = 128
     @shownItems = []
+    @lines = []
     @selected = 0
 
   # Draw the box that holds the dialog
@@ -21,7 +22,7 @@ module.exports = class Inventory
     @box = new createjs.Shape()
     @box.graphics.beginStroke("#000")
     @box.graphics.beginFill("#8A8A8A")
-    @box.graphics.setStrokeStyle(10)
+    @box.graphics.setStrokeStyle(2)
     @box.snapToPixel = true
     @box.graphics.drawRect(@pos.x, @pos.y, @w, @h)
     @stage.addChild @box
@@ -29,13 +30,21 @@ module.exports = class Inventory
 
   createText: =>
 
-    if @selectedText?
-      @stage.removeChild @selectedText
-    @selectedText = new createjs.Text(@shownItems[@selected].data.description, "20px Arial", "black")
-    @selectedText.x = @pos.x + 10
-    @selectedText.y = @pos.y + 80
-    @selectedText.textBaseline = "alphabetic"
-    @stage.addChild @selectedText
+    @stage.removeChild(line) for line in @lines
+    @lines = []
+
+    lines = wrap(@canvas.getContext('2d'), @shownItems[@selected].data.description, @w - 20, "20px Arial")
+    i = 0
+
+    for line in lines
+      text = new createjs.Text(line, "20px Arial", "black")
+      text.x = @pos.x + 10
+      text.y = @pos.y + i * 30 + 80
+      text.textBaseline = "alphabetic"
+      @stage.addChild text
+      @lines.push text
+
+      i++
 
   showInventory: =>
     # Position relative to the viewport
@@ -57,7 +66,8 @@ module.exports = class Inventory
     @stage.removeChild @box
     item.close() for item in @shownItems
     @shownItems = []
-    @stage.removeChild @selectedText
+    @stage.removeChild(line) for line in @lines
+    @lines = []
 
   keyPress: (key) =>
     switch key
