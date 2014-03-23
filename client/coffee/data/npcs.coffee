@@ -24,6 +24,33 @@ module.exports = [
   #     y: 100
   # }
 
+  ## SUB sign
+  {
+    dialogs:
+      [
+        {type: 'else', dialog: 190}
+      ]
+    id: 90
+    pos:
+      x: 7760
+      y: 8860
+    sprite: "signSprite"
+  }
+
+  ## Clearihue sign
+  {
+    dialogs:
+      [
+        {type: 'else', dialog: 191}
+      ]
+    id: 91
+    pos:
+      x: 7920
+      y: 6650
+    sprite: "signSprite"
+  }
+
+
   ## Message left by old man. Prompt us to start quest
   {
     dialogs:

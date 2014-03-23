@@ -2,6 +2,33 @@ module.exports = [
 
   # COUNTER FOR BUNNY KILL!!!! This could be in quest log
 
+
+  # Building Signs
+  {
+    id: 190
+    text: "Student Union Building."
+    actions: [
+      {
+        type: 'done'
+        text: 'Cool'
+      }
+    ]
+  }
+
+  {
+    id: 191
+    text: "Clearihue - English and Klingon"
+    actions: [
+      {
+        type: 'done'
+        text: 'Cool'
+      }
+    ]
+  }
+
+
+
+
   # Initial quest, get sword
   {
     id: 150
