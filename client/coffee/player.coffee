@@ -25,6 +25,8 @@ module.exports = class Player extends Character
     @vX = 0
     @vY = 0
     @facing = 3 #0 - up, 1 - down, 2 - left, 3 - right
+    @health = 10
+    @recentlyHit = false
 
   tick: (event, level) =>
 
@@ -35,12 +37,10 @@ module.exports = class Player extends Character
       x: @vX
       y: @vY
     }
-
     # Collision detection
     for child in @stage.children
       dir = {}
       if child instanceof NPC or (child instanceof Monster and child.dying is false) or (child.type is 'tile' and (child.hit))
-
         data =
           top: child.y
           left: child.x
@@ -52,6 +52,17 @@ module.exports = class Player extends Character
         horizCollision = true
       if dir.green
         vertCollision = true
+
+      if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit 
+        @recentlyHit = true
+        @health -= 1
+        console.log @health
+        setTimeout(
+          () =>
+            console.log 'here'
+            @recentlyHit = false
+          2000
+        )
 
     if not horizCollision
       @x += @vX
@@ -69,48 +80,62 @@ module.exports = class Player extends Character
     for child in @stage.children
       do (child) =>
         dir = {}
-        if child instanceof NPC or child instanceof Monster or (child.type is 'tile' and (child.hit))
+        if child instanceof Monster
           data =
             top: child.y
             left: child.x
             right: child.x + child.width
             bottom: child.y + child.height
-          dir = @collide data, vel
+          # dir = @collide data, vel
 
-          if child instanceof Monster and !child.dying
+          if !child.dying
 
-            if dir.green or dir.whore
-              child.life -= 1
-
-              child.playerBody.spriteSheet = child.hitsprite.spriteSheet
-
-              revertSprite = () ->
-                child.playerBody.spriteSheet = child.regsprite.spriteSheet
-
-              setTimeout revertSprite, 100
-
-              if child.life <= 0
-                child.dying = true
-                child.kill()
-              else
-                if @facing == 1
-                  #punch down
-                  child.y += 80
-                else if @facing == 0
-                  child.y -= 80
-                  #punch up
-                else if @facing == 3
+            if child instanceof Monster
+              if (@lineDistance {x:child.x, y:child.y}, {x:@x,y:@y}) < 200 and child.life > 0
+                if child.x > @x and @facing is 3
                   child.x += 80
-                  #punch right
-                else if @facing == 2
+                  @damageBunny child
+                else if child.x < @x and @facing is 2
                   child.x -= 80
-                  #punch left
-
-
-
+                  @damageBunny child
+                else if child.y < @y and @facing is 0
+                  child.y -= 80
+                  @damageBunny child
+                else if child.y > @y and @facing is 1
+                  child.y += 80
+                  @damageBunny child
+            # if dir.green or dir.whore
+              
+            #     if @facing == 1
+            #       #punch down
+            #       child.y += 80
+            #     else if @facing == 0
+            #       child.y -= 80
+            #       #punch up
+            #     else if @facing == 3
+            #       child.x += 80
+            #       #punch right
+            #     else if @facing == 2
+            #       child.x -= 80
+            #       #punch left
 
   # If the player is holding the E key, and the character is within 300px from an NPC,
   # play that NPCs dialog
+
+  damageBunny: (child) =>
+    child.life -= 1
+
+    child.playerBody.spriteSheet = child.hitsprite.spriteSheet
+
+    revertSprite = () ->
+      child.playerBody.spriteSheet = child.regsprite.spriteSheet
+
+    setTimeout revertSprite, 100
+
+    if child.life <= 0
+      child.dying = true
+      child.kill()
+
   checkActions: (npcs) =>
     # We are going from the CENTERS of the characters
     me =
@@ -183,3 +208,15 @@ module.exports = class Player extends Character
     @vX = -@MAX_VELOCITY  if @vX < -@MAX_VELOCITY
     @vY = @MAX_VELOCITY  if @vY > @MAX_VELOCITY
     @vY = -@MAX_VELOCITY  if @vY < -@MAX_VELOCITY
+
+  lineDistance: (point1, point2) =>
+    xs = 0
+    ys = 0
+
+    xs = point2.x - point1.x
+    xs = xs * xs
+
+    ys = point2.y - point1.y
+    ys = ys * ys
+
+    return Math.sqrt( xs + ys )

@@ -133,6 +133,7 @@ module.exports = class Game
 
       if @keyInput.spaceHeld
         @player.punch()
+        @keyInput.spaceHeld = false
 
       if @keyInput.iHeld
         @player.accelerate []
