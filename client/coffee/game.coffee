@@ -101,6 +101,7 @@ module.exports = class Game
 
     for npcData in _npcs
       #create the player
+      console.log npcData.sprite, @[npcData.sprite]
       npc = _.extend (new NPC @, _.clone(@[npcData.sprite])), (new createjs.Container())
       npc.init(npcData)
       @stage.addChild npc
