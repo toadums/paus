@@ -2,7 +2,7 @@ Character = require 'coffee/character'
 Collections = require 'coffee/collections'
 
 module.exports = class NPC extends Character
-  constructor: (@delegate) ->
+  constructor: (@delegate, sprite) ->
     {
       @stage
       questionSprite
@@ -12,7 +12,8 @@ module.exports = class NPC extends Character
 
     @questionSprite = _.clone questionSprite
     @exclamationSprite = _.clone exclamationSprite
-    sprite = _.clone playerSprite
+
+    sprite ?= _.clone playerSprite
 
     super sprite
     @hasQuestion = false

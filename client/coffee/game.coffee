@@ -55,20 +55,23 @@ module.exports = class Game
   restart: =>
     #hide anything on stage
     @stage.removeAllChildren()
+    #ensure stage is blank and add the ship
+    @stage.clear()
+    @level = new Level(@stage)
+    @stage.x = -8000
+    @stage.y = -9000
 
     playerPos =
-      x: @canvas.width/2 - 200
-      y: @canvas.height/2 + 200
+      x: 8400
+      y: 9300
 
     #create the player
     @player = _.extend (new Player @), (new createjs.Container())
     @player.init(playerPos)
 
-    @keyInput.reset()
+    window.p = @player
 
-    #ensure stage is blank and add the ship
-    @stage.clear()
-    @level = new Level(@stage)
+    @keyInput.reset()
 
     for i in [0..0] by 1
 
@@ -98,7 +101,7 @@ module.exports = class Game
 
     for npcData in _npcs
       #create the player
-      npc = _.extend (new NPC @), (new createjs.Container())
+      npc = _.extend (new NPC @, _.clone(@[npcData.sprite])), (new createjs.Container())
       npc.init(npcData)
       @stage.addChild npc
       @npcs.push npc
@@ -179,6 +182,7 @@ module.exports = class Game
       @monsters[i].tick()
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
+
     @stage.update event, @level
 
     # Whenever the callstack is clear, re-calculate arrow position

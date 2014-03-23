@@ -33,8 +33,9 @@ module.exports = [
       ]
     id: 4
     pos:
-      x: 700
-      y: 300
+      x: 8570
+      y: 8600
+    sprite: "signSprite"
   }
 
   ## Look under a tree for the bunny disabler

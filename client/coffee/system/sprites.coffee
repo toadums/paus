@@ -338,7 +338,7 @@ arrowSprite = (loader) ->
     frames:
       regX: 0
       height: 50
-      count: 12
+      count: 1
       regY: 0
       width: 50
 
@@ -349,6 +349,25 @@ arrowSprite = (loader) ->
   arrowSprite = new createjs.Sprite(data, "default")
   arrowSprite.framerate = 10
   arrowSprite
+
+signSprite = (loader) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("sign")]
+    frames:
+      regX: 0
+      height: 310
+      count: 1
+      regY: 0
+      width: 330
+
+    animations:
+      default: [0, 0]
+  )
+
+  signSprite = new createjs.Sprite(data, "default")
+  signSprite.framerate = 10
+  signSprite
+
 
 module.exports =
   playerSprite: playerSprite
@@ -366,3 +385,4 @@ module.exports =
   monsterRed5Sprite: monsterRed5Sprite
   bloodSprite: bloodSprite
   arrowSprite: arrowSprite
+  signSprite: signSprite
