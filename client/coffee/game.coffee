@@ -9,27 +9,30 @@ _npcs = require 'coffee/data/npcs'
 Manifest = require 'coffee/data/manifest'
 Sprites = require 'coffee/system/sprites'
 Collections = require 'coffee/collections'
-
+Map = require 'coffee/map'
 module.exports = class Game
   constructor: () ->
     # If the player is in an action, they can't do anything
     @IN_ACTION = false
     @IN_INVENTORY = false
+    @MAP_OPEN = false
 
     @npcs = []
     @monsters = []
-
     @keyInput = new KeyInput
     @init()
 
     @currentQuest = null
 
   init: () =>
+    @img = document.createElement('img')
+    @img.src = '/images/map.png';
+
     @canvas = document.getElementById("gameCanvas")
     @stage = new createjs.Stage(@canvas)
     @dialogManager = new DialogManager @
     @inventory = new Inventory @
-
+    @map = new Map @stage, @img
     manifest = Manifest or []
     @loader = new createjs.LoadQueue(false)
     @loader.addEventListener "complete", @handleComplete
@@ -127,7 +130,7 @@ module.exports = class Game
       keys.push "left"  if @keyInput.lfHeld
       keys.push "right"  if @keyInput.rtHeld
 
-      @player.accelerate keys
+      moving = @player.accelerate keys
 
       # Check if the user is interacting with anythin (for right now just NPCs)
       if @keyInput.actionHeld
@@ -161,7 +164,6 @@ module.exports = class Game
         @keyInput.escHeld = false
         @dialogManager.keyPress "esc"
 
-
     else
       if @keyInput.escHeld or @keyInput.iHeld
         @keyInput.iHeld = false
@@ -172,6 +174,24 @@ module.exports = class Game
       else if @keyInput.rtHeld
         @keyInput.rtHeld = false
         @inventory.keyPress "right"
+
+
+    # Displaying the map should be done independently of everything else, as it is just a hold-to-show thing.
+    # You want to be able to see the map while moving
+    if @keyInput.mHeld and not @MAP_OPEN
+      # Open a closed map
+      @MAP_OPEN = true
+      @map.update @stage, @player.x, @player.y, false
+
+    else if @MAP_OPEN and not @keyInput.mHeld
+      # Close an open map
+      @MAP_OPEN = false
+      @map.close()
+
+    else if @MAP_OPEN and @keyInput.mHeld and moving
+      # Show a transparent map while moving (close old map first)
+      @map.close()
+      @map.update @stage, @player.x, @player.y, true
 
 
     #call sub ticks

@@ -213,6 +213,9 @@ module.exports = class Player extends Character
     @vY = @MAX_VELOCITY  if @vY > @MAX_VELOCITY
     @vY = -@MAX_VELOCITY  if @vY < -@MAX_VELOCITY
 
+    # Was the guy moving?
+    return true if @vX or @vY
+
   lineDistance: (point1, point2) =>
     xs = 0
     ys = 0

@@ -14,16 +14,18 @@ module.exports = class KeyInput
     @ENTER = 13
     @KEYCODE_ESCAPE = 27
     @KEYCODE_I = 73
+    @KEYCODE_M = 77
 
-    @lfHeld = undefined
-    @rtHeld = undefined
-    @fwdHeld = undefined
-    @dnHeld = undefined
-    @spaceHeld = undefined
-    @escHeld = undefined
-    @iHeld = undefined
+    @lfHeld = false
+    @rtHeld = false
+    @fwdHeld = false
+    @dnHeld = false
+    @spaceHeld = false
+    @escHeld = false
+    @iHeld = false
+    @mHeld = false
     # E key. Talk to people, interact etc
-    @actionheld = undefined
+    @actionheld = false
 
     window.setTimeout(
       () =>
@@ -58,6 +60,9 @@ module.exports = class KeyInput
       when @KEYCODE_I
         @iHeld = true
         false
+      when @KEYCODE_M
+        @mHeld = true
+        false
       when @ACTION
         @actionHeld = true
       when @ENTER
@@ -80,6 +85,8 @@ module.exports = class KeyInput
         @escHeld = false
       when @KEYCODE_I
         @iHeld = false
+      when @KEYCODE_M
+        @mHeld = false
       when @ACTION
         @actionHeld = false
       when @ENTER
