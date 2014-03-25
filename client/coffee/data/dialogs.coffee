@@ -26,8 +26,27 @@ module.exports = [
     ]
   }
 
+  {
+    id: 192
+    text: "Cornett - So confusing it was turned into a literal maze. D:"
+    actions: [
+      {
+        type: 'done'
+        text: 'I bet there is something useful in here...'
+      }
+    ]
+  }
 
-
+  {
+    id: 193
+    text: "SSM - Math and Quantum Computing"
+    actions: [
+      {
+        type: 'done'
+        text: 'Cool'
+      }
+    ]
+  }
 
   # Initial quest, get sword
   {
@@ -55,11 +74,11 @@ module.exports = [
 
   {
     id: 152
-    text: "You find a hole in the tree."
+    text: "I wonder if there is anything useful in this old barrel"
     actions: [
       {
         type: 'goto'
-        text: 'investigate'
+        text: 'Investigate'
         value: 153
       }
       {
@@ -75,7 +94,7 @@ module.exports = [
     actions: [
       {
         type: "questpart"
-        text: "Now I just need to figure out how to turn it on..."
+        text: "Those bunnies don't stand a chance."
         value: {quest: 901, part: 850}
       }
     ]

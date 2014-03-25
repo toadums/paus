@@ -50,6 +50,32 @@ module.exports = [
     sprite: "signSprite"
   }
 
+  ## Cornett sign
+  {
+    dialogs:
+      [
+        {type: 'else', dialog: 192}
+      ]
+    id: 92
+    pos:
+      x: 8700
+      y: 4300
+    sprite: "signSprite"
+  }
+
+  ## SSM sign
+  {
+    dialogs:
+      [
+        {type: 'else', dialog: 193}
+      ]
+    id: 93
+    pos:
+      x: 8550
+      y: 1500
+    sprite: "signSprite"
+  }
+
 
   ## Message left by old man. Prompt us to start quest
   {
@@ -65,7 +91,7 @@ module.exports = [
     sprite: "signSprite"
   }
 
-  ## Look under a tree for the bunny disabler
+  ## Barrel with the sword
   {
     dialogs:
       [
@@ -73,8 +99,9 @@ module.exports = [
       ]
     id: 5
     pos:
-      x: 900
-      y: 1200
+      x: 5740
+      y: 220
+    sprite: "barrelSprite"
   }
 
   ## The old man!

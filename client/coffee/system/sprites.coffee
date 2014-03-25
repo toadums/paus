@@ -368,6 +368,25 @@ signSprite = (loader) ->
   signSprite.framerate = 10
   signSprite
 
+barrelSprite = (loader) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("barrel")]
+    frames:
+      regX: 0
+      height: 200
+      count: 1
+      regY: 0
+      width: 200
+
+    animations:
+      default: [0, 0]
+  )
+
+  barrelSprite = new createjs.Sprite(data, "default")
+  barrelSprite.framerate = 10
+  barrelSprite
+
+
 
 module.exports =
   playerSprite: playerSprite
@@ -386,3 +405,4 @@ module.exports =
   bloodSprite: bloodSprite
   arrowSprite: arrowSprite
   signSprite: signSprite
+  barrelSprite: barrelSprite

@@ -67,4 +67,8 @@ module.exports = [
     src: "images/sign.png"
     id: "sign"
   }
+  {
+    src: "images/barrel.png"
+    id: "barrel"
+  }
 ]
