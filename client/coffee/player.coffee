@@ -19,6 +19,10 @@ module.exports = class Player extends Character
     @MAX_VELOCITY = 20
     @lastKey
 
+  moveTo: (x, y) =>
+    @x = x
+    @y = y
+
   init: (pos) =>
     super pos
 
@@ -53,7 +57,7 @@ module.exports = class Player extends Character
       if dir.green
         vertCollision = true
 
-      if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit 
+      if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit
         @recentlyHit = true
         @health -= 1
         console.log @health
@@ -105,7 +109,7 @@ module.exports = class Player extends Character
                   child.y += 80
                   @damageBunny child
             # if dir.green or dir.whore
-              
+
             #     if @facing == 1
             #       #punch down
             #       child.y += 80
@@ -220,3 +224,19 @@ module.exports = class Player extends Character
     ys = ys * ys
 
     return Math.sqrt( xs + ys )
+
+  toClearihue: =>
+    @x = 8000
+    @y = 7000
+
+  toStart: =>
+    @x = 9000
+    @y = 9000
+
+  toCornett: =>
+    @x = 8720
+    @y = 4500
+
+  toSSM: =>
+    @x = 8500
+    @y = 1800
