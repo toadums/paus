@@ -243,3 +243,10 @@ module.exports = class Player extends Character
   toSSM: =>
     @x = 8500
     @y = 1800
+
+  toElliot: =>
+    @x = 1720
+    @y = 6060
+
+  pos: =>
+    "x: #{@x}, y: #{@y}"

@@ -76,6 +76,19 @@ module.exports = [
     sprite: "signSprite"
   }
 
+  ## Elliot sign
+  {
+    dialogs:
+      [
+        {type: 'else', dialog: 194}
+      ]
+    id: 94
+    pos:
+      x: 1660
+      y: 5600
+    sprite: "signSprite"
+  }
+
 
   ## Message left by old man. Prompt us to start quest
   {

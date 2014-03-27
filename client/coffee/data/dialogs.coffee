@@ -48,6 +48,17 @@ module.exports = [
     ]
   }
 
+  {
+    id: 194
+    text: "Elliot - Used to be physics, now its a prison"
+    actions: [
+      {
+        type: 'done'
+        text: 'Cool'
+      }
+    ]
+  }
+
   # Initial quest, get sword
   {
     id: 150
