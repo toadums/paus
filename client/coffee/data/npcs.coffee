@@ -24,6 +24,23 @@ module.exports = [
   #     y: 100
   # }
 
+  ## The hole
+  {
+    dialogs:
+      [
+        {type: 'warp', dialog: 170}
+      ]
+    id: 70
+    pos:
+      x: 4050
+      y: 3820
+    sprite: "blank"
+    size:
+      x: 2
+      y: 2
+
+  }
+
   ## SUB sign
   {
     dialogs:

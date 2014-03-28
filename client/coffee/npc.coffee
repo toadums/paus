@@ -13,8 +13,6 @@ module.exports = class NPC extends Character
     @questionSprite = _.clone questionSprite
     @exclamationSprite = _.clone exclamationSprite
 
-    sprite ?= _.clone playerSprite
-
     super sprite
     @hasQuestion = false
     @hasExlaimation = false

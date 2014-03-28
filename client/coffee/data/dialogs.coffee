@@ -3,6 +3,22 @@ module.exports = [
   # COUNTER FOR BUNNY KILL!!!! This could be in quest log
 
 
+  # The hole
+  {
+    id: 170
+    text: "A hole..."
+    actions: [
+      {
+        type: "done"
+        text: "I shouldn't"
+      }
+      {
+        type: "warp"
+        text: "YEAH I SHOULD"
+      }
+    ]
+  }
+
   # Building Signs
   {
     id: 190
@@ -207,12 +223,12 @@ module.exports = [
 
   {
     id: 172
-    text: "Congratulations! U found the deactivator. This will serve u well. But, if u rly want 2 defeat da bunnies, u must deactivate them all @ once.
-          2 do so, u will need carrots as bait. Also, a trap and the signal amplifier."
+    text: "Congratulations! You found the deactivator. This will serve you well. But, if you really want to defeat the bunnies, you must deactivate them all at once.
+          To do so, you will need carrots as bait. Also, a trap and the signal amplifier."
     actions: [
       {
         type: 'questpart'
-        text: "Cool!"
+        text: "Time to erabbicate these bastards."
         value: {quest: 911, part: 861}
       }
     ]

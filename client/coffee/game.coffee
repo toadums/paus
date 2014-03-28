@@ -50,7 +50,8 @@ module.exports = class Game
 
     # Coffeescript sugar. Creates a new class variable for each sprite in system/sprites
     _.each Sprites, (val, name) =>
-      @[name] = val(@loader)
+      if name isnt 'blankSprite'
+        @[name] = val(@loader)
 
     @restart()
 
@@ -103,8 +104,20 @@ module.exports = class Game
       @monsters.push monster
 
     for npcData in _npcs
-      #create the player
-      npc = _.extend (new NPC @, _.clone(@[npcData.sprite])), (new createjs.Container())
+
+      # if no sprite specified, just use the generic player.
+      # if the sprite is blank, make a blank sprite based on size
+      # else actually create the sprite they want
+
+      if not npcData.sprite?
+        sprite = _.clone @playerSprite
+      else if npcData.sprite is 'blank'
+        sprite = _.clone Sprites.blankSprite(@loader, npcData.size.x, npcData.size.y)
+      else
+        sprite = _.clone(@[npcData.sprite])
+
+      npc = _.extend (new NPC @, sprite), (new createjs.Container())
+
       npc.init(npcData)
       @stage.addChild npc
       @npcs.push npc

@@ -4,7 +4,6 @@ module.exports = class Character
     @playerBody = sprite
 
   init: (pos) =>
-
     @addChild @playerBody
 
     @x = pos.x
