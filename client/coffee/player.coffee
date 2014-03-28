@@ -159,7 +159,7 @@ module.exports = class Player extends Character
       # Distance between centers
       d = Math.sqrt(v.x*v.x + v.y*v.y)
 
-      if d < 300 and @isFacing(v) # Random number
+      if d < 150 or (d < 300 and @isFacing(v)) # Random number
 
         if (dialog = npc.getDialog())
           @startDialog npc.getDialog()
@@ -182,7 +182,7 @@ module.exports = class Player extends Character
 
       # Distance between centers
       d = Math.sqrt(v.x*v.x + v.y*v.y)
-      if d < 200 and @isFacing(v)# Random number
+      if d < 100 or (d < 200 and @isFacing(v))# Random number
         return item
 
   # Am I facing in the right direction to interact?
