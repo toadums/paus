@@ -24,22 +24,6 @@ module.exports = [
   #     y: 100
   # }
 
-  ## The hole
-  {
-    dialogs:
-      [
-        {type: 'warp', dialog: 170}
-      ]
-    id: 70
-    pos:
-      x: 4050
-      y: 3820
-    sprite: "blank"
-    size:
-      x: 2
-      y: 2
-
-  }
 
   ## SUB sign
   {
@@ -49,7 +33,7 @@ module.exports = [
       ]
     id: 90
     pos:
-      x: 7760
+      x: 7800
       y: 8860
     sprite: "signSprite"
   }
@@ -134,7 +118,19 @@ module.exports = [
     sprite: "barrelSprite"
   }
 
-  ## The old man!
+  # ## The old man! (SEE HOLE)
+  # {
+  #   dialogs:
+  #     [
+  #       {type: 'queststart', quest: 911, dialog: 161, state: 'hasquest'}
+  #     ]
+  #   id: 6
+  #   pos:
+  #     x: 3700
+  #     y: 3700
+  # }
+
+  ## The hole
   {
     dialogs:
       [
@@ -142,8 +138,13 @@ module.exports = [
       ]
     id: 6
     pos:
-      x: 20
-      y: 120
+      x: 4050
+      y: 3820
+    sprite: "blank"
+    size:
+      x: 2
+      y: 2
+
   }
 
   ## Note by 451
@@ -154,8 +155,8 @@ module.exports = [
       ]
     id: 8
     pos:
-      x: 300
-      y: 900
+      x: 3120
+      y: 8940
   }
 
   ## Sign to pick carrots
@@ -178,8 +179,9 @@ module.exports = [
       ]
     id: 7
     pos:
-      x: 500
-      y: 900
+      x: 4850
+      y: 8600
+    sprite: "signSprite"
   }
 
 ]

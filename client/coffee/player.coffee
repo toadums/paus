@@ -248,6 +248,10 @@ module.exports = class Player extends Character
     @x = 1720
     @y = 6060
 
+  toLib: =>
+    @x = 3120
+    @y = 8940
+
   pos: (x, y)=>
     if not (x? or y?)
       "x: #{@x}, y: #{@y}"
