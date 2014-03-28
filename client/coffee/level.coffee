@@ -1,8 +1,9 @@
 module.exports = class Level
   constructor: (@stage) ->
-    @init()
     @mapData
     @tileset
+    @interactiveTiles = []
+    @init()
 
   initLayers: () =>
     @level = new createjs.Container()
@@ -27,6 +28,7 @@ module.exports = class Level
 
   initLayer: (layerData, tilesetSheet, tilewidth, tileheight) =>
     y = 0
+
     while y < layerData.height
       x = 0
 
@@ -37,8 +39,10 @@ module.exports = class Level
 
         idx = x + y * layerData.width
 
-        if layerData.data[idx] isnt 0
-          cellSprite.gotoAndStop layerData.data[idx] - 1
+        if (data = layerData.data[idx]) isnt 0
+
+
+          cellSprite.gotoAndStop data - 1
 
           cellSprite.x = x * tilewidth
           cellSprite.y = y * tileheight
@@ -50,6 +54,11 @@ module.exports = class Level
           cellSprite.hit = if layerData.properties.hit is "true" then true else false
           cellSprite.type = 'tile'
           @stage.addChild cellSprite
+
+          if data - 1 in @tilepropsKeys
+            cellSprite.type = @tileprops[(data - 1).toString()].type
+            @interactiveTiles.push cellSprite
+
         x++
       y++
 
@@ -59,6 +68,8 @@ module.exports = class Level
       async: false
       dataType: "json"
       success: (response) =>
+        @tileprops =  response.tilesets[0].tileproperties
+        @tilepropsKeys = (parseInt(key) for key, value of @tileprops)
         @mapData = response
         @tileset = new Image()
         @tileset.src = @mapData.tilesets[0].image

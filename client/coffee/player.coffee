@@ -16,7 +16,7 @@ module.exports = class Player extends Character
 
     super sprite
 
-    @MAX_VELOCITY = 20
+    @MAX_VELOCITY = 50
     @lastKey
 
   moveTo: (x, y) =>
@@ -140,7 +140,7 @@ module.exports = class Player extends Character
       child.dying = true
       child.kill()
 
-  checkActions: (npcs) =>
+  checkNPCActions: (npcs) =>
     # We are going from the CENTERS of the characters
     me =
       x: @x + @width/2
@@ -159,10 +159,39 @@ module.exports = class Player extends Character
       # Distance between centers
       d = Math.sqrt(v.x*v.x + v.y*v.y)
 
-      if d < 300 # Random number
+      if d < 300 and @isFacing(v) # Random number
+
         if (dialog = npc.getDialog())
           @startDialog npc.getDialog()
+          break
 
+  checkItemActions: (items) =>
+    me =
+      x: @x + @width/2
+      y: @y + @height/2
+
+    for item in items
+      them =
+        x: item.x + item.width/2
+        y: item.y + item.height/2
+
+      # Vector from me to them
+      v =
+        x: me.x - them.x
+        y: me.y - them.y
+
+      # Distance between centers
+      d = Math.sqrt(v.x*v.x + v.y*v.y)
+      if d < 200 and @isFacing(v)# Random number
+        return item
+
+  # Am I facing in the right direction to interact?
+  isFacing: (v) =>
+    angle = Math.abs(Math.atan(v.y/v.x) * 180 / Math.PI)
+    (@facing is 3 and v.x < 0  and (0 < angle < 60)) or
+      (@facing is 2 and v.x > 0 and (0 < angle < 60)) or
+      (@facing is 0 and v.y > 0 and (60 < angle < 120)) or
+      (@facing is 1 and v.y < 0 and (60 < angle < 120))
 
   accelerate: (keys) =>
     @vX = 0

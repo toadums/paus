@@ -148,7 +148,11 @@ module.exports = class Game
       # Check if the user is interacting with anythin (for right now just NPCs)
       if @keyInput.actionHeld
         @player.accelerate []
-        @player.checkActions @npcs
+        @player.checkNPCActions @npcs
+        if ( item = @player.checkItemActions @level.interactiveTiles )?
+          @level.interactiveTiles = _.without @level.interactiveTiles, item
+          @stage.removeChild item
+          @keyInput.actionHeld = false
 
       if @keyInput.spaceHeld
         @player.punch()
