@@ -1,8 +1,12 @@
 module.exports = class Level
-  constructor: (@stage) ->
+  constructor: (@delegate) ->
+    {
+      @stage
+      @itemClick
+    } = @delegate
+
     @mapData
     @tileset
-    @interactiveTiles = []
     @init()
 
   initLayers: () =>
@@ -56,8 +60,9 @@ module.exports = class Level
           @stage.addChild cellSprite
 
           if data - 1 in @tilepropsKeys
+            cellSprite.on 'click', _.partial @itemClick, cellSprite
             cellSprite.type = @tileprops[(data - 1).toString()].type
-            @interactiveTiles.push cellSprite
+            cellSprite.id = 352
 
         x++
       y++

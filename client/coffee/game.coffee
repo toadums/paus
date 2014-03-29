@@ -24,6 +24,8 @@ module.exports = class Game
 
     @currentQuest = null
 
+    @objectsInteractedWith = []
+
   init: () =>
     @img = document.createElement('img')
     @img.src = '/images/map.png';
@@ -61,7 +63,7 @@ module.exports = class Game
     @stage.removeAllChildren()
     #ensure stage is blank and add the ship
     @stage.clear()
-    @level = new Level(@stage)
+    @level = new Level @
     @stage.x = -8000
     @stage.y = -9000
 
@@ -127,6 +129,9 @@ module.exports = class Game
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
 
+  itemClick: (item) =>
+    @objectsInteractedWith.push item
+
   tick: (event) =>
     keys = []
 
@@ -134,6 +139,12 @@ module.exports = class Game
       @currentQuest = null
       @stage.removeChild @questArrow
       @questArrow = null
+
+
+    if (item = (@objectsInteractedWith.splice 0, 1)[0])? and @player.checkItemDistance(item)
+      Inventory.items.push item.id
+      @inventory.refresh()
+      @stage.removeChild item
 
     # If the user is 'doing something' dont let them do anything else..
     if not @IN_DIALOG and not @IN_INVENTORY
@@ -149,10 +160,6 @@ module.exports = class Game
       if @keyInput.actionHeld
         @player.accelerate []
         @player.checkNPCActions @npcs
-        if ( item = @player.checkItemActions @level.interactiveTiles )?
-          @level.interactiveTiles = _.without @level.interactiveTiles, item
-          @stage.removeChild item
-          @keyInput.actionHeld = false
 
       if @keyInput.spaceHeld
         @player.punch()

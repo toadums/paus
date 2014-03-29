@@ -165,25 +165,24 @@ module.exports = class Player extends Character
           @startDialog npc.getDialog()
           break
 
-  checkItemActions: (items) =>
+  checkItemDistance: (item) =>
     me =
       x: @x + @width/2
       y: @y + @height/2
 
-    for item in items
-      them =
-        x: item.x + item.width/2
-        y: item.y + item.height/2
+    them =
+      x: item.x + item.width/2
+      y: item.y + item.height/2
 
-      # Vector from me to them
-      v =
-        x: me.x - them.x
-        y: me.y - them.y
+    # Vector from me to them
+    v =
+      x: me.x - them.x
+      y: me.y - them.y
 
-      # Distance between centers
-      d = Math.sqrt(v.x*v.x + v.y*v.y)
-      if d < 100 or (d < 200 and @isFacing(v))# Random number
-        return item
+
+    # Distance between centers
+    d = Math.sqrt(v.x*v.x + v.y*v.y)
+    d < 200 # return true if d < 200 else false
 
   # Am I facing in the right direction to interact?
   isFacing: (v) =>

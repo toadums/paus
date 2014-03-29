@@ -16,6 +16,7 @@ module.exports = class Inventory
     @shownItems = []
     @lines = []
     @selected = 0
+    @open = false
 
   # Draw the box that holds the dialog
   createBox: =>
@@ -57,6 +58,10 @@ module.exports = class Inventory
 
       i++
 
+  refresh: =>
+    if @open
+      @close()
+      @showInventory()
 
   showInventory: =>
     # Position relative to the viewport
@@ -73,7 +78,7 @@ module.exports = class Inventory
     @shownItems[@selected].changeColor('tomato')
 
     @createText()
-
+    @open = true
   close: =>
     @stage.removeChild @box
     @stage.removeChild @name
@@ -81,7 +86,7 @@ module.exports = class Inventory
     @shownItems = []
     @stage.removeChild(line) for line in @lines
     @lines = []
-
+    @open = false
   keyPress: (key) =>
     switch key
       when "esc"
