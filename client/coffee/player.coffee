@@ -37,20 +37,18 @@ module.exports = class Player extends Character
     horizCollision = false
     vertCollision = false
 
-    vel = {
-      x: @vX
-      y: @vY
-    }
     # Collision detection
     for child in @stage.children
+
       dir = {}
-      if child instanceof NPC or (child instanceof Monster and child.dying is false) or (child.type is 'tile' and (child.hit))
-        data =
-          top: child.y
-          left: child.x
-          right: child.x + child.width
-          bottom: child.y + child.height
-        dir = @collide data, vel
+
+      if child instanceof createjs.Container and child.visible
+        for subchild in child.children
+          dir = @checkCollision subchild
+          if dir.whore or dir.green
+            break
+      else
+        dir = @checkCollision child
 
       if dir.whore
         horizCollision = true
@@ -63,15 +61,32 @@ module.exports = class Player extends Character
         console.log @health
         setTimeout(
           () =>
-            console.log 'here'
             @recentlyHit = false
           2000
         )
+
+      if dir.whore or dir.green
+        break
 
     if not horizCollision
       @x += @vX
     if not vertCollision
       @y += @vY
+  checkCollision: (child) =>
+    dir = {}
+    vel = {
+      x: @vX
+      y: @vY
+    }
+    if child instanceof NPC or (child instanceof Monster and child.dying is false) or (child.type is 'tile' and (child.hit))
+      data =
+        top: child.y
+        left: child.x
+        right: child.x + child.width
+        bottom: child.y + child.height
+      dir = @collide data, vel
+
+    return dir
 
   punch: () =>
 
@@ -220,7 +235,7 @@ module.exports = class Player extends Character
     @vY = -@MAX_VELOCITY  if @vY < -@MAX_VELOCITY
 
     # Was the guy moving?
-    return true if @vX or @vY
+    return if @vX or @vY then true else false
 
   lineDistance: (point1, point2) =>
     xs = 0

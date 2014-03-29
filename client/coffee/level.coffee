@@ -3,11 +3,40 @@ module.exports = class Level
     {
       @stage
       @itemClick
+      @player
     } = @delegate
+
+    @numDivs = 20
+    @divs = [] # 2d array
+
+    @currentDiv =
+      x: 0
+      y: 0
+
+    @onScreen = []
 
     @mapData
     @tileset
     @init()
+
+  checkDiv: () =>
+    perDiv = @layerSize*96 / @numDivs
+
+    x = @currentDiv.x = Math.floor(@stage.x*-1 / perDiv) % @numDivs
+    y = @currentDiv.y = Math.floor(@stage.y*-1 / perDiv) % @numDivs
+
+
+    for i in [0...@numDivs]
+      for j in [0...@numDivs]
+        @divs[i][j].visible = false
+
+    for i in [0..Math.ceil(@stage.canvas.width/perDiv)]
+      for j in [0..Math.ceil(@stage.canvas.height/perDiv)]
+        if x + i < @numDivs and y + j < @numDivs
+          @divs[x + i][y + j].visible = true
+
+
+    # NEED TO REMOVE OLD DIV EVENTUALLY
 
   initLayers: () =>
     @level = new createjs.Container()
@@ -30,7 +59,18 @@ module.exports = class Level
       @initLayer layerData, tilesetSheet, @mapData.tilewidth, @mapData.tileheight if layerData.type is "tilelayer"
       idx++
 
+    for i in [0...@numDivs]
+      for j in [0...@numDivs]
+        @stage.addChild @divs[i][j]
+
+    @checkDiv @player.x, @player.y
+
+
   initLayer: (layerData, tilesetSheet, tilewidth, tileheight) =>
+    perDiv = layerData.height / @numDivs
+
+    @layerSize ?= layerData.height
+
     y = 0
 
     while y < layerData.height
@@ -45,7 +85,6 @@ module.exports = class Level
 
         if (data = layerData.data[idx]) isnt 0
 
-
           cellSprite.gotoAndStop data - 1
 
           cellSprite.x = x * tilewidth
@@ -57,12 +96,16 @@ module.exports = class Level
 
           cellSprite.hit = if layerData.properties.hit is "true" then true else false
           cellSprite.type = 'tile'
-          @stage.addChild cellSprite
+          #@stage.addChild cellSprite
 
           if data - 1 in @tilepropsKeys
             cellSprite.on 'click', _.partial @itemClick, cellSprite
             cellSprite.type = @tileprops[(data - 1).toString()].type
             cellSprite.id = 352
+
+          @divs[Math.floor(x / perDiv) % @numDivs]  ?= []
+          @divs[Math.floor(x / perDiv) % @numDivs][Math.floor(y / perDiv) % @numDivs] ?= new createjs.Container()
+          @divs[Math.floor(x / perDiv) % @numDivs][Math.floor(y / perDiv) % @numDivs].addChild cellSprite
 
         x++
       y++

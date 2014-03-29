@@ -65,7 +65,6 @@ module.exports = class Game
     @stage.removeAllChildren()
     #ensure stage is blank and add the ship
     @stage.clear()
-    @level = new Level @
     @stage.x = -8000
     @stage.y = -9000
 
@@ -76,12 +75,13 @@ module.exports = class Game
     #create the player
     @player = _.extend (new Player @), (new createjs.Container())
     @player.init(playerPos)
+    @level = new Level @
 
     window.p = @player
 
     @keyInput.reset()
 
-    for i in [0..1] by 1
+    for i in [0..50] by 1
 
       playerPos =
         x: 9000
@@ -169,6 +169,9 @@ module.exports = class Game
 
       moving = @player.accelerate keys
 
+      if moving
+        @level.checkDiv @player.x, @player.y
+
       if @keyInput.spaceHeld
         @keyInput.spaceHeld = false
 
@@ -205,7 +208,6 @@ module.exports = class Game
       else if @keyInput.rtHeld
         @keyInput.rtHeld = false
         @inventory.keyPress "right"
-
 
     # Displaying the map should be done independently of everything else, as it is just a hold-to-show thing.
     # You want to be able to see the map while moving
