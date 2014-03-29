@@ -160,7 +160,10 @@ module.exports = class Player extends Character
     d < max # return true if d < 200 else false
 
   # Am I facing in the right direction to interact?
-  isFacing: (v) =>
+  isFacing: (them) =>
+    v =
+      x: @x - them.x
+      y: @y - them.y
     angle = Math.abs(Math.atan(v.y/v.x) * 180 / Math.PI)
     (@facing is 3 and v.x < 0  and (0 < angle < 60)) or
       (@facing is 2 and v.x > 0 and (0 < angle < 60)) or

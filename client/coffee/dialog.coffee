@@ -22,7 +22,7 @@ class DialogManager
   createBox: (pos) ->
     @box = new createjs.Shape()
     @box.graphics.beginStroke("#000")
-    @box.graphics.beginFill("#51D9FF")
+    @box.graphics.beginFill("papayawhip")
     @box.graphics.setStrokeStyle(2)
     @box.snapToPixel = true
     @box.graphics.drawRect(pos.x, pos.y, @w, @h)

@@ -33,7 +33,7 @@ module.exports = [
       ]
     id: 90
     pos:
-      x: 7800
+      x: 7896
       y: 8860
     sprite: "signSprite"
   }
@@ -46,7 +46,7 @@ module.exports = [
       ]
     id: 91
     pos:
-      x: 7920
+      x: 8016
       y: 6650
     sprite: "signSprite"
   }
@@ -59,7 +59,7 @@ module.exports = [
       ]
     id: 92
     pos:
-      x: 8700
+      x: 8796
       y: 4300
     sprite: "signSprite"
   }
@@ -72,8 +72,8 @@ module.exports = [
       ]
     id: 93
     pos:
-      x: 8550
-      y: 1500
+      x: 8646
+      y: 1596
     sprite: "signSprite"
   }
 
@@ -85,7 +85,7 @@ module.exports = [
       ]
     id: 94
     pos:
-      x: 1660
+      x: 1756
       y: 5600
     sprite: "signSprite"
   }
@@ -100,7 +100,7 @@ module.exports = [
       ]
     id: 4
     pos:
-      x: 8570
+      x: 8666
       y: 8600
     sprite: "signSprite"
   }
@@ -113,7 +113,7 @@ module.exports = [
       ]
     id: 5
     pos:
-      x: 5740
+      x: 5836
       y: 220
     sprite: "barrelSprite"
   }
@@ -138,7 +138,7 @@ module.exports = [
       ]
     id: 6
     pos:
-      x: 4050
+      x: 4146
       y: 3820
     sprite: "blank"
     size:
@@ -155,7 +155,7 @@ module.exports = [
       ]
     id: 8
     pos:
-      x: 3120
+      x: 3216
       y: 8940
   }
 
@@ -167,7 +167,7 @@ module.exports = [
       ]
     id: 9
     pos:
-      x: 1000
+      x: 1096
       y: 400
   }
 
@@ -179,7 +179,7 @@ module.exports = [
       ]
     id: 7
     pos:
-      x: 4850
+      x: 4946
       y: 8600
     sprite: "signSprite"
   }
