@@ -24,7 +24,9 @@ module.exports = class Game
 
     @currentQuest = null
 
-    @objectsInteractedWith = []
+    @itemsInteractedWith = []
+    @charsInteractedWith = []
+    @monstersInteractedWith = []
 
   init: () =>
     @img = document.createElement('img')
@@ -79,11 +81,11 @@ module.exports = class Game
 
     @keyInput.reset()
 
-    for i in [0..0] by 1
+    for i in [0..1] by 1
 
       playerPos =
-        x: Math.random()*@canvas.width
-        y: Math.random()*@canvas.height
+        x: 9000
+        y: 9000
 
       while 950 <= playerPos.x <= 1450
         playerPos.x = Math.random()*@canvas.width
@@ -91,15 +93,15 @@ module.exports = class Game
       color = Math.floor(Math.random() * 5)
       switch color
         when 0
-          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterRedSprite), @stage)), (new createjs.Container())
+          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterRedSprite), @)), (new createjs.Container())
         when 1
-          monster = _.extend (new Monster(_.clone(@monster2Sprite), _.clone(@monsterRed2Sprite), @stage)), (new createjs.Container())
+          monster = _.extend (new Monster(_.clone(@monster2Sprite), _.clone(@monsterRed2Sprite), @)), (new createjs.Container())
         when 2
-          monster = _.extend (new Monster(_.clone(@monster3Sprite), _.clone(@monsterRed3Sprite), @stage)), (new createjs.Container())
+          monster = _.extend (new Monster(_.clone(@monster3Sprite), _.clone(@monsterRed3Sprite), @)), (new createjs.Container())
         when 3
-          monster = _.extend (new Monster(_.clone(@monster4Sprite), _.clone(@monsterRed4Sprite), @stage)), (new createjs.Container())
+          monster = _.extend (new Monster(_.clone(@monster4Sprite), _.clone(@monsterRed4Sprite), @)), (new createjs.Container())
         when 4
-          monster = _.extend (new Monster(_.clone(@monster5Sprite), _.clone(@monsterRed5Sprite), @stage)), (new createjs.Container())
+          monster = _.extend (new Monster(_.clone(@monster5Sprite), _.clone(@monsterRed5Sprite), @)), (new createjs.Container())
 
       monster.init(playerPos,@bloodSprite)
       @stage.addChild monster
@@ -130,7 +132,13 @@ module.exports = class Game
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
 
   itemClick: (item) =>
-    @objectsInteractedWith.push item
+    @itemsInteractedWith.push item
+
+  characterClick: (char) =>
+    @charsInteractedWith.push char
+
+  monsterClick: (monster) =>
+    @monstersInteractedWith.push monster
 
   tick: (event) =>
     keys = []
@@ -140,11 +148,16 @@ module.exports = class Game
       @stage.removeChild @questArrow
       @questArrow = null
 
-
-    if (item = (@objectsInteractedWith.splice 0, 1)[0])? and @player.checkItemDistance(item)
+    if (item = (@itemsInteractedWith.splice 0, 1)[0])? and @player.checkDistance(item, 200)
       Inventory.items.push item.id
       @inventory.refresh()
       @stage.removeChild item
+
+    if (char = (@charsInteractedWith.splice 0, 1)[0])? and @player.checkDistance(char, 300)
+      @startDialog char.getDialog()
+
+    if (monster = (@monstersInteractedWith.splice 0, 1)[0])? and @player.checkDistance(monster, 300)
+      @player.damageBunny monster
 
     # If the user is 'doing something' dont let them do anything else..
     if not @IN_DIALOG and not @IN_INVENTORY
@@ -156,13 +169,7 @@ module.exports = class Game
 
       moving = @player.accelerate keys
 
-      # Check if the user is interacting with anythin (for right now just NPCs)
-      if @keyInput.actionHeld
-        @player.accelerate []
-        @player.checkNPCActions @npcs
-
       if @keyInput.spaceHeld
-        @player.punch()
         @keyInput.spaceHeld = false
 
       if @keyInput.iHeld

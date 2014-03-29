@@ -140,32 +140,7 @@ module.exports = class Player extends Character
       child.dying = true
       child.kill()
 
-  checkNPCActions: (npcs) =>
-    # We are going from the CENTERS of the characters
-    me =
-      x: @x + @width/2
-      y: @y + @height/2
-
-    for npc in npcs
-      them =
-        x: npc.x + npc.width/2
-        y: npc.y + npc.height/2
-
-      # Vector from me to them
-      v =
-        x: me.x - them.x
-        y: me.y - them.y
-
-      # Distance between centers
-      d = Math.sqrt(v.x*v.x + v.y*v.y)
-
-      if d < 150 or (d < 300 and @isFacing(v)) # Random number
-
-        if (dialog = npc.getDialog())
-          @startDialog npc.getDialog()
-          break
-
-  checkItemDistance: (item) =>
+  checkDistance: (item, max) =>
     me =
       x: @x + @width/2
       y: @y + @height/2
@@ -182,7 +157,7 @@ module.exports = class Player extends Character
 
     # Distance between centers
     d = Math.sqrt(v.x*v.x + v.y*v.y)
-    d < 200 # return true if d < 200 else false
+    d < max # return true if d < 200 else false
 
   # Am I facing in the right direction to interact?
   isFacing: (v) =>

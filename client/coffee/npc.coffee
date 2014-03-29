@@ -8,6 +8,7 @@ module.exports = class NPC extends Character
       questionSprite
       exclamationSprite
       playerSprite
+      @characterClick
     } = @delegate
 
     @questionSprite = _.clone questionSprite
@@ -21,6 +22,8 @@ module.exports = class NPC extends Character
     super data.pos
     @id = data.id
     @dialogs = data.dialogs
+
+    @on 'click', _.partial @characterClick, @
 
   # Figure out which dialog this person whould show.
   getDialog: () =>

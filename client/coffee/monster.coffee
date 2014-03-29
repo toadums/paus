@@ -3,12 +3,18 @@ NPC = require 'coffee/npc'
 Level = require 'coffee/level'
 
 module.exports = class Monster extends Character
-  constructor: (sprite, @hitsprite, @stage) ->
+  constructor: (sprite, @hitsprite, @delegate) ->
+    {
+      @stage
+      @monsterClick
+    } = @delegate
+
     @regsprite = _.clone(sprite)
-    super sprite
+    super @regsprite
     @tickCount = 0
     @waitCount = 0
     @dying = false
+
 
   init: (@pos,blood) =>
     @bloodSprite = blood
@@ -29,6 +35,8 @@ module.exports = class Monster extends Character
           @playerBody.gotoAndPlay "right"
     @life = 2
 
+    @on 'click', _.partial @monsterClick, @
+
   hit: (direction) =>
     #do hit here
 
@@ -44,7 +52,7 @@ module.exports = class Monster extends Character
     if @dying
       @playerBody.spriteSheet = @bloodSprite
       return false
-    
+
     @tickCount++
 
     if @waitCount > 0
