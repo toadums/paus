@@ -64,6 +64,7 @@ module.exports = class Game
   restart: =>
     #hide anything on stage
     @stage.removeAllChildren()
+
     #ensure stage is blank and add the ship
     @stage.clear()
     @stage.x = -8000
@@ -80,6 +81,8 @@ module.exports = class Game
     window.p = @player
 
     @keyInput.reset()
+
+    @stage.on 'click', @player.goto
 
     for i in [0..1] by 1
 

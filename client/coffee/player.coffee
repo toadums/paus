@@ -23,6 +23,14 @@ module.exports = class Player extends Character
     @x = x
     @y = y
 
+  goto: (ev) =>
+    x = -@stage.x + ev.stageX
+    y = -@stage.y + ev.stageY
+
+    @gotoPos =
+      x: x
+      y: y
+
   init: (pos) =>
     super pos
 
@@ -190,16 +198,47 @@ module.exports = class Player extends Character
       (@facing is 1 and v.y < 0 and (60 < angle < 120))
 
   accelerate: (keys) =>
-    @vX = 0
-    @vY = 0
-    latestKey = false
 
-    keys.forEach (key) =>
-      @vX += -@MAX_VELOCITY if key is "left"
-      @vX += @MAX_VELOCITY if key is "right"
-      @vY += -@MAX_VELOCITY if key is "up"
-      @vY += @MAX_VELOCITY if key is "down"
-      latestKey = key
+    if not keys.length and not @gotoPos
+      @latestKey = false
+      @vX = 0
+      @vY = 0
+
+    else if keys.length
+      @gotoPos = null
+      @vX = 0
+      @vY = 0
+      latestKey = false
+
+      keys.forEach (key) =>
+        @vX += -@MAX_VELOCITY if key is "left"
+        @vX += @MAX_VELOCITY if key is "right"
+        @vY += -@MAX_VELOCITY if key is "up"
+        @vY += @MAX_VELOCITY if key is "down"
+        latestKey = key
+
+    else
+      v =
+        x: @gotoPos.x - (@x + @width/2)
+        y: @gotoPos.y - @y
+
+      if Math.abs(v.x) <= 10 and Math.abs(v.y) <= 10
+        @vX = 0
+        @vY = 0
+        @gotoPos = null
+      else
+
+        vl = Math.sqrt(v.x*v.x + v.y*v.y)
+
+        @vX =  (v.x / vl * @MAX_VELOCITY) | 0
+        @vY =  (v.y / vl * @MAX_VELOCITY) | 0
+
+        latestKey = if Math.abs(@vX) > Math.abs(@vY)
+          if @vX > 0 then 'right'
+          else 'left'
+        else
+          if @vY > 0 then 'down'
+          else 'up'
 
     switch latestKey
       when "left"
