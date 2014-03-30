@@ -24,6 +24,7 @@ module.exports = class NPC extends Character
     @dialogs = data.dialogs
 
     @on 'click', _.partial @characterClick, @
+    @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/2)*(@height/2))
 
   # Figure out which dialog this person whould show.
   getDialog: () =>

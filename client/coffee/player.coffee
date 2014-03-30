@@ -16,7 +16,7 @@ module.exports = class Player extends Character
 
     super sprite
 
-    @MAX_VELOCITY = 50
+    @MAX_VELOCITY = 20
     @lastKey
 
   moveTo: (x, y) =>
@@ -31,6 +31,7 @@ module.exports = class Player extends Character
     @facing = 3 #0 - up, 1 - down, 2 - left, 3 - right
     @health = 10
     @recentlyHit = false
+    @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/4)*(@height/4))
 
   tick: (event, level) =>
 
@@ -84,6 +85,9 @@ module.exports = class Player extends Character
         left: child.x
         right: child.x + child.width
         bottom: child.y + child.height
+        width: child.width
+        height: child.height
+        diagonalHeight: child.diagonalHeight
       dir = @collide data, vel
 
     return dir

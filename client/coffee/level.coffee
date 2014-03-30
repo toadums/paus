@@ -96,6 +96,8 @@ module.exports = class Level
           cellSprite.height = 96
           cellSprite.width = 96
 
+          cellSprite.diagonalHeight = Math.sqrt(cellSprite.height*cellSprite.height + cellSprite.width*cellSprite.width)
+
           cellSprite.hit = if layerData.properties.hit is "true" then true else false
           cellSprite.type = 'tile'
           #@stage.addChild cellSprite

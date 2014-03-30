@@ -2,7 +2,6 @@ module.exports = class Character
   constructor: (sprite) ->
 
     @playerBody = sprite
-
   init: (pos) =>
     @addChild @playerBody
 
@@ -23,30 +22,31 @@ module.exports = class Character
       whore: false
       green: false
 
-    # if them.right >= left and (top <= them.top <= bottom or top <= them.bottom <= bottom) and not (them.left >= right) and not (top > them.bottom) and not (bottom < them.top)
-    #   collision.whore = true
-    # if them.top <= bottom and (left <= them.left <= right or left <= them.right <= right) and not (them.bottom <= top)
-    #   collision.green = true
+    r = them.right - left
+    l = them.left - right
+    t = them.top - bottom
+    b = them.bottom - top
 
-    if ((right >= them.left and right <= them.right) and (top >= them.top and top <= them.bottom)) or
-      ((left >= them.left and left <= them.right) and (top >= them.top and top <= them.bottom)) or
-      ((right >= them.left and right <= them.right) and (bottom >= them.top and bottom <= them.bottom)) or
-      ((left >= them.left and left <= them.right) and (bottom >= them.top and bottom <= them.bottom)) or
+    themCenter =
+      x: them.left + (them.right-them.left) / 2
+      y: them.top + (them.bottom-them.top) / 2
 
-      ((them.right >= left and them.right <= right) and (them.top >= top and them.top <= bottom)) or
-      ((them.left >= left and them.left <= right) and (them.top >= top and them.top <= bottom)) or
-      ((them.right >= left and them.right <= right) and (them.bottom >= top and them.bottom <= bottom)) or
-      ((them.left >= left and them.left <= right) and (them.bottom >= top and them.bottom <= bottom))
+    meCenter =
+      x: left + (@width/2)
+      y: bottom - (@height/4)
 
+    v =
+      x: themCenter.x - meCenter.x
+      y: themCenter.y - meCenter.y
 
-        if right >= them.left and vel.x > 0 and left <= them.left
+    if Math.sqrt(v.x*v.x + v.y*v.y) <= @diagonalHeight + them.diagonalHeight
+
+      if not (them.top <= top and them.bottom - @MAX_VELOCITY <= top) and not (them.bottom >= bottom and them.top + @MAX_VELOCITY >= bottom)
+        if (r * vel.x < 0) and (v.x * vel.x > 0) or (l * vel.x < 0) and (v.x * vel.x > 0)
           collision.whore = true
-        else if left <= them.right and vel.x < 0 and right >= them.right
-          collision.whore = true
 
-        if top <= them.bottom and vel.y < 0 and bottom >= them.bottom
-          collision.green = true
-        else if bottom >= them.top and vel.y > 0 and top <= them.top
+      if not (them.left <= left and them.right - @MAX_VELOCITY <= left) and not (them.right >= right and them.left + @MAX_VELOCITY >= right)
+        if (t * vel.y < 0) and (v.y * vel.y > 0) or (b * vel.y < 0) and (v.y * vel.y > 0)
           collision.green = true
 
 

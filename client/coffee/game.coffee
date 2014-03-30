@@ -81,7 +81,7 @@ module.exports = class Game
 
     @keyInput.reset()
 
-    for i in [0..1000] by 1
+    for i in [0..1] by 1
 
       playerPos =
         x: Math.random() * 9600

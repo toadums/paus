@@ -15,6 +15,7 @@ module.exports = class Monster extends Character
     @tickCount = 0
     @waitCount = 0
     @dying = false
+    @MAX_VELOCITY = 20
 
 
   init: (@pos,blood) =>
@@ -37,7 +38,7 @@ module.exports = class Monster extends Character
     @life = 2
 
     @on 'click', _.partial @monsterClick, @
-
+    @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/2)*(@height/2))
   hit: (direction) =>
     #do hit here
 
@@ -114,7 +115,7 @@ module.exports = class Monster extends Character
         @facing = Math.floor(Math.random() * 4)
       else
         @facing = randomDirArr[Math.floor(Math.random()*randomDirArr.length)]
-        
+
       switch @facing
         when 0
           if @playerBody.currentAnimation? isnt "up"
