@@ -7,6 +7,7 @@ module.exports = class Monster extends Character
     {
       @stage
       @monsterClick
+      @player
     } = @delegate
 
     @regsprite = _.clone(sprite)
@@ -47,6 +48,18 @@ module.exports = class Monster extends Character
     @playerBody.spriteSheet = _.clone(@bloodSprite)
     @playerBody.gotoAndPlay "left_idle"
 
+  lineDistance: (point1, point2) =>
+    xs = 0
+    ys = 0
+
+    xs = point2.x - point1.x
+    xs = xs * xs
+
+    ys = point2.y - point1.y
+    ys = ys * ys
+
+    return Math.sqrt( xs + ys )
+
 
   tick: (event, level) =>
     if @dying
@@ -83,9 +96,25 @@ module.exports = class Monster extends Character
         when 3
           @playerBody.gotoAndPlay "right_idle"
 
+    randomDirArr = []
+
+    if @player.x > @x
+      randomDirArr.push 3
+    else
+      randomDirArr.push 2
+
+    if @player.y > @y
+      randomDirArr.push 1
+    else
+      randomDirArr.push 0
+
 
     if(@tickCount % Math.floor(Math.random() * 50) is 0)
-      @facing = Math.floor(Math.random() * 4)
+      if (@lineDistance {x:@player.x, y:@player.y}, {x:@x,y:@y}) > 2500
+        @facing = Math.floor(Math.random() * 4)
+      else
+        @facing = randomDirArr[Math.floor(Math.random()*randomDirArr.length)]
+        
       switch @facing
         when 0
           if @playerBody.currentAnimation? isnt "up"
