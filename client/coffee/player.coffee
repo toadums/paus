@@ -199,13 +199,15 @@ module.exports = class Player extends Character
 
   accelerate: (keys) =>
 
+    # If there are no mouse buttons held and no keys, player better not be mocing
     if not keys.length and not @gotoPos
       @latestKey = false
       @vX = 0
       @vY = 0
 
+    # A key is held
     else if keys.length
-      @gotoPos = null
+      @gotoPos = null # Clear the last clicked pos if a key is pressed. keys have higher precedence
       @vX = 0
       @vY = 0
       latestKey = false
@@ -216,23 +218,29 @@ module.exports = class Player extends Character
         @vY += -@MAX_VELOCITY if key is "up"
         @vY += @MAX_VELOCITY if key is "down"
         latestKey = key
-
+    # Mouse hold
     else
+
+      # Vector from center of character to where we clicked
       v =
         x: @gotoPos.x - (@x + @width/2)
-        y: @gotoPos.y - @y
+        y: @gotoPos.y - (@y + @height/2)
 
+      # We hit our target!!! At least almost :)
       if Math.abs(v.x) <= 10 and Math.abs(v.y) <= 10
         @vX = 0
         @vY = 0
         @gotoPos = null
+
       else
 
         vl = Math.sqrt(v.x*v.x + v.y*v.y)
 
-        @vX =  (v.x / vl * @MAX_VELOCITY) | 0
+        # Normalize the vector, and multiply each part by max velocity so the guy moves that direction
+        @vX =  (v.x / vl * @MAX_VELOCITY) | 0 # Bitwise shift by 0 bits is apparently faster than Math.floor - thanks @mattfik
         @vY =  (v.y / vl * @MAX_VELOCITY) | 0
 
+        # Figure out which way we want the sprite to point based on which velocity has more pull
         latestKey = if Math.abs(@vX) > Math.abs(@vY)
           if @vX > 0 then 'right'
           else 'left'
