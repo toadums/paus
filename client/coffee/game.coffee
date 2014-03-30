@@ -76,19 +76,15 @@ module.exports = class Game
     @player = _.extend (new Player @), (new createjs.Container())
     @player.init(playerPos)
     @level = new Level @
-
     window.p = @player
 
     @keyInput.reset()
 
-    for i in [0..50] by 1
+    for i in [0..1000] by 1
 
       playerPos =
-        x: 9000
-        y: 9000
-
-      while 950 <= playerPos.x <= 1450
-        playerPos.x = Math.random()*@canvas.width
+        x: Math.random() * 9600
+        y: Math.random() * 9600
 
       color = Math.floor(Math.random() * 5)
       switch color
@@ -170,7 +166,7 @@ module.exports = class Game
       moving = @player.accelerate keys
 
       if moving
-        @level.checkDiv @player.x, @player.y
+        @level.checkDiv()
 
       if @keyInput.spaceHeld
         @keyInput.spaceHeld = false

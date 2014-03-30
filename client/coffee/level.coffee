@@ -25,11 +25,13 @@ module.exports = class Level
     x = @currentDiv.x = Math.floor(@stage.x*-1 / perDiv) % @numDivs
     y = @currentDiv.y = Math.floor(@stage.y*-1 / perDiv) % @numDivs
 
-
+    # hide every container
+    ## This needs to change in the future
     for i in [0...@numDivs]
       for j in [0...@numDivs]
         @divs[i][j].visible = false
 
+    # Show every container currently on the screen
     for i in [0..Math.ceil(@stage.canvas.width/perDiv)]
       for j in [0..Math.ceil(@stage.canvas.height/perDiv)]
         if x + i < @numDivs and y + j < @numDivs
