@@ -37,7 +37,7 @@ module.exports = class Monster extends Character
           @playerBody.gotoAndPlay "right"
     @life = 2
 
-    @on 'click', _.partial @monsterClick, @
+    @on 'click', _.partial @monsterClick, @, _
     @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/2)*(@height/2))
   hit: (direction) =>
     #do hit here

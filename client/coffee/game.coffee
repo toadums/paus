@@ -131,14 +131,17 @@ module.exports = class Game
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
 
-  itemClick: (item) =>
+  itemClick: (item, data, ev) =>
     @itemsInteractedWith.push item
+    ev.stopPropagation()
 
-  characterClick: (char) =>
+  characterClick: (char, data, ev) =>
     @charsInteractedWith.push char
+    ev.stopPropagation()
 
-  monsterClick: (monster) =>
+  monsterClick: (monster, data, ev) =>
     @monstersInteractedWith.push monster
+    ev.stopPropagation()
 
   tick: (event) =>
     keys = []
@@ -152,6 +155,7 @@ module.exports = class Game
       Inventory.items.push item.id
       @inventory.refresh()
       @stage.removeChild item
+      item.visible = false
 
     if (char = (@charsInteractedWith.splice 0, 1)[0])? and @player.checkDistance(char, 300)
       @startDialog char.getDialog()

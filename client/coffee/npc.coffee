@@ -23,7 +23,7 @@ module.exports = class NPC extends Character
     @id = data.id
     @dialogs = data.dialogs
 
-    @on 'click', _.partial @characterClick, @
+    @on 'click', _.partial @characterClick, @, _
     @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/2)*(@height/2))
 
   # Figure out which dialog this person whould show.

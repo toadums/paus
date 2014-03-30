@@ -103,7 +103,7 @@ module.exports = class Level
           #@stage.addChild cellSprite
 
           if data - 1 in @tilepropsKeys
-            cellSprite.on 'click', _.partial @itemClick, cellSprite
+            cellSprite.on 'click', _.partial @itemClick, cellSprite, _
             cellSprite.type = @tileprops[(data - 1).toString()].type
             cellSprite.id = 352
 
