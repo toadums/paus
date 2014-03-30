@@ -33,6 +33,7 @@ module.exports = class Game
     @img.src = '/images/map.png';
 
     @canvas = document.getElementById("gameCanvas")
+    @canvas.onselectstart = () -> false
     @stage = new createjs.Stage(@canvas)
     @dialogManager = new DialogManager @
     @inventory = new Inventory @
