@@ -65,7 +65,7 @@ module.exports = class Player extends Character
           2000
         )
 
-      if dir.whore or dir.green
+      if dir.whore and dir.green
         break
 
     if not horizCollision
