@@ -75,4 +75,20 @@ module.exports = [
     src: "images/blank.png"
     id: "blank"
   }
+  {
+    src: "images/trap.png"
+    id: "trap"
+  }
+  {
+    src: "images/noitem.png"
+    id: "noitem"
+  }
+  {
+    src: "images/amplifier.png"
+    id: "amplifier"
+  }
+  {
+    src: "images/carrot.png"
+    id: "carrot"
+  }
 ]

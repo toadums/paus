@@ -73,6 +73,7 @@ class DialogManager
         @dialog.enterPress()
       when "esc"
         @dialog.close()
+        @endAction()
 
 # Simple dialog with yes/no buttons
 class Controls

@@ -16,7 +16,7 @@ module.exports = class Player extends Character
 
     super sprite
 
-    @MAX_VELOCITY = 20
+    @MAX_VELOCITY = 150
     @lastKey
 
   moveTo: (x, y) =>

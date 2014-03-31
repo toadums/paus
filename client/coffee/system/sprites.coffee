@@ -404,6 +404,79 @@ blankSprite = (loader, x, y) ->
   blankSprite.framerate = 10
   blankSprite
 
+trapSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("trap")]
+    frames:
+      regX: 0
+      height: 96
+      count: 1
+      regY: 0
+      width: 96
+
+    animations:
+      default: [0, 0]
+  )
+
+  trapSprite = new createjs.Sprite(data, "default")
+  trapSprite.framerate = 10
+  trapSprite
+
+noitemSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("noitem")]
+    frames:
+      regX: 0
+      height: 50
+      count: 1
+      regY: 0
+      width: 50
+
+    animations:
+      default: [0, 0]
+  )
+
+  noitemSprite = new createjs.Sprite(data, "default")
+  noitemSprite.framerate = 10
+  noitemSprite
+
+amplifierSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("amplifier")]
+    frames:
+      regX: 0
+      height: 96
+      count: 1
+      regY: 0
+      width: 96
+
+    animations:
+      default: [0, 0]
+  )
+
+  amplifierSprite = new createjs.Sprite(data, "default")
+  amplifierSprite.framerate = 10
+  amplifierSprite
+
+carrotSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("carrot")]
+    frames:
+      regX: 0
+      height: 50
+      count: 1
+      regY: 0
+      width: 50
+
+    animations:
+      default: [0, 0]
+  )
+
+  carrotSprite = new createjs.Sprite(data, "default")
+  carrotSprite.framerate = 10
+  carrotSprite
+
+
 module.exports =
   playerSprite: playerSprite
   exclamationSprite: exclamationSprite
@@ -423,3 +496,7 @@ module.exports =
   signSprite: signSprite
   barrelSprite: barrelSprite
   blankSprite: blankSprite
+  trapSprite: trapSprite
+  noitemSprite: noitemSprite
+  amplifierSprite: amplifierSprite
+  carrotSprite: carrotSprite

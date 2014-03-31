@@ -23,6 +23,7 @@ module.exports = [
   {
     id: 351
     name: "Bunny Remote"
+    type: "remote"
     description: "Not sure how to turn this thing on....Maybe I should find a power source"
   }
   {

@@ -73,7 +73,7 @@ module.exports = class Inventory
 
     for i in [0..Inventory.items.length - 1] by 1
       item = Inventory.items[i]
-      @shownItems.push new Item(@pos, @stage, item, i)
+      @shownItems.push new Item(@pos, @stage, item, i, @delegate)
 
     @shownItems[@selected].changeColor('tomato')
 
@@ -87,6 +87,7 @@ module.exports = class Inventory
     @stage.removeChild(line) for line in @lines
     @lines = []
     @open = false
+
   keyPress: (key) =>
     switch key
       when "esc"
@@ -106,7 +107,7 @@ module.exports = class Inventory
           @createText()
 
   class Item
-    constructor: (pos, @stage, item, i) ->
+    constructor: (pos, @stage, item, i, @delegate) ->
 
       # w and h better be factors of inventory.w/h
       @w = 50
@@ -119,18 +120,29 @@ module.exports = class Inventory
         x: pos.x + i*@w + 7
         y: pos.y + 7
 
-      @box = new createjs.Shape()
-      @box.graphics.beginStroke('black')
-      @box.graphics.beginFill("white")
-      @box.graphics.setStrokeStyle(2)
-      @box.snapToPixel = true
-      @box.graphics.drawRect(@pos.x, @pos.y, @w, @h)
+      spriteName = if (t = @data.type) then "#{t}Sprite" else "noitemSprite"
+      sprite = _.clone(@delegate[spriteName] or @delegate.noitemSprite)
+      @box = sprite
+      @box.x = @pos.x
+      @box.y = @pos.y
+      @box.scaleX = @w/sprite.spriteSheet._frameHeight
+      @box.scaleY = @h/sprite.spriteSheet._frameWidth
+
       @stage.addChild @box
 
+      @mask = new createjs.Shape()
+      @mask.graphics.beginStroke('black')
+      @mask.graphics.setStrokeStyle(2)
+      @mask.snapToPixel = true
+      @mask.graphics.drawRect(@pos.x, @pos.y, @w, @h)
+
+      @stage.addChild @mask
+
     changeColor: (color) ->
-      @stage.removeChild @box
-      @box.graphics.beginStroke(color)
-      @box.graphics.drawRect(@pos.x, @pos.y, @w, @h)
-      @stage.addChild @box
+      @stage.removeChild @mask
+      @mask.graphics.beginStroke(color)
+      @mask.graphics.drawRect(@pos.x, @pos.y, @w, @h)
+      @stage.addChild @mask
     close: ->
       @stage.removeChild @box
+      @stage.removeChild @mask
