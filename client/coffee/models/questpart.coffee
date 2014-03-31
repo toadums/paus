@@ -5,3 +5,4 @@ module.exports = class Marker
     @done = false
     @npc = data.npc
     @onComplete = data.onComplete
+    @condition = data.cond

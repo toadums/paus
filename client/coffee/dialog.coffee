@@ -126,7 +126,9 @@ class Controls
       next = action.value
 
       @close()
-      return unless next
+      if not next
+        @endAction()
+        return
 
       @showDialog next
     # Start a quest!!
@@ -141,10 +143,18 @@ class Controls
     # Complete a quest part
     else if action.type is 'questpart'
       if (quest = Collections.findModel action.value.quest)?
-        quest.completePart action.value.part
+        partComplete = quest.completePart action.value.part
+        next = if partComplete then action.value.success else action.value.fail
+        @close()
 
-      @close()
-      @endAction()
+        if not next
+          @endAction()
+        else
+          @showDialog next
+
+      else
+        @close()
+        @endAction()
     else
       @close()
       @endAction()

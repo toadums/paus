@@ -17,7 +17,9 @@ module.exports = class Quest
   completePart: (part) =>
     return unless @inProgress
     part = @getPart part
-    return if @checkPartStatus part
+    passed = @checkPartStatus part
+
+    return false unless passed
 
     part.done = true
     @state = part.pos + 1
@@ -33,6 +35,8 @@ module.exports = class Quest
       @inProgress = false
       @isComplete = true
 
+    true
+
   checkComplete: =>
     @inProgress and not (_.find @markers, (m) -> not m.done)?
 
@@ -40,8 +44,26 @@ module.exports = class Quest
     @inProgress = true
 
   checkPartStatus: (part) =>
-    return false unless @inProgress
-    not @ordered or @getPart(part)?.pos is @state
+    return false if not @inProgress
+
+    conditionPassed = true
+    if part.condition?
+      conditionPassed = @checkPartCondition part.condition
+
+    if not conditionPassed
+      return false
+    else if part.pos isnt @state
+      return false
+
+    true
+
+  isCurrentPart: (part) =>
+    @getPart(part)?.pos is @state
+
+  checkPartCondition: (cond) =>
+    switch cond.type
+      when 'inventory'
+        return (_.without cond.items, Inventory.items...).length is 0
 
   getPart: (id) =>
     _.find @markers, (m) => m.id is id

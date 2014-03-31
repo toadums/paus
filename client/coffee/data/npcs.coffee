@@ -125,6 +125,7 @@ module.exports = [
     dialogs:
       [
         {type: 'queststart', quest: 911, dialog: 161, state: 'hasquest'}
+        {type: 'questpart', quest: 911, part: 862, dialog: 174, state: 'return'}
       ]
     id: 6
     pos:
@@ -154,7 +155,6 @@ module.exports = [
   {
     dialogs:
       [
-        {type: 'questpart', quest: 911, part: 862, dialog: 174, state: 'return'}
         {type: 'else', dialog: 174}
       ]
     id: 9

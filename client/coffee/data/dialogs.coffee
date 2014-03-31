@@ -247,19 +247,52 @@ module.exports = [
 
   {
     id: 174
-    text: "Carrots... There is a pretty good chance you will die if you eat them"
+    text: "Oh, I see you found my note. Did you collect all of the items?"
     actions: [
       {
         type: 'questpart'
         text: "I better pick some."
-        value: {quest: 911, part: 862}
+        value: {quest: 911, part: 862, fail: 176, success: 177}
       }
       {
-        type: 'gameover'
-        text: "Eat Carrots #YOLO"
-        value: "You are not invicible, Protaggy.."
+        type: 'goto'
+        text: "What were they again?"
+        value: 175
       }
 
+    ]
+  }
+
+  {
+    id: 176
+    text: "You're just a hare shy of having all the items."
+    actions: [
+      {
+        type: 'done'
+        text: '*cringe*'
+      }
+    ]
+  }
+
+  {
+    id: 175
+    text: "The bunny remote, the signal amplier, the trap, and some carrots"
+    actions: [
+      {
+        type: 'done'
+        text: "Oh, right. Brb"
+      }
+    ]
+  }
+
+  {
+    id: 177
+    text: "Dude, you rock!"
+    actions: [
+      {
+        type: 'done'
+        text: "Yay"
+      }
     ]
   }
 

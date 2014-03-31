@@ -252,6 +252,7 @@ module.exports = class Game
     # Whenever the callstack is clear, re-calculate arrow position
     _.defer(
       (quest) =>
+
         return unless quest?
         return unless (partNPC = quest.markers[quest.state])?
         return unless (npc = _.find @npcs, (npc) => npc.id is partNPC.npc)?

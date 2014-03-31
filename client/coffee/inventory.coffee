@@ -30,7 +30,7 @@ module.exports = class Inventory
 
 
   createText: =>
-
+    return if @shownItems.length is 0
     # Add the name
     @stage.removeChild @name
     @name = new createjs.Text(@shownItems[@selected].data.name, "24px Arial", "black")
@@ -75,7 +75,7 @@ module.exports = class Inventory
       item = Inventory.items[i]
       @shownItems.push new Item(@pos, @stage, item, i, @delegate)
 
-    @shownItems[@selected].changeColor('tomato')
+    @shownItems[@selected]?.changeColor('tomato')
 
     @createText()
     @open = true
