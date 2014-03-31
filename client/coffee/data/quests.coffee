@@ -41,8 +41,7 @@ module.exports = [
     npc: 6
     ordered: false
     markers: [
-      { pos: 0, id: 861, description: "Get the remote", npc: 8, onComplete: {type: 'item', id: 351} }
-      { pos: 1, id: 862, description: "Carrots", npc: 9}
+      { pos: 0, id: 861, description: "Get the remote", npc: 8 }
     ]
   }
 

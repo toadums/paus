@@ -163,7 +163,8 @@ module.exports = class Game
       item.visible = false
 
     if (char = (@charsInteractedWith.splice 0, 1)[0])? and @player.checkDistance(char, 300)
-      @startDialog char.getDialog()
+      if (dialog = char.getDialog())?
+        @startDialog dialog
 
     if (monster = (@monstersInteractedWith.splice 0, 1)[0])? and @player.checkDistance(monster, 300)
       @player.damageBunny monster
