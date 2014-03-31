@@ -27,7 +27,21 @@ module.exports = [
   }
   {
     id: 352
+    type: 'carrot'
     name: "GMO Carrots"
     description: "I feel stronger just holding these carrots"
   }
+  {
+    id: 353
+    type: 'amplifier'
+    name: 'Signal Amplifier'
+    description: "Broadcast signals twice as far with this amplifier. Lifetime Guarentee!"
+  }
+  {
+    id: 354
+    type: 'trap'
+    name: 'Trap'
+    description: "A pretty un-futuristic trap."
+  }
+
 ]

@@ -1,3 +1,5 @@
+Items = require 'coffee/data/items'
+
 module.exports = class Level
   constructor: (@delegate) ->
     {
@@ -104,8 +106,10 @@ module.exports = class Level
 
           if data - 1 in @tilepropsKeys
             cellSprite.on 'click', _.partial @itemClick, cellSprite, _
-            cellSprite.type = @tileprops[(data - 1).toString()].type
-            cellSprite.id = 352
+            type = cellSprite.type = @tileprops[(data - 1).toString()].type
+
+            if (item = _.find Items, (i) -> i.type is type)?
+              cellSprite.id = item.id
 
           @divs[Math.floor(x / perDiv) % @numDivs]  ?= []
           @divs[Math.floor(x / perDiv) % @numDivs][Math.floor(y / perDiv) % @numDivs] ?= new createjs.Container()
@@ -126,22 +130,3 @@ module.exports = class Level
         @tileset = new Image()
         @tileset.src = @mapData.tilesets[0].image
         @tileset.onLoad = @initLayers()
-
-
-  # @collide: (them, tile) ->
-  #   return {} unless tile.hit is "true"
-  #   top = tile.y
-  #   left = tile.x
-  #   right = tile.x + tile.spriteSheet._frameWidth
-  #   bottom = tile.y + tile.spriteSheet._frameHeight
-
-  #   collision =
-  #     whore: false
-  #     green: false
-
-  #   if them.right >= left and (top <= them.top <= bottom or top <= them.bottom <= bottom) and not (them.left >= right)
-  #     collision.whore = true
-  #   if them.top <= bottom and (left <= them.left <= right or left <= them.right <= right) and not (them.bottom <= top)
-  #     collision.green = true
-
-  #   collision
