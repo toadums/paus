@@ -91,4 +91,12 @@ module.exports = [
     src: "images/carrot.png"
     id: "carrot"
   }
+  {
+    src: "images/remote.png"
+    id: "remote"
+  }
+  {
+    src: "images/note.png"
+    id: "note"
+  }
 ]

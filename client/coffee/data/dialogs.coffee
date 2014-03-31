@@ -223,7 +223,7 @@ module.exports = [
 
   {
     id: 172
-    text: "Congratulations! You found the deactivator. This will serve you well. But, if you really want to defeat the bunnies, you must deactivate them all at once. "
+    text: "The deactivator is hidden behind some grass below this note. It will serve you well. But, if you really want to defeat the bunnies, you must deactivate them all at once. "
     actions: [
       {
         type: "goto"

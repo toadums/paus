@@ -145,8 +145,9 @@ module.exports = [
       ]
     id: 8
     pos:
-      x: 3216
-      y: 8940
+      x: 3200
+      y: 9000
+    sprite: "noteSprite"
   }
 
   ## Sign to pick carrots
@@ -154,11 +155,13 @@ module.exports = [
     dialogs:
       [
         {type: 'questpart', quest: 911, part: 862, dialog: 174, state: 'return'}
+        {type: 'else', dialog: 174}
       ]
     id: 9
     pos:
-      x: 7100
-      y: 2950
+      x: 7180
+      y: 2930
+    sprite: "noteSprite"
   }
 
 

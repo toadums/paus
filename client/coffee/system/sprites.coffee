@@ -476,6 +476,41 @@ carrotSprite = (loader, x, y) ->
   carrotSprite.framerate = 10
   carrotSprite
 
+remoteSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("remote")]
+    frames:
+      regX: 0
+      height: 50
+      count: 1
+      regY: 0
+      width: 50
+
+    animations:
+      default: [0, 0]
+  )
+
+  remoteSprite = new createjs.Sprite(data, "default")
+  remoteSprite.framerate = 10
+  remoteSprite
+
+noteSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("note")]
+    frames:
+      regX: 0
+      height: 96
+      count: 1
+      regY: 0
+      width: 96
+
+    animations:
+      default: [0, 0]
+  )
+
+  noteSprite = new createjs.Sprite(data, "default")
+  noteSprite.framerate = 10
+  noteSprite
 
 module.exports =
   playerSprite: playerSprite
@@ -500,3 +535,5 @@ module.exports =
   noitemSprite: noitemSprite
   amplifierSprite: amplifierSprite
   carrotSprite: carrotSprite
+  remoteSprite: remoteSprite
+  noteSprite: noteSprite

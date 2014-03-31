@@ -3,7 +3,7 @@
 # WORK IN PROGRESS. We need to figure out a better way. use containers
 
 module.exports = class Inventory
-  @items = [301, 302]
+  @items = []
   constructor: (@delegate) ->
     {
       @canvas
