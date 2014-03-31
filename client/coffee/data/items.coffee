@@ -16,8 +16,8 @@ module.exports = [
   {
 
     id: 300
-    name: "Stick"
-    description: "The most simple weapon ever. A stick. Whack Whack Whack"
+    name: "Sword"
+    description: "A sword named Turpin, the Bunny Slayer. Nobody is sure of the origin of this name.."
 
   }
   {

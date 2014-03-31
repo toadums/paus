@@ -3,7 +3,7 @@ Monster = require 'coffee/monster'
 Character = require 'coffee/character'
 Level = require 'coffee/level'
 Collections = require 'coffee/collections'
-
+Inventory = require 'coffee/inventory'
 module.exports = class Player extends Character
 
   # Static inventory. Should be refactored at a later date
@@ -154,7 +154,8 @@ module.exports = class Player extends Character
   # play that NPCs dialog
 
   damageBunny: (child) =>
-    child.life -= 1
+    dmg = if (_.contains Inventory.items, 300) then 2 else 1
+    child.life -= dmg
 
     child.playerBody.spriteSheet = child.hitsprite.spriteSheet
 
@@ -287,6 +288,19 @@ module.exports = class Player extends Character
 
     # Was the guy moving?
     return if @vX or @vY then true else false
+
+  spinAttack: () =>
+    for child in @stage.children
+      if child instanceof Monster
+        d =
+          x: child.x - @x
+          y: child.y - @y
+
+        d = Math.sqrt(d.x*d.x + d.y*d.y)
+
+        if d < 400
+          @damageBunny child
+
 
   lineDistance: (point1, point2) =>
     xs = 0
