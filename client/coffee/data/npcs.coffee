@@ -118,17 +118,7 @@ module.exports = [
     sprite: "barrelSprite"
   }
 
-  # ## The old man! (SEE HOLE)
-  # {
-  #   dialogs:
-  #     [
-  #       {type: 'queststart', quest: 911, dialog: 161, state: 'hasquest'}
-  #     ]
-  #   id: 6
-  #   pos:
-  #     x: 3700
-  #     y: 3700
-  # }
+
 
   ## The hole
   {
@@ -140,7 +130,7 @@ module.exports = [
     pos:
       x: 4146
       y: 3820
-    sprite: "blank"
+    sprite: "barrelSprite"
     size:
       x: 2
       y: 2
@@ -163,12 +153,12 @@ module.exports = [
   {
     dialogs:
       [
-        {type: 'questpart', quest: 911, part: 862, dialog: 173, state: 'return'}
+        {type: 'questpart', quest: 911, part: 862, dialog: 174, state: 'return'}
       ]
     id: 9
     pos:
-      x: 1096
-      y: 400
+      x: 7100
+      y: 2950
   }
 
 

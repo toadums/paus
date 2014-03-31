@@ -223,8 +223,19 @@ module.exports = [
 
   {
     id: 172
-    text: "Congratulations! You found the deactivator. This will serve you well. But, if you really want to defeat the bunnies, you must deactivate them all at once.
-          To do so, you will need carrots as bait. Also, a trap and the signal amplifier."
+    text: "Congratulations! You found the deactivator. This will serve you well. But, if you really want to defeat the bunnies, you must deactivate them all at once. "
+    actions: [
+      {
+        type: "goto"
+        text: "Hmm...."
+        value: 173
+      }
+    ]
+  }
+
+  {
+    id: 173
+    text: "To do so, you will need carrots as bait. Also, a trap and the signal amplifier. Go back to the old man after you get everything."
     actions: [
       {
         type: 'questpart'
@@ -235,17 +246,13 @@ module.exports = [
   }
 
   {
-    id: 173
+    id: 174
     text: "Carrots... There is a pretty good chance you will die if you eat them"
     actions: [
       {
         type: 'questpart'
-        text: "Pick Carrots"
+        text: "I better pick some."
         value: {quest: 911, part: 862}
-      }
-      {
-        type: 'done'
-        text: "Leave them"
       }
       {
         type: 'gameover'
@@ -255,5 +262,6 @@ module.exports = [
 
     ]
   }
+
 
 ]

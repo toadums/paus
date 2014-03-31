@@ -99,7 +99,7 @@ class Controls
       button.y = pos.y + @h - @padding
       button.textBaseline = "alphabetic"
 
-      button.addEventListener "click", _.partial(@handleNext, action)
+      button.addEventListener "click", _.partial @handleNext, action, _
       @buttons.push button
       @stage.addChild button
       i++
@@ -120,7 +120,7 @@ class Controls
     @buttons[@active].dispatchEvent('click')
 
   # Close the dialog when a yes/no button is hit
-  handleNext: (action) =>
+  handleNext: (action, data, ev) =>
     if action.type is 'goto'
       next = action.value
 
@@ -147,6 +147,8 @@ class Controls
     else
       @close()
       @endAction()
+
+    ev.stopPropagation()
 
   close: =>
     @stage.removeChild button for button in @buttons

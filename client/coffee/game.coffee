@@ -123,6 +123,7 @@ module.exports = class Game
       npc = _.extend (new NPC @, sprite), (new createjs.Container())
 
       npc.init(npcData)
+
       @stage.addChild npc
       @npcs.push npc
 
@@ -133,14 +134,18 @@ module.exports = class Game
 
   itemClick: (item, data, ev) =>
     @itemsInteractedWith.push item
-    ev.stopPropagation()
+    @objectClick ev
 
   characterClick: (char, data, ev) =>
     @charsInteractedWith.push char
-    ev.stopPropagation()
+    @objectClick ev
 
   monsterClick: (monster, data, ev) =>
     @monstersInteractedWith.push monster
+    @objectClick ev
+
+  objectClick: (ev) =>
+    @player.gotoPos = null
     ev.stopPropagation()
 
   tick: (event) =>
@@ -288,6 +293,7 @@ module.exports = class Game
     @dialogManager.showDialog dialog
 
   endAction: () =>
+    @player.gotoPos = null
     @IN_DIALOG = false
 
   endInventory: () =>
