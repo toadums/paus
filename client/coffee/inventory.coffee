@@ -3,7 +3,9 @@
 # WORK IN PROGRESS. We need to figure out a better way. use containers
 
 module.exports = class Inventory
-  @items = [300]
+  @items = []
+  @hasSword: -> _.contains Inventory.items, 300
+
   constructor: (@delegate) ->
     {
       @canvas

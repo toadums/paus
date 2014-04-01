@@ -171,6 +171,8 @@ module.exports = class Player extends Character
     else if Math.abs(v.x) < Math.abs(v.y) and v.y < 0  then "up_attack"
     else if Math.abs(v.x) < Math.abs(v.y) and v.y > 0  then "down_attack"
 
+    if Inventory.hasSword() then @attack += "_sword"
+
     child.playerBody.spriteSheet = child.hitsprite.spriteSheet
 
     revertSprite = () ->

@@ -4,7 +4,7 @@ playerSprite = (loader) ->
     frames:
       regX: 0
       height: 179
-      count: 88
+      count: 96
       regY: 0
       width: 134
 
@@ -13,14 +13,25 @@ playerSprite = (loader) ->
       right: [12, 14, "right"]
       down: [24, 26, "down"]
       left: [36, 38, "left"]
-      left_attack:
+
+      left_attack_sword:
         frames: [39, 55, 62, 62, 62]
-      right_attack:
+      right_attack_sword:
         frames: [5, 16, 62, 62, 62]
-      up_attack:
+      up_attack_sword:
         frames: [8, 18, 62, 62, 62]
-      down_attack:
+      down_attack_sword:
         frames: [30, 41, 62, 62, 62]
+
+      left_attack:
+        frames: [87, 88, 89]
+      right_attack:
+        frames: [63, 64, 65]
+      up_attack:
+        frames: [51, 52, 53]
+      down_attack:
+        frames: [75, 76, 77]
+
       left_idle: [37, 37]
       right_idle: [13, 13]
       up_idle: [1, 1]

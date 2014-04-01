@@ -85,7 +85,7 @@ module.exports = class Game
 
     @stage.on 'click', @player.goto
 
-    for i in [0..1000] by 1
+    for i in [0..500] by 1
 
       playerPos =
         x: Math.random() * 9600
@@ -249,7 +249,7 @@ module.exports = class Game
 
     @healthBar.graphics.clear()
     @healthBar.graphics.beginStroke("#000")
-    @healthBar.graphics.beginFill("rgb("+(255 - Math.floor(((@player.health / @player.healthMax)*255))) + ","+Math.floor(((@player.health/@player.healthMax)*255))+",0)")
+    @healthBar.graphics.beginFill("rgb("+(255 - Math.floor(((@player.health / @player.healthMax)*255))) + ","+Math.floor(((@player.health / @player.healthMax)*255))+",0)")
     @healthBar.graphics.setStrokeStyle(2)
     @healthBar.snapToPixel = true
     @healthBar.graphics.drawRect(@player.x - 77 + (300 - (300*(@player.health / @player.healthMax))) / 2 , @player.y, 300*(@player.health / @player.healthMax), 25)
