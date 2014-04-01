@@ -251,7 +251,7 @@ module.exports = [
     actions: [
       {
         type: 'questpart'
-        text: "I better pick some."
+        text: "Yep!"
         value: {quest: 911, part: 862, fail: 176, success: 177}
       }
       {
@@ -293,6 +293,23 @@ module.exports = [
         type: 'done'
         text: "Yay"
       }
+    ]
+  }
+
+  {
+    id: 178
+    text: "GMO'd Carrots. If you eat them you will most likely die"
+    actions: [
+      {
+        type: 'done'
+        text: "These might come in handy"
+      }
+      {
+        type: 'gameover'
+        text: "#yolo"
+        value: "lol"
+      }
+
     ]
   }
 

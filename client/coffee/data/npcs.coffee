@@ -155,7 +155,7 @@ module.exports = [
   {
     dialogs:
       [
-        {type: 'else', dialog: 174}
+        {type: 'else', dialog: 178}
       ]
     id: 9
     pos:

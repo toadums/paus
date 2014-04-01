@@ -65,7 +65,7 @@ module.exports = class Game
 
   spawnMonsters: =>
     # 1000 spawns around 600 bunnies
-    for i in [0..1000] by 1
+    for i in [0..800] by 1
 
       playerPos =
         x: Math.random() * 9600

@@ -67,7 +67,7 @@ module.exports = class Player extends Character
         @recentlyHit = true
         @health -= 1
         if @health <= 0
-          @gameover "You aren't invincible, antagonist!"
+          @gameover "You aren't invincible, protagonist!"
         setTimeout(
           () =>
             @recentlyHit = false
