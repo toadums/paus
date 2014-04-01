@@ -101,8 +101,9 @@ module.exports = class Game
 
     #ensure stage is blank and add the ship
     @stage.clear()
-    @stage.x = -8000
-    @stage.y = -9000
+    @stage.x = -(9600 - @stage.canvas.width)
+    @stage.y = -(9600 - @stage.canvas.height)
+
 
     playerPos =
       x: 8400
