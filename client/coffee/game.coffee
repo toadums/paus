@@ -113,7 +113,7 @@ module.exports = class Game
 
     @keyInput.reset()
 
-    @stage.on 'click', @player.goto
+    #@stage.on 'click', @player.goto
 
     @spawnMonsters()
     for npcData in _npcs
