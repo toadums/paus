@@ -16,6 +16,7 @@ module.exports = class Game
     @IN_ACTION = false
     @IN_INVENTORY = false
     @MAP_OPEN = false
+    @INTRO = true
 
     @GAME_OVER = false
 
@@ -169,6 +170,11 @@ module.exports = class Game
     ev.stopPropagation()
 
   tick: (event) =>
+    if @INTRO
+      if @keyInput.escHeld
+        @INTRO = false
+
+      return
 
     # Game over. Clear the stage and show the message set in @GAME_OVER
     if @GAME_OVER
@@ -231,6 +237,16 @@ module.exports = class Game
       if @keyInput.spaceHeld
         @player.punch()
 
+        # for monster in @monsters
+        #   v =
+        #     x: monster.x - @player.x
+        #     y: monster.y - @player.y
+        #
+        #   if Math.sqrt(v.x*v.x + v.y*v.y) < 200
+        #     @player.damageBunny monster
+        #     break
+        # @keyInput.spaceHeld = false
+        #
       if @keyInput.iHeld
         @player.accelerate []
         @IN_INVENTORY = true
