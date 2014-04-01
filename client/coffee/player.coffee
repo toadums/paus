@@ -16,7 +16,7 @@ module.exports = class Player extends Character
 
     super sprite
 
-    @MAX_VELOCITY = 150
+    @MAX_VELOCITY = 20
     @lastKey
 
   moveTo: (x, y) =>
@@ -37,7 +37,8 @@ module.exports = class Player extends Character
     @vX = 0
     @vY = 0
     @facing = 3 #0 - up, 1 - down, 2 - left, 3 - right
-    @health = 10
+    @health = 15
+    @healthMax = 15
     @recentlyHit = false
     @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/4)*(@height/4))
 
@@ -67,7 +68,6 @@ module.exports = class Player extends Character
       if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit
         @recentlyHit = true
         @health -= 1
-        console.log @health
         setTimeout(
           () =>
             @recentlyHit = false

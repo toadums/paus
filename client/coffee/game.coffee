@@ -23,6 +23,7 @@ module.exports = class Game
     @init()
 
     @currentQuest = null
+    @healthBar = null
 
     @itemsInteractedWith = []
     @charsInteractedWith = []
@@ -84,7 +85,7 @@ module.exports = class Game
 
     @stage.on 'click', @player.goto
 
-    for i in [0..1] by 1
+    for i in [0..500] by 1
 
       playerPos =
         x: Math.random() * 9600
@@ -128,6 +129,16 @@ module.exports = class Game
       @npcs.push npc
 
     @stage.addChild @player
+
+    @healthBar = new createjs.Shape()
+    @healthBar.graphics.beginStroke("#000")
+    @healthBar.graphics.beginFill("rgb(0,255,0)")
+    @healthBar.graphics.setStrokeStyle(2)
+    @healthBar.snapToPixel = true
+    console.log ((@player.healthMax - @player.health))
+    @healthBar.graphics.drawRect(@player.x-70, @player.y-65, 300*(@player.health / @player.healthMax), 25)
+    @healthBar.visible = true
+    @stage.addChild @healthBar
 
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
@@ -236,6 +247,12 @@ module.exports = class Game
       @map.close()
       @map.update @stage, @player.x, @player.y, true
 
+    @healthBar.graphics.clear()
+    @healthBar.graphics.beginStroke("#000")
+    @healthBar.graphics.beginFill("rgb("+(255 - Math.floor(((@player.health / @player.healthMax)*255))) + ","+Math.floor(((@player.health/@player.healthMax)*255))+",0)")
+    @healthBar.graphics.setStrokeStyle(2)
+    @healthBar.snapToPixel = true
+    @healthBar.graphics.drawRect(@player.x - 77 + (300 - (300*(@player.health / @player.healthMax))) / 2 , @player.y, 300*(@player.health / @player.healthMax), 25)
 
     #call sub ticks
     @player.tick event, @level
@@ -284,7 +301,6 @@ module.exports = class Game
         @questArrow.y = v.y
         @questArrow.rotation = angle
         @stage.addChild @questArrow
-
 
       @currentQuest
     )
