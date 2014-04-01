@@ -63,17 +63,6 @@ module.exports = class Player extends Character
       if dir.green
         vertCollision = true
 
-      if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit
-        @recentlyHit = true
-        @health -= 1
-        if @health <= 0
-          @gameover "You aren't invincible, protagonist!"
-        setTimeout(
-          () =>
-            @recentlyHit = false
-          750
-        )
-
       if dir.whore and dir.green
         break
 
@@ -81,6 +70,20 @@ module.exports = class Player extends Character
       @x += @vX
     if not vertCollision
       @y += @vY
+
+  # Damage a player...but only once every 1200ms
+  damage: () =>
+    return if @recentlyHit
+    @recentlyHit = true
+    @health -= 1
+    console.log @health
+    if @health <= 0
+      @gameover "You aren't invincible, protagonist!"
+    setTimeout(
+      () =>
+        @recentlyHit = false
+      1200
+    )
 
   checkCollision: (child) =>
     dir = {}

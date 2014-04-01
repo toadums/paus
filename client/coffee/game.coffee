@@ -143,7 +143,6 @@ module.exports = class Game
     @healthBar.graphics.beginFill("rgb(0,255,0)")
     @healthBar.graphics.setStrokeStyle(2)
     @healthBar.snapToPixel = true
-    console.log ((@player.healthMax - @player.health))
     @healthBar.graphics.drawRect(@player.x-70, @player.y-65, 150*(@player.health / @player.healthMax), 15)
     @healthBar.visible = true
     @stage.addChild @healthBar

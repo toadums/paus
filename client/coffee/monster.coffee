@@ -62,6 +62,17 @@ module.exports = class Monster extends Character
     return Math.sqrt( xs + ys )
 
 
+  # are the center points of the player and bunny within 100 of eachother?
+  checkDamagePlayer: =>
+    v =
+      x: (@player.x + @player.width / 2) - (@x + @width / 2)
+      y: (@player.y + @player.height / 2) - (@y + @height / 2)
+
+    d = Math.sqrt(v.x*v.x + v.y*v.y)
+
+    if d < 125
+      @player.damage()
+
   tick: (event, level) =>
 
     # Ignore bunnies that are off screen
@@ -74,6 +85,8 @@ module.exports = class Monster extends Character
     if @dying
       @playerBody.spriteSheet = @bloodSprite
       return false
+
+    @checkDamagePlayer()
 
     @tickCount++
 
