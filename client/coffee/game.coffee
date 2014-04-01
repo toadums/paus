@@ -85,7 +85,7 @@ module.exports = class Game
 
     @stage.on 'click', @player.goto
 
-    for i in [0..1500] by 1
+    for i in [0..1000] by 1
 
       playerPos =
         x: Math.random() * 9600

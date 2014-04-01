@@ -99,4 +99,8 @@ module.exports = [
     src: "images/note.png"
     id: "note"
   }
+  {
+    src: "images/player2.png"
+    id: "player2"
+  }
 ]

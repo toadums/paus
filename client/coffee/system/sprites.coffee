@@ -1,22 +1,30 @@
 playerSprite = (loader) ->
   data = new createjs.SpriteSheet(
-    images: [loader.getResult("player")]
+    images: [loader.getResult("player2")]
     frames:
       regX: 0
-      height: 206
-      count: 12
+      height: 179
+      count: 88
       regY: 0
-      width: 130
+      width: 134
 
     animations:
       up: [0, 2, "up"]
-      right: [3, 5, "right"]
-      down: [6, 8, "down"]
-      left: [9, 11, "left"]
-      left_idle: [9, 9]
-      right_idle: [3, 3]
-      up_idle: [0, 0]
-      down_idle: [7, 7]
+      right: [12, 14, "right"]
+      down: [24, 26, "down"]
+      left: [36, 38, "left"]
+      left_attack:
+        frames: [39, 55, 62, 62, 62]
+      right_attack:
+        frames: [5, 16, 62, 62, 62]
+      up_attack:
+        frames: [8, 18, 62, 62, 62]
+      down_attack:
+        frames: [30, 41, 62, 62, 62]
+      left_idle: [37, 37]
+      right_idle: [13, 13]
+      up_idle: [1, 1]
+      down_idle: [25, 25]
   )
 
   playerSprite = new createjs.Sprite(data, "right_idle")

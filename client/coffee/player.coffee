@@ -18,6 +18,7 @@ module.exports = class Player extends Character
 
     @MAX_VELOCITY = 20
     @lastKey
+    @attack = false
 
   moveTo: (x, y) =>
     @x = x
@@ -41,6 +42,10 @@ module.exports = class Player extends Character
     @healthMax = 15
     @recentlyHit = false
     @diagonalHeight = Math.sqrt((@width/2)*(@width/2) + (@height/4)*(@height/4))
+
+    @playerBody.addEventListener 'animationend', (ev) =>
+      if ev.name.indexOf('attack') isnt -1
+        @attack = false
 
   tick: (event, level) =>
 
@@ -157,6 +162,15 @@ module.exports = class Player extends Character
     dmg = if (_.contains Inventory.items, 300) then 2 else 1
     child.life -= dmg
 
+    v =
+      x: child.x - @x
+      y: child.y - @y
+
+    @attack = if Math.abs(v.x) > Math.abs(v.y) and v.x > 0 then "right_attack"
+    else if Math.abs(v.x) > Math.abs(v.y) and v.x < 0  then "left_attack"
+    else if Math.abs(v.x) < Math.abs(v.y) and v.y < 0  then "up_attack"
+    else if Math.abs(v.x) < Math.abs(v.y) and v.y > 0  then "down_attack"
+
     child.playerBody.spriteSheet = child.hitsprite.spriteSheet
 
     revertSprite = () ->
@@ -249,38 +263,41 @@ module.exports = class Player extends Character
           if @vY > 0 then 'down'
           else 'up'
 
-    switch latestKey
-      when "left"
-        @facing = 2
-        if @playerBody.currentAnimation isnt "left"
-          @playerBody.gotoAndPlay "left"
-          @lastKey = "left"
-      when "right"
-        @facing = 3
-        if @playerBody.currentAnimation isnt "right"
-          @playerBody.gotoAndPlay "right"
-          @lastKey = "right"
-      when "up"
-        @facing = 0
-        if @playerBody.currentAnimation isnt "up"
-          @playerBody.gotoAndPlay "up"
-          @lastKey = "up"
-      when "down"
-        @facing = 1
-        if @playerBody.currentAnimation isnt "down"
-          @playerBody.gotoAndPlay "down"
-          @lastKey = "down"
-      else
-        switch @lastKey
-          when "left"
-            @playerBody.gotoAndPlay "left_idle"
-          when "up"
-            @playerBody.gotoAndPlay "up_idle"
-          when "down"
-            @playerBody.gotoAndPlay "down_idle"
-          when "right"
-            @playerBody.gotoAndPlay "right_idle"
-          else
+    if @attack
+      if @playerBody.currentAnimation isnt @attack
+        @playerBody.gotoAndPlay @attack
+    else
+      switch latestKey
+        when "left"
+          @facing = 2
+          if @playerBody.currentAnimation isnt "left"
+            @playerBody.gotoAndPlay "left"
+            @lastKey = "left"
+        when "right"
+          @facing = 3
+          if @playerBody.currentAnimation isnt "right"
+            @playerBody.gotoAndPlay "right"
+            @lastKey = "right"
+        when "up"
+          @facing = 0
+          if @playerBody.currentAnimation isnt "up"
+            @playerBody.gotoAndPlay "up"
+            @lastKey = "up"
+        when "down"
+          @facing = 1
+          if @playerBody.currentAnimation isnt "down"
+            @playerBody.gotoAndPlay "down"
+            @lastKey = "down"
+        else
+          switch @lastKey
+            when "left"
+              @playerBody.gotoAndPlay "left_idle"
+            when "up"
+              @playerBody.gotoAndPlay "up_idle"
+            when "down"
+              @playerBody.gotoAndPlay "down_idle"
+            when "right"
+              @playerBody.gotoAndPlay "right_idle"
     @vX = @MAX_VELOCITY  if @vX > @MAX_VELOCITY
     @vX = -@MAX_VELOCITY  if @vX < -@MAX_VELOCITY
     @vY = @MAX_VELOCITY  if @vY > @MAX_VELOCITY
