@@ -61,6 +61,33 @@ module.exports = class Game
 
     @restart()
 
+  spawnMonsters: =>
+    for i in [0..1000] by 1
+
+      playerPos =
+        x: Math.random() * 9600
+        y: Math.random() * 9600
+
+      if @level.checkHitsAtPosition playerPos.x, playerPos.y
+        continue
+
+      color = Math.floor(Math.random() * 5)
+      switch color
+        when 0
+          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterRedSprite), @)), (new createjs.Container())
+        when 1
+          monster = _.extend (new Monster(_.clone(@monster2Sprite), _.clone(@monsterRed2Sprite), @)), (new createjs.Container())
+        when 2
+          monster = _.extend (new Monster(_.clone(@monster3Sprite), _.clone(@monsterRed3Sprite), @)), (new createjs.Container())
+        when 3
+          monster = _.extend (new Monster(_.clone(@monster4Sprite), _.clone(@monsterRed4Sprite), @)), (new createjs.Container())
+        when 4
+          monster = _.extend (new Monster(_.clone(@monster5Sprite), _.clone(@monsterRed5Sprite), @)), (new createjs.Container())
+
+      monster.init(playerPos,@bloodSprite)
+      @stage.addChild monster
+      @monsters.push monster
+
   #reset all game logic
   restart: =>
     #hide anything on stage
@@ -85,29 +112,7 @@ module.exports = class Game
 
     @stage.on 'click', @player.goto
 
-    for i in [0..500] by 1
-
-      playerPos =
-        x: Math.random() * 9600
-        y: Math.random() * 9600
-
-      color = Math.floor(Math.random() * 5)
-      switch color
-        when 0
-          monster = _.extend (new Monster(_.clone(@monsterSprite), _.clone(@monsterRedSprite), @)), (new createjs.Container())
-        when 1
-          monster = _.extend (new Monster(_.clone(@monster2Sprite), _.clone(@monsterRed2Sprite), @)), (new createjs.Container())
-        when 2
-          monster = _.extend (new Monster(_.clone(@monster3Sprite), _.clone(@monsterRed3Sprite), @)), (new createjs.Container())
-        when 3
-          monster = _.extend (new Monster(_.clone(@monster4Sprite), _.clone(@monsterRed4Sprite), @)), (new createjs.Container())
-        when 4
-          monster = _.extend (new Monster(_.clone(@monster5Sprite), _.clone(@monsterRed5Sprite), @)), (new createjs.Container())
-
-      monster.init(playerPos,@bloodSprite)
-      @stage.addChild monster
-      @monsters.push monster
-
+    @spawnMonsters()
     for npcData in _npcs
 
       # if no sprite specified, just use the generic player.

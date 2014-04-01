@@ -55,15 +55,8 @@ module.exports = class Player extends Character
     # Collision detection
     for child in @stage.children
 
-      dir = {}
 
-      if child instanceof createjs.Container and child.visible
-        for subchild in child.children
-          dir = @checkCollision subchild
-          if dir.whore or dir.green
-            break
-      else
-        dir = @checkCollision child
+      dir = @checkCollisions(child) or {}
 
       if dir.whore
         horizCollision = true
@@ -86,6 +79,7 @@ module.exports = class Player extends Character
       @x += @vX
     if not vertCollision
       @y += @vY
+
   checkCollision: (child) =>
     dir = {}
     vel = {

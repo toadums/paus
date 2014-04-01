@@ -42,6 +42,16 @@ module.exports = class Level
 
     # NEED TO REMOVE OLD DIV EVENTUALLY
 
+  checkHitsAtPosition: (x, y) =>
+    x = Math.floor(x/@mapData.tilesets[0].tilewidth)
+    y = Math.floor(y/@mapData.tilesets[0].tileheight)
+
+    for layer in @mapData.layers
+      if layer.data[x + y * layer.width] isnt 0 and layer.properties.hit is 'true'
+        return true
+
+    false
+
   initLayers: () =>
     @level = new createjs.Container()
     w = @mapData.tilesets[0].tilewidth

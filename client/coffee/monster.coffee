@@ -135,6 +135,27 @@ module.exports = class Monster extends Character
             @playerBody.gotoAndPlay "right"
 
 
+    horizCollision = false
+    vertCollision = false
+
+
+
+    # Collision detection
+    for child in @stage.children
+
+      dir = @checkCollisions(child) or {}
+
+      if dir.whore
+        horizCollision = true
+      if dir.green
+        vertCollision = true
+
+    if not horizCollision
+      @x += @velocity().x
+    if not vertCollision
+      @y += @velocity().y
+
+  velocity: () =>
     vel = {
       x: 0
       y: 0
@@ -146,27 +167,20 @@ module.exports = class Monster extends Character
       when 2 then vel.x -= 5
       when 3 then vel.x += 5
 
-    horizCollision = false
-    vertCollision = false
+    vel
 
-    # Collision detection
-    for child in @stage.children
-      dir = {}
-      if child instanceof NPC or (child.type is 'tile' and (child.hit))
+  checkCollision: (child) =>
+    dir = {}
+    if child instanceof NPC or (child.type is 'tile' and (child.hit))
 
-        data =
-          top: child.y
-          left: child.x
-          right: child.x + child.width
-          bottom: child.y + child.height
-        dir = @collide data, vel
+      data =
+        top: child.y
+        left: child.x
+        right: child.x + child.width
+        bottom: child.y + child.height
+        width: child.width
+        height: child.height
+        diagonalHeight: child.diagonalHeight
+      dir = @collide data, @velocity()
 
-      if dir.whore
-        horizCollision = true
-      if dir.green
-        vertCollision = true
-
-    if not horizCollision
-      @x += vel.x
-    if not vertCollision
-      @y += vel.y
+    return dir

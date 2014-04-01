@@ -58,3 +58,13 @@ module.exports = class Character
 
 
     collision
+
+  checkCollisions: (child) =>
+    if child instanceof createjs.Container and child.visible
+      for subchild in child.children
+        dir = @checkCollision subchild
+        if dir.whore or dir.green
+          return dir
+    else
+      return @checkCollision child
+    return {}
