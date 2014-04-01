@@ -63,6 +63,10 @@ module.exports = class Monster extends Character
 
 
   tick: (event, level) =>
+
+    # Ignore bunnies that are off screen
+    return unless -@stage.x - 200 <= @x <= -@stage.x + @stage.canvas.width + 200 and -@stage.y - 200 <= @y <= -@stage.y + @stage.canvas.height + 200
+
     if @dying
       @playerBody.spriteSheet = @bloodSprite
       return false
