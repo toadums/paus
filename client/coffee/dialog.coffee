@@ -8,6 +8,7 @@ class DialogManager
       @stage
       @endAction
       @setQuest
+      @gameover
     } = @delegate
 
     @currentDialog = null
@@ -86,6 +87,7 @@ class Controls
       @padding
       @h
       @setQuest
+      @gameover
     } = @delegate
 
     @active = 0
@@ -131,6 +133,10 @@ class Controls
         return
 
       @showDialog next
+
+    else if action.type is 'gameover'
+      @gameover(action.value or "You lost..")
+
     # Start a quest!!
     else if action.type is 'queststart'
 

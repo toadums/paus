@@ -17,6 +17,8 @@ module.exports = class Game
     @IN_INVENTORY = false
     @MAP_OPEN = false
 
+    @GAME_OVER = false
+
     @npcs = []
     @monsters = []
     @keyInput = new KeyInput
@@ -62,6 +64,7 @@ module.exports = class Game
     @restart()
 
   spawnMonsters: =>
+    # 1000 spawns around 600 bunnies
     for i in [0..1000] by 1
 
       playerPos =
@@ -141,7 +144,7 @@ module.exports = class Game
     @healthBar.graphics.setStrokeStyle(2)
     @healthBar.snapToPixel = true
     console.log ((@player.healthMax - @player.health))
-    @healthBar.graphics.drawRect(@player.x-70, @player.y-65, 300*(@player.health / @player.healthMax), 25)
+    @healthBar.graphics.drawRect(@player.x-70, @player.y-65, 150*(@player.health / @player.healthMax), 15)
     @healthBar.visible = true
     @stage.addChild @healthBar
 
@@ -165,6 +168,32 @@ module.exports = class Game
     ev.stopPropagation()
 
   tick: (event) =>
+
+    # Game over. Clear the stage and show the message set in @GAME_OVER
+    if @GAME_OVER
+
+      if @GAME_OVER isnt 'fin'
+        @stage.update()
+
+        @stage.x = 0
+        @stage.y = 0
+
+        text = new createjs.Text(@GAME_OVER, "26px Arial", "white")
+
+        ctx = @stage.canvas.getContext('2d')
+        ctx.font = "26px Arial"
+
+        text.x = @stage.canvas.width/2 - ctx.measureText(@GAME_OVER).width/2
+        text.y = @stage.canvas.height/2 - 100
+        text.snapToPixel = true
+        text.textBaseline = "alphabetic"
+
+        @stage.addChild text
+        @stage.update()
+        # Don't want to re-add things to the stage
+        @GAME_OVER = "fin"
+      return
+
     keys = []
 
     if @currentQuest?.isComplete
@@ -257,7 +286,7 @@ module.exports = class Game
     @healthBar.graphics.beginFill("rgb("+(255 - Math.floor(((@player.health / @player.healthMax)*255))) + ","+Math.floor(((@player.health / @player.healthMax)*255))+",0)")
     @healthBar.graphics.setStrokeStyle(2)
     @healthBar.snapToPixel = true
-    @healthBar.graphics.drawRect(@player.x - 77 + (300 - (300*(@player.health / @player.healthMax))) / 2 , @player.y, 300*(@player.health / @player.healthMax), 25)
+    @healthBar.graphics.drawRect(@player.x + (150 - (150*(@player.health / @player.healthMax))) / 2 , @player.y, 150*(@player.health / @player.healthMax), 15)
 
     #call sub ticks
     @player.tick event, @level
@@ -321,3 +350,6 @@ module.exports = class Game
 
   endInventory: () =>
     @IN_INVENTORY = false
+
+  gameover: (msg) =>
+    @GAME_OVER = msg

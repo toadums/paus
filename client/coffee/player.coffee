@@ -12,6 +12,7 @@ module.exports = class Player extends Character
       @startDialog
       playerSprite: sprite
       @stage
+      @gameover
     } = @delegate
 
     super sprite
@@ -55,7 +56,6 @@ module.exports = class Player extends Character
     # Collision detection
     for child in @stage.children
 
-
       dir = @checkCollisions(child) or {}
 
       if dir.whore
@@ -66,10 +66,12 @@ module.exports = class Player extends Character
       if (dir.whore or dir.green) and child instanceof Monster and not @recentlyHit
         @recentlyHit = true
         @health -= 1
+        if @health <= 0
+          @gameover "You aren't invincible, antagonist!"
         setTimeout(
           () =>
             @recentlyHit = false
-          2000
+          750
         )
 
       if dir.whore and dir.green
