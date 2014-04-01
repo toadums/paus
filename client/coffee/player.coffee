@@ -48,6 +48,16 @@ module.exports = class Player extends Character
       if ev.name.indexOf('attack') isnt -1
         @attack = false
 
+    setInterval(
+      () =>
+        @restoreHealth()
+      10000
+    )
+
+  restoreHealth: () =>
+    if @health < @healthMax
+      @health += 1
+
   tick: (event, level) =>
 
     horizCollision = false
