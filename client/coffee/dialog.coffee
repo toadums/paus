@@ -15,15 +15,15 @@ class DialogManager
     @dialog = null
     @lines = []
     @margin = 40
-    @padding = 20
+    @padding = 40
     @w = @stage.canvas.width - @margin*2
     @h = 160
 
   # Draw the box that holds the dialog
   createBox: (pos) ->
     @box = new createjs.Shape()
-    @box.graphics.beginStroke("#000")
-    @box.graphics.beginFill("papayawhip")
+    @box.graphics.beginStroke("rgb(230,230,230)")
+    @box.graphics.beginFill("black")
     @box.graphics.setStrokeStyle(2)
     @box.snapToPixel = true
     @box.graphics.drawRect(pos.x, pos.y, @w, @h)
@@ -31,11 +31,11 @@ class DialogManager
 
   # Render the text inside the dialog
   createText: (pos, dialog) =>
-    lines = wrap(@canvas.getContext('2d'), dialog.text, @w - @padding*2, "20px Arial")
+    lines = wrap(@canvas.getContext('2d'), dialog.text, @w - @padding*2, "26px VT323")
     i = 0
 
     for line in lines
-      text = new createjs.Text(line, "20px Arial", "black")
+      text = new createjs.Text(line, "26px VT323", "rgb(0,255,0)")
       text.x = pos.x + @padding
       text.y = pos.y + i * 30 + @padding
       text.snapToPixel = true
@@ -97,7 +97,7 @@ class Controls
 
     # Add the buttons
     for action in dialog.actions
-      button = new createjs.Text(action.text, "20px Arial", if i is 0 then "red" else "black")
+      button = new createjs.Text(action.text, "26px VT323", if i is 0 then "white" else "rgb(0,255,0)")
       button.x = pos.x + @padding + i * 300
       button.y = pos.y + @h - @padding
       button.textBaseline = "alphabetic"
@@ -110,13 +110,13 @@ class Controls
   # Change which button is active
   changeSelection: (direction) ->
     if direction is "right" and @active < @buttons.length - 1
-      @buttons[@active].color = "black"
+      @buttons[@active].color = "rgb(0,255,0)"
       @active++
     else if direction is "left" and @active > 0
-      @buttons[@active].color = "black"
+      @buttons[@active].color = "rgb(0,255,0)"
       @active--
 
-    @buttons[@active].color = "red"
+    @buttons[@active].color = "white"
 
   # Enter was pressed. Handle the action for the active button
   enterPress: =>
