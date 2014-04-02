@@ -169,6 +169,12 @@ module.exports = class Player extends Character
 
   damageBunny: (child) =>
     dmg = if (_.contains Inventory.items, 300) then 2 else 1
+
+    if (_.contains Inventory.items, 300)
+      createjs.Sound.play "sword"
+    else
+      createjs.Sound.play "punch"
+
     child.life -= dmg
 
     v =

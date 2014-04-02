@@ -103,4 +103,21 @@ module.exports = [
     src: "images/player2.png"
     id: "player2"
   }
+  {
+    src: "images/music.mp3"
+    id: "music"
+  }
+  {
+    src: "images/sword.mp3"
+    id: "sword"
+  }
+  {
+    src: "images/punch.mp3"
+    id: "punch"
+    data: 1
+  }
+  {
+    src: "images/splat.mp3"
+    id: "splat"
+  }
 ]

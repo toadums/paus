@@ -46,6 +46,7 @@ module.exports = class Monster extends Character
     killChild = () =>
       @stage.removeChild this
     setTimeout killChild, 4000
+    createjs.Sound.play "splat"
     @playerBody.spriteSheet = _.clone(@bloodSprite)
     @playerBody.gotoAndPlay "left_idle"
 

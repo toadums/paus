@@ -43,6 +43,7 @@ module.exports = class Game
     @map = new Map @stage, @img
     manifest = Manifest or []
     @loader = new createjs.LoadQueue(false)
+    @loader.installPlugin createjs.Sound
     @loader.addEventListener "complete", @handleComplete
     @loader.loadManifest manifest
 
@@ -62,6 +63,7 @@ module.exports = class Game
         @[name] = val(@loader)
 
     @restart()
+    createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
 
   spawnMonsters: =>
     # 1000 spawns around 600 bunnies
