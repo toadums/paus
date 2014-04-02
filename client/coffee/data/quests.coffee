@@ -41,10 +41,8 @@ module.exports = [
     npc: 6
     ordered: true
     markers: [
-      { pos: 0, id: 862, description: "Check if have all supplies", npc: 6, cond: {type: "inventory", items: [351, 352, 353, 354]} }
-
-      # { pos: 0, id: 861, description: "Get the remote", npc: 8 }
-      # { pos: 1, id: 862, description: "Check if have all supplies", npc: 6, cond: {type: "inventory", items: [351, 352, 353, 354]} }
+      { pos: 0, id: 861, description: "Get the remote", npc: 8 }
+      { pos: 1, id: 862, description: "Check if have all supplies", npc: 6, cond: {type: "inventory", items: [351, 352, 353, 354]} }
     ]
     onComplete: {
       type: "cb"
