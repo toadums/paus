@@ -531,6 +531,25 @@ noteSprite = (loader, x, y) ->
   noteSprite.framerate = 10
   noteSprite
 
+deactivatorSprite = (loader, x, y) ->
+  data = new createjs.SpriteSheet(
+    images: [loader.getResult("deactivator")]
+    frames:
+      regX: 0
+      height: 96
+      count: 1
+      regY: 0
+      width: 96
+
+    animations:
+      default: [0, 0]
+  )
+
+  deactivatorSprite = new createjs.Sprite(data, "default")
+  deactivatorSprite.framerate = 10
+  deactivatorSprite
+
+
 module.exports =
   playerSprite: playerSprite
   exclamationSprite: exclamationSprite
@@ -556,3 +575,4 @@ module.exports =
   carrotSprite: carrotSprite
   remoteSprite: remoteSprite
   noteSprite: noteSprite
+  deactivatorSprite: deactivatorSprite

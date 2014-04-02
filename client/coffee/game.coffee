@@ -13,6 +13,7 @@ Collections = require 'coffee/collections'
 Map = require 'coffee/map'
 Home = require 'coffee/home'
 Instructions = require 'coffee/instructions'
+Win = require 'coffee/win'
 
 module.exports = class Game
   constructor: () ->
@@ -23,6 +24,7 @@ module.exports = class Game
     @INTRO = false
     @HOME = true
     @INSTR = false
+    @WIN = false
 
     @GAME_OVER = false
 
@@ -43,6 +45,7 @@ module.exports = class Game
     @HOME = false
     @INSTR = false
     @GAME_OVER = false
+    @WIN = false
 
   addLoadingText: () =>
     @stage.x = 0
@@ -88,6 +91,7 @@ module.exports = class Game
     @intro = new Intro @
     @home = new Home @
     @instructions = new Instructions @
+    @win = new Win @
 
     @stage.update() #update the stage to show text
     @soundOn = true
@@ -234,6 +238,15 @@ module.exports = class Game
     ev.stopPropagation()
 
   tick: (event) =>
+
+    if @WIN
+      if not @win.visible
+        @win.show()
+
+      @win.tick event
+
+      return
+
     if @HOME
       if not @home.visible
         @home.show()
@@ -503,4 +516,4 @@ module.exports = class Game
     @clearModes()
     @stage.removeAllChildren()
 
-    @HOME = true
+    @WIN = true

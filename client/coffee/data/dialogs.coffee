@@ -287,7 +287,7 @@ module.exports = [
 
   {
     id: 177
-    text: "Dude, you rock!"
+    text: "Dude, you rock! Here is the Bunny Deactivator. If you don't know what to do, check your inventory (hit I)"
     actions: [
       {
         type: 'done'

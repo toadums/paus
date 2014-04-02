@@ -100,6 +100,10 @@ module.exports = [
     id: "note"
   }
   {
+    src: "images/deactivator.png"
+    id: "deactivator"
+  }
+  {
     src: "images/player2.png"
     id: "player2"
   }
