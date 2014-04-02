@@ -117,9 +117,12 @@ module.exports = class Game
     if @isSoundOn()
       createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
 
-  spawnMonsters: =>
+  spawnMonsters: (diff)=>
+
+    num = if diff is 1 then 1200 else 800
+
     # 1000 spawns around 600 bunnies
-    for i in [0..800] by 1
+    for i in [0..num] by 1
 
       playerPos =
         x: Math.random() * 9600
@@ -189,7 +192,7 @@ module.exports = class Game
 
     #@stage.on 'click', @player.goto
 
-    @spawnMonsters()
+    @spawnMonsters(@difficulty)
     for npcData in _npcs
 
       # if no sprite specified, just use the generic player.
@@ -220,6 +223,35 @@ module.exports = class Game
     @healthBar.graphics.drawRect(@player.x-70, @player.y-65, 150*(@player.health / @player.healthMax), 15)
     @healthBar.visible = true
     @stage.addChild @healthBar
+
+
+    switch @difficulty
+      when 1
+        @player.health = 10
+        @player.healthMax = 10
+        for monster in @monsters
+          monster.life = 5
+          monster.MAX_VELOCITY = 10
+        @player.knockback = false
+
+
+
+      when 666
+        @player.health = 3
+        @player.healthMax = 3
+        for monster in @monsters
+          monster.life = 5
+          monster.MAX_VELOCITY = 7
+        @player.knockback = false
+
+
+      else
+        @player.health = 15
+        @player.healthMax = 15
+        for monster in @monsters
+          monster.life = 2
+          monster.MAX_VELOCITY = 5
+        @player.knockback = true
 
   itemClick: (item, data, ev) =>
     @itemsInteractedWith.push item
@@ -495,10 +527,10 @@ module.exports = class Game
   gameover: (msg) =>
     @GAME_OVER = msg
 
-  startGame: =>
+  startGame: (diff) =>
     @clearModes()
     @stage.removeAllChildren()
-
+    @difficulty = diff or 0
     @INTRO = true
 
   showHome: =>

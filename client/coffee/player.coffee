@@ -21,7 +21,7 @@ module.exports = class Player extends Character
     @MAX_VELOCITY = 20
     @lastKey
     @attack = false
-
+    @knockback = true
   moveTo: (x, y) =>
     @x = x
     @y = y
@@ -167,31 +167,18 @@ module.exports = class Player extends Character
             if child instanceof Monster
               if (@lineDistance {x:child.x, y:child.y}, {x:@x,y:@y}) < 200 and child.life > 0
                 if child.x > @x and @facing is 3
-                  child.x += 80
+                  child.x += 80 if @knockback
                   @damageBunny child
                 else if child.x < @x and @facing is 2
-                  child.x -= 80
+                  child.x -= 80 if @knockback
                   @damageBunny child
                 else if child.y < @y and @facing is 0
-                  child.y -= 80
+                  child.y -= 80 if @knockback
                   @damageBunny child
                 else if child.y > @y and @facing is 1
-                  child.y += 80
+                  child.y += 80 if @knockback
                   @damageBunny child
-            # if dir.green or dir.whore
 
-            #     if @facing == 1
-            #       #punch down
-            #       child.y += 80
-            #     else if @facing == 0
-            #       child.y -= 80
-            #       #punch up
-            #     else if @facing == 3
-            #       child.x += 80
-            #       #punch right
-            #     else if @facing == 2
-            #       child.x -= 80
-            #       #punch left
 
   # If the player is holding the E key, and the character is within 300px from an NPC,
   # play that NPCs dialog

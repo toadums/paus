@@ -16,7 +16,8 @@ module.exports = class Monster extends Character
     @tickCount = 0
     @waitCount = 0
     @dying = false
-    @MAX_VELOCITY = 20
+    @MAX_VELOCITY = 5
+
 
 
   init: (@pos,blood) =>
@@ -183,10 +184,10 @@ module.exports = class Monster extends Character
     }
 
     switch @facing
-      when 0 then vel.y -= 5
-      when 1 then vel.y += 5
-      when 2 then vel.x -= 5
-      when 3 then vel.x += 5
+      when 0 then vel.y -= @MAX_VELOCITY
+      when 1 then vel.y += @MAX_VELOCITY
+      when 2 then vel.x -= @MAX_VELOCITY
+      when 3 then vel.x += @MAX_VELOCITY
 
     vel
 

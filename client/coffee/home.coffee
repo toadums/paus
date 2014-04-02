@@ -21,6 +21,8 @@ module.exports = class Home
     @visible = true
     @addHeader()
     @addStart()
+    @addStartHard()
+    @addStartImp()
     @addInstructions()
     @addSound()
 
@@ -51,7 +53,53 @@ module.exports = class Home
     text.textBaseline = "alphabetic"
 
     text.onSelect = () =>
-      @startGame()
+      @startGame(0)
+      @close()
+
+    @stage.addChild text
+    @components.push text
+    @controls.push text
+
+    @stage.update()
+
+  addStartHard: =>
+    t = "Play on Hard Mode"
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "36px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(t).width/2
+
+    text = new createjs.Text(t, "36px Arial", "white")
+    text.x = x
+    text.y = 450
+    text.snapToPixel = true
+    text.textBaseline = "alphabetic"
+
+    text.onSelect = () =>
+      @startGame(1)
+      @close()
+
+    @stage.addChild text
+    @components.push text
+    @controls.push text
+
+    @stage.update()
+
+  addStartImp: =>
+    t = "Play on Impossible Mode #1337"
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "36px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(t).width/2
+
+    text = new createjs.Text(t, "36px Arial", "white")
+    text.x = x
+    text.y = 500
+    text.snapToPixel = true
+    text.textBaseline = "alphabetic"
+
+    text.onSelect = () =>
+      @startGame(666)
       @close()
 
     @stage.addChild text
@@ -69,7 +117,7 @@ module.exports = class Home
 
     text = new createjs.Text(t, "36px Arial", "white")
     text.x = x
-    text.y = 450
+    text.y = 550
     text.snapToPixel = true
     text.textBaseline = "alphabetic"
 
@@ -92,7 +140,7 @@ module.exports = class Home
 
     text = new createjs.Text(t, "36px Arial", "white")
     text.x = x
-    text.y = 500
+    text.y = 600
     text.snapToPixel = true
     text.textBaseline = "alphabetic"
 
