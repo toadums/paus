@@ -8,5 +8,12 @@ quests = (new Quest(quest) for quest in _quests)
 dialogs = (dialog for dialog in _dialogs)
 
 module.exports =
+
+  reset: ->
+    quests = (new Quest(quest) for quest in _quests)
+
+    dialogs = (dialog for dialog in _dialogs)
+
   findModel: (id) ->
+
     _.find dialogs.concat(quests).concat(_items), (d) -> d.id is id

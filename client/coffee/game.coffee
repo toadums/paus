@@ -159,6 +159,7 @@ module.exports = class Game
 
   #reset all game logic
   restart: =>
+    Collections.reset()
     #hide anything on stage
     @stage.removeAllChildren()
     Inventory.items = []
