@@ -161,6 +161,12 @@ module.exports = class Game
 
   #reset all game logic
   restart: =>
+
+    if @isSoundOn()
+      createjs.Sound.stop 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
+      createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
+
+
     Collections.reset()
     #hide anything on stage
     @stage.removeAllChildren()

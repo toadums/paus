@@ -74,7 +74,7 @@ module.exports = class Instructions
     @components.push map
     @components.push act
     @components.push clk
-    @components.push exc
+    @components.push esc
 
     @stage.update()
 
