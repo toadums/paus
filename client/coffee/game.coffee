@@ -44,14 +44,38 @@ module.exports = class Game
     @INSTR = false
     @GAME_OVER = false
 
+  addLoadingText: () =>
+    @stage.x = 0
+    @stage.y = 0
+
+    loadingText = "Loading...hold tight, this may take a hare"
+
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "40px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(loadingText).width/2
+
+    @loadingText = new createjs.Text loadingText, "40px Arial", "white"
+    @loadingText.x = x
+    @loadingText.y = @stage.canvas.height/2 - 100
+    @loadingText.snapToPixel = true
+    @loadingText.textBaseline = "alphabetic"
+
+    @stage.addChild @loadingText
+    @stage.update()
+
+
   init: () =>
+    @canvas = document.getElementById("gameCanvas")
+    @canvas.onselectstart = () -> false
+    @stage = new createjs.Stage(@canvas)
+
+    @addLoadingText()
+
     @img = document.createElement('img')
     @img.src = '/images/map.png';
 
 
-    @canvas = document.getElementById("gameCanvas")
-    @canvas.onselectstart = () -> false
-    @stage = new createjs.Stage(@canvas)
     @dialogManager = new DialogManager @
     @inventory = new Inventory @
     @map = new Map @stage, @img
@@ -80,6 +104,8 @@ module.exports = class Game
     _.each Sprites, (val, name) =>
       if name isnt 'blankSprite'
         @[name] = val(@loader)
+
+    @stage.removeChild @loadingText
 
     #start game timer
     createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
@@ -207,7 +233,6 @@ module.exports = class Game
     ev.stopPropagation()
 
   tick: (event) =>
-
     if @HOME
       if not @home.visible
         @home.show()
