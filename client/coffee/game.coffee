@@ -1,3 +1,4 @@
+Intro = require('coffee/intro')
 KeyInput = require('coffee/input')
 Player   = require('coffee/player')
 Monster   = require('coffee/monster')
@@ -36,6 +37,7 @@ module.exports = class Game
     @img = document.createElement('img')
     @img.src = '/images/map.png';
 
+
     @canvas = document.getElementById("gameCanvas")
     @canvas.onselectstart = () -> false
     @stage = new createjs.Stage(@canvas)
@@ -48,6 +50,7 @@ module.exports = class Game
     @loader.addEventListener "complete", @handleComplete
     @loader.loadManifest manifest
 
+    @intro = new Intro @
     @stage.update() #update the stage to show text
 
   handleClick: =>
@@ -172,6 +175,10 @@ module.exports = class Game
 
   tick: (event) =>
     if @INTRO
+      @stage.x = 0
+      @stage.y = 0
+
+      @intro.tick event
       if @keyInput.escHeld
         @INTRO = false
 

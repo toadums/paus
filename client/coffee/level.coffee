@@ -96,7 +96,7 @@ module.exports = class Level
         cellSprite = new createjs.Sprite(tilesetSheet)
 
         idx = x + y * layerData.width
-
+        
         if (data = layerData.data[idx]) isnt 0
 
           cellSprite.gotoAndStop data - 1

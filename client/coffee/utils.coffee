@@ -9,6 +9,14 @@ module.exports =
 
     for i in [1..wa.length] by 1
       w = wa[i]
+
+
+      if w is '\n'
+        phraseArray.push lastPhrase
+        phraseArray.push '\n'
+        lastPhrase = ""
+        continue
+
       measure = ctx.measureText(lastPhrase+w).width
 
       if measure < l
