@@ -34,9 +34,13 @@ module.exports = class Player extends Character
       x: x
       y: y
 
-  init: (pos) =>
-    super pos
+  restart: (pos) =>
+    @x = pos.x
+    @y = pos.y
+    @health = 15
 
+  init: () =>
+    super {x: 0, y: 0}
     @vX = 0
     @vY = 0
     @facing = 3 #0 - up, 1 - down, 2 - left, 3 - right

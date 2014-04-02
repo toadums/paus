@@ -121,22 +121,29 @@ module.exports = class Game
   restart: =>
     #hide anything on stage
     @stage.removeAllChildren()
-
+    Inventory.items = []
     #ensure stage is blank and add the ship
     @stage.clear()
     @stage.x = -(9600 - @stage.canvas.width)
     @stage.y = -(9600 - @stage.canvas.height)
+
+    @npcs = []
+    @monsters = []
+
+    if not @player
+      #create the player
+      @player = _.extend (new Player @), (new createjs.Container())
+      @player.init()
+      window.p = @player
 
 
     playerPos =
       x: 8400
       y: 9300
 
-    #create the player
-    @player = _.extend (new Player @), (new createjs.Container())
-    @player.init(playerPos)
+    @player.restart(playerPos)
+
     @level = new Level @
-    window.p = @player
 
     @keyInput.reset()
 
@@ -223,16 +230,19 @@ module.exports = class Game
 
       @intro.tick event
       if @keyInput.escHeld
-        @INTRO = false
         @restart()
-        @intro.close()
+        @INTRO = false
 
       return
 
     # Game over. Clear the stage and show the message set in @GAME_OVER
     if @GAME_OVER
 
-      if @GAME_OVER isnt 'fin'
+      if @keyInput.escHeld
+        @stage.removeAllChildren()
+        @showHome()
+
+      if @GAME_OVER and @GAME_OVER isnt 'fin'
         @stage.update()
 
         @stage.x = 0
@@ -243,18 +253,30 @@ module.exports = class Game
         ctx = @stage.canvas.getContext('2d')
         ctx.font = "26px Arial"
 
-        text.x = @stage.canvas.width/2 - ctx.measureText(@GAME_OVER).width/2
+        x = @stage.canvas.width/2 - ctx.measureText(@GAME_OVER).width/2
+
+        text.x = x
         text.y = @stage.canvas.height/2 - 100
         text.snapToPixel = true
         text.textBaseline = "alphabetic"
 
+        esc = new createjs.Text("(esc to go back)", "14px Arial", "white")
+        esc.x = x
+        esc.y = @stage.canvas.height/2
+        esc.snapToPixel = true
+        esc.textBaseline = "alphabetic"
+
+
         @stage.addChild text
+        @stage.addChild esc
         @stage.update()
         # Don't want to re-add things to the stage
         @GAME_OVER = "fin"
       return
 
     keys = []
+
+    return unless @player?
 
     if @currentQuest?.isComplete
       @currentQuest = null
@@ -356,6 +378,7 @@ module.exports = class Game
 
     for i in [0..@monsters.length-1] by 1
       @monsters[i].tick()
+
     @stage.x = -@player.x + @canvas.width * .5  if @player.x > @canvas.width * .5
     @stage.y = -@player.y + @canvas.height * .5  if @player.y > @canvas.height * .5
 
@@ -417,12 +440,18 @@ module.exports = class Game
 
   startGame: =>
     @clearModes()
+    @stage.removeAllChildren()
+
     @INTRO = true
 
   showHome: =>
     @clearModes()
+    @stage.removeAllChildren()
+
     @HOME = true
 
   showInstructions: =>
     @clearModes()
+    @stage.removeAllChildren()
+
     @INSTR = true
