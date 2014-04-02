@@ -26,6 +26,9 @@ module.exports = class KeyInput
     @iHeld = false
     @mHeld = false
     @bHeld = false
+
+    @spaceIsReady = false
+
     # E key. Talk to people, interact etc
     @actionheld = false
 
@@ -54,7 +57,9 @@ module.exports = class KeyInput
         @dnHeld = true
         false
       when @KEYCODE_SPACE
-        @spaceHeld = true
+        if @spaceIsReady
+          @spaceIsReady = false
+          @spaceHeld = true
         false
       when @KEYCODE_ESCAPE
         @escHeld = true
@@ -85,7 +90,8 @@ module.exports = class KeyInput
       when @KEYCODE_S, @KEYCODE_DOWN
         @dnHeld = false
       when @KEYCODE_SPACE
-        @spaceHeld = false
+         @spaceHeld = false
+         @spaceIsReady = true
       when@KEYCODE_ESCAPE
         @escHeld = false
       when @KEYCODE_I

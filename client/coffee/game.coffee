@@ -361,6 +361,7 @@ module.exports = class Game
         @level.checkDiv()
 
       if @keyInput.spaceHeld
+        @keyInput.spaceHeld = false
         @player.punch()
 
 
