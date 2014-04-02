@@ -5,6 +5,7 @@ module.exports = class Home
       @stage
       @startGame
       @keyInput
+      @toggleSound
       @showInstructions
     } = @delegate
 
@@ -18,6 +19,7 @@ module.exports = class Home
     @visible = true
     @addStart()
     @addInstructions()
+    @addSound()
 
   addStart: =>
     text = new createjs.Text("Play!", "20px Arial", "white")
@@ -53,6 +55,22 @@ module.exports = class Home
 
     @stage.update()
 
+  addSound: =>
+    text = new createjs.Text("Toggle Sound", "20px Arial", "white")
+    text.x = 200
+    text.y = 400
+    text.snapToPixel = true
+    text.textBaseline = "alphabetic"
+
+    text.onSelect = () =>
+      @toggleSound()
+
+    @stage.addChild text
+    @components.push text
+    @controls.push text
+
+    @stage.update()
+
   close: =>
     @visible = false
     @stage.removeChild(comp) for comp in @components
@@ -63,7 +81,7 @@ module.exports = class Home
     return unless @visible
     if @keyInput.enterHeld
       @controls[@selectedOption]?.onSelect()
-
+      @keyInput.enterHeld = false
     else if @keyInput.dnHeld
       if @selectedOption < @controls.length - 1
         @controls[@selectedOption].color = "white"
@@ -74,7 +92,7 @@ module.exports = class Home
       if @selectedOption > 0
         @controls[@selectedOption].color = "white"
         @selectedOption--
-      @keyInput.upHeld = false
+      @keyInput.fwdHeld = false
 
     @controls[@selectedOption]?.color = "rgb(0,255,0)"
 

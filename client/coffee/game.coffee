@@ -66,6 +66,7 @@ module.exports = class Game
     @instructions = new Instructions @
 
     @stage.update() #update the stage to show text
+    @soundOn = true
 
   handleClick: =>
     @canvas.onclick = null
@@ -114,8 +115,16 @@ module.exports = class Game
       @stage.addChild monster
       @monsters.push monster
 
+  toggleSound: =>
+    if @soundOn
+      createjs.Sound.stop 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
+      @soundOn = false
+    else
+      createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
+      @soundOn = true
+
   isSoundOn: =>
-    false
+    @soundOn
 
   #reset all game logic
   restart: =>
