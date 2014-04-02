@@ -8,6 +8,7 @@ module.exports = class Monster extends Character
       @stage
       @monsterClick
       @player
+      @isSoundOn
     } = @delegate
 
     @regsprite = _.clone(sprite)
@@ -46,7 +47,9 @@ module.exports = class Monster extends Character
     killChild = () =>
       @stage.removeChild this
     setTimeout killChild, 4000
-    createjs.Sound.play "splat"
+    if @isSoundOn()
+      createjs.Sound.play "splat"
+
     @playerBody.spriteSheet = _.clone(@bloodSprite)
     @playerBody.gotoAndPlay "left_idle"
 

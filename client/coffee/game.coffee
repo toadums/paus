@@ -67,7 +67,8 @@ module.exports = class Game
         @[name] = val(@loader)
 
     @restart()
-    createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
+    if @isSoundOn()
+      createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
 
   spawnMonsters: =>
     # 1000 spawns around 600 bunnies
@@ -96,6 +97,9 @@ module.exports = class Game
       monster.init(playerPos,@bloodSprite)
       @stage.addChild monster
       @monsters.push monster
+
+  isSoundOn: =>
+    false
 
   #reset all game logic
   restart: =>
@@ -245,16 +249,7 @@ module.exports = class Game
       if @keyInput.spaceHeld
         @player.punch()
 
-        # for monster in @monsters
-        #   v =
-        #     x: monster.x - @player.x
-        #     y: monster.y - @player.y
-        #
-        #   if Math.sqrt(v.x*v.x + v.y*v.y) < 200
-        #     @player.damageBunny monster
-        #     break
-        # @keyInput.spaceHeld = false
-        #
+
       if @keyInput.iHeld
         @player.accelerate []
         @IN_INVENTORY = true
