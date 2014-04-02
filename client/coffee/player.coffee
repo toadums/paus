@@ -60,7 +60,6 @@ module.exports = class Player extends Character
     )
 
   checkNPCActions: (npcs) =>
-    console.log '1'
     # We are going from the CENTERS of the characters
     me =
       x: @x + @width/2
@@ -78,7 +77,7 @@ module.exports = class Player extends Character
 
       # Distance between centers
       d = Math.sqrt(v.x*v.x + v.y*v.y)
-      if d < 250 
+      if d < 250
 
         if (dialog = npc.getDialog())
           @startDialog npc.getDialog()

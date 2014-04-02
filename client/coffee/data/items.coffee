@@ -44,5 +44,11 @@ module.exports = [
     name: 'Trap'
     description: "A pretty un-futuristic trap."
   }
+  {
+    id: 666
+    type: "deactivator"
+    name: "Bunny Deactivator"
+    description: "Deactivate all the bunnies at once. Press B to use"
+  }
 
 ]

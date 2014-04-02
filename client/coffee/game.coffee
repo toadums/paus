@@ -151,6 +151,7 @@ module.exports = class Game
 
   isSoundOn: =>
     @soundOn
+    false
 
   #reset all game logic
   restart: =>
@@ -330,6 +331,9 @@ module.exports = class Game
     if (monster = (@monstersInteractedWith.splice 0, 1)[0])? and @player.checkDistance(monster, 300)
       @player.damageBunny monster
 
+    if @keyInput.bHeld and _.contains Inventory.items, 666
+      @showWin()
+
     # If the user is 'doing something' dont let them do anything else..
     if not @IN_DIALOG and not @IN_INVENTORY
       #handle thrust
@@ -494,3 +498,9 @@ module.exports = class Game
     @stage.removeAllChildren()
 
     @INSTR = true
+
+  showWin: =>
+    @clearModes()
+    @stage.removeAllChildren()
+
+    @HOME = true

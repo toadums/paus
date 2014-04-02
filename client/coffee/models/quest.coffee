@@ -73,3 +73,9 @@ module.exports = class Quest
     switch @onComplete.type
       when 'item'
         Inventory.items.push @onComplete.id
+      when 'cb'
+        @[@onComplete.name]()
+
+  finishMain: () =>
+    Inventory.items = _.without Inventory.items, [351, 352, 353, 354]...
+    Inventory.items.push 666
