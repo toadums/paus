@@ -81,7 +81,29 @@ module.exports = class Player extends Character
 
         if (dialog = npc.getDialog())
           @startDialog npc.getDialog()
-          break
+          return true
+
+  checkItemAcions: (items) ->
+    for item in items
+      me =
+        x: @x + @width/2
+        y: @y + @height/2
+
+      for item in items
+        them =
+          x: item.x + item.width/2
+          y: item.y + item.height/2
+
+        # Vector from me to them
+        v =
+          x: me.x - them.x
+          y: me.y - them.y
+
+        # Distance between centers
+        d = Math.sqrt(v.x*v.x + v.y*v.y)
+        if d < 250
+          return item
+
 
   restoreHealth: () =>
     if @health < @healthMax

@@ -125,8 +125,8 @@ module.exports = class Game
     for i in [0..num] by 1
 
       playerPos =
-        x: Math.random() * 9600
-        y: Math.random() * 9600
+        x: Math.random() * 9200
+        y: Math.random() * 9200
 
       if @level.checkHitsAtPosition playerPos.x, playerPos.y
         continue
@@ -231,17 +231,17 @@ module.exports = class Game
         @player.healthMax = 10
         for monster in @monsters
           monster.life = 5
-          monster.MAX_VELOCITY = 10
+          monster.MAX_VELOCITY = 8
         @player.knockback = false
 
 
 
       when 666
-        @player.health = 3
-        @player.healthMax = 3
+        @player.health = 1
+        @player.healthMax = 1
         for monster in @monsters
           monster.life = 5
-          monster.MAX_VELOCITY = 7
+          monster.MAX_VELOCITY = 5
         @player.knockback = false
 
 
@@ -405,7 +405,13 @@ module.exports = class Game
 
       if @keyInput.actionHeld
         @player.accelerate []
-        @player.checkNPCActions @npcs
+        if not @player.checkNPCActions @npcs
+          if (item = @player.checkItemAcions @level.items)?
+            Inventory.items.push item.id
+            @inventory.refresh()
+            @stage.removeChild item
+            item.visible = false
+
         @keyInput.actionHeld = false
 
     else if not @IN_INVENTORY

@@ -16,10 +16,12 @@ module.exports = class Level
       y: 0
 
     @onScreen = []
+    @items = []
 
     @mapData
     @tileset
     @init()
+
 
   checkDiv: () =>
     perDiv = @layerSize*96 / @numDivs
@@ -96,7 +98,7 @@ module.exports = class Level
         cellSprite = new createjs.Sprite(tilesetSheet)
 
         idx = x + y * layerData.width
-        
+
         if (data = layerData.data[idx]) isnt 0
 
           cellSprite.gotoAndStop data - 1
@@ -117,6 +119,7 @@ module.exports = class Level
           if data - 1 in @tilepropsKeys
             cellSprite.on 'click', _.partial @itemClick, cellSprite, _
             type = cellSprite.type = @tileprops[(data - 1).toString()].type
+            @items.push cellSprite
 
             if (item = _.find Items, (i) -> i.type is type)?
               cellSprite.id = item.id

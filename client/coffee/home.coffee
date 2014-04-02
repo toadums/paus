@@ -86,7 +86,7 @@ module.exports = class Home
     @stage.update()
 
   addStartImp: =>
-    t = "Play on Impossible Mode #1337"
+    t = "Play on Impossible Mode (Good luck)"
     ctx = @stage.canvas.getContext('2d')
     ctx.font = "36px Arial"
 

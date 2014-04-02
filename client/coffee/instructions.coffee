@@ -47,10 +47,16 @@ module.exports = class Instructions
     act.snapToPixel = true
     act.textBaseline = "alphabetic"
 
+    clk = new createjs.Text("Left Click - Pick things up, attack, talk", "20px Arial", "white")
+    clk.x = x
+    clk.y = 350
+    clk.snapToPixel = true
+    clk.textBaseline = "alphabetic"
+
 
     esc = new createjs.Text("(esc to go back)", "14px Arial", "white")
     esc.x = x
-    esc.y = 400
+    esc.y = 420
     esc.snapToPixel = true
     esc.textBaseline = "alphabetic"
 
@@ -59,6 +65,7 @@ module.exports = class Instructions
     @stage.addChild inv
     @stage.addChild map
     @stage.addChild act
+    @stage.addChild clk
     @stage.addChild esc
 
     @components.push move
@@ -66,7 +73,8 @@ module.exports = class Instructions
     @components.push inv
     @components.push map
     @components.push act
-    @components.push esc
+    @components.push clk
+    @components.push exc
 
     @stage.update()
 
