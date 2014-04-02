@@ -147,11 +147,6 @@ module.exports = [
         type: "done"
         text: "Leave."
       }
-      {
-        type: "gameover"
-        text: "Kill the old man"
-        value: "The old man was your only hope..."
-      }
     ]
   }
 
@@ -163,6 +158,11 @@ module.exports = [
         type: "goto"
         text: "What can I do?"
         value: 163
+      }
+      {
+        type: "gameover"
+        text: "Kill the old man"
+        value: "The old man was your only hope..."
       }
     ]
   }

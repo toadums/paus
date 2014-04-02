@@ -59,6 +59,31 @@ module.exports = class Player extends Character
       10000
     )
 
+  checkNPCActions: (npcs) =>
+    console.log '1'
+    # We are going from the CENTERS of the characters
+    me =
+      x: @x + @width/2
+      y: @y + @height/2
+
+    for npc in npcs
+      them =
+        x: npc.x + npc.width/2
+        y: npc.y + npc.height/2
+
+      # Vector from me to them
+      v =
+        x: me.x - them.x
+        y: me.y - them.y
+
+      # Distance between centers
+      d = Math.sqrt(v.x*v.x + v.y*v.y)
+      if d < 250 
+
+        if (dialog = npc.getDialog())
+          @startDialog npc.getDialog()
+          break
+
   restoreHealth: () =>
     if @health < @healthMax
       @health += 1

@@ -135,8 +135,8 @@ class Controls
       @showDialog next
 
     else if action.type is 'gameover'
+      @endAction()
       @gameover(action.value or "You lost..")
-
     # Start a quest!!
     else if action.type is 'queststart'
 

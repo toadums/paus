@@ -328,6 +328,11 @@ module.exports = class Game
         @keyInput.iHeld = false
         @inventory.showInventory()
 
+      if @keyInput.actionHeld
+        @player.accelerate []
+        @player.checkNPCActions @npcs
+        @keyInput.actionHeld = false
+
     else if not @IN_INVENTORY
       if @keyInput.lfHeld
         @dialogManager.keyPress "left"

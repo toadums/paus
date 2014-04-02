@@ -131,7 +131,7 @@ module.exports = [
     pos:
       x: 4146
       y: 3820
-    sprite: "barrelSprite"
+    sprite: "blank"
     size:
       x: 2
       y: 2
