@@ -33,7 +33,7 @@ module.exports = class NPC extends Character
       quest = Collections.findModel dialog.quest
 
       if dialog.type is 'questpart'
-        if quest.isCurrentPart dialog.part
+        if quest.isCurrentPart(dialog.part) and quest.inProgress
           return dialog.dialog
       else if dialog.type is 'questdone'
         if quest.isComplete
@@ -52,7 +52,7 @@ module.exports = class NPC extends Character
       quest = Collections.findModel dialog.quest
 
       if dialog.type is 'questpart'
-        if quest.isCurrentPart dialog.part
+        if quest.isCurrentPart(dialog.part) and quest.inProgress
           return dialog.state
       else if dialog.type is 'queststart'
         if not quest.inProgress and not quest.isComplete
