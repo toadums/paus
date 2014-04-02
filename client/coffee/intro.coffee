@@ -6,7 +6,7 @@ module.exports = class Intro
       @stage
     } = @delegate
 
-    @pos = 0
+    @pos = @stage.canvas.height
     @lines = []
     @story = "
 It is the year 2064. Rabbits have been reintroduced to the UVic campus to satisfy the student body’s collective nostalgia for an imagined pastoral past. \n
@@ -23,36 +23,42 @@ Mission brief: \n
  (press the esc key)
       "
 
-  close: =>
-    @stage.removeChile(line) for line in @lines
+    @splitLines = wrap(@stage.canvas.getContext('2d'), @story, @stage.canvas.width / 2, "40px Arial")
 
-
-  tick: (event) =>
-
-    if @lines.length
-      @stage.removeChild(line) for line in @lines
-
-    if not @splitLines?
-      @splitLines = wrap(@stage.canvas.getContext('2d'), @story, @stage.canvas.width / 2, "40px Arial")
-
-
+    @container = new createjs.Container()
     i = 0
     j = 0
 
     for line in @splitLines
       @text = new createjs.Text line.trim(), "40px Arial", "white"
       @text.x = @stage.canvas.width / 4
-      @text.y = @stage.canvas.height + i*40 + j*20 + @pos
+      @text.y = i*40 + j*20
 
       @text.snapToPixel = true
       @text.textBaseline = "alphabetic"
 
-      @stage.addChild @text
-      @lines.push @text
+      @container.addChild @text
       i++
 
       if line.indexOf('\n') > -1
         j++
+
+    @container.x = 0
+    @container.y = @stage.canvas.height
+
+    @stage.addChild @container
+
+  close: =>
+    @stage.removeChile(line) for line in @lines
+
+
+  tick: (event) =>
+
+    @stage.removeChild @container
+
+    @container.y = @pos
+
+    @stage.addChild @container
 
     @pos-=2
     @stage.update()
