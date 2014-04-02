@@ -23,6 +23,9 @@ Mission brief: \n
  (press the esc key)
       "
 
+    @visible = false
+
+  show: =>
     @splitLines = wrap(@stage.canvas.getContext('2d'), @story, @stage.canvas.width / 2, "40px Arial")
 
     @container = new createjs.Container()
@@ -47,10 +50,11 @@ Mission brief: \n
     @container.y = @stage.canvas.height
 
     @stage.addChild @container
+    @visible = true
 
   close: =>
     @stage.removeChile(line) for line in @lines
-
+    @visible = false
 
   tick: (event) =>
 

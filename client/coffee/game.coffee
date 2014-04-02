@@ -11,13 +11,18 @@ Manifest = require 'coffee/data/manifest'
 Sprites = require 'coffee/system/sprites'
 Collections = require 'coffee/collections'
 Map = require 'coffee/map'
+Home = require 'coffee/home'
+Instructions = require 'coffee/instructions'
+
 module.exports = class Game
   constructor: () ->
     # If the player is in an action, they can't do anything
     @IN_ACTION = false
     @IN_INVENTORY = false
     @MAP_OPEN = false
-    @INTRO = true
+    @INTRO = false
+    @HOME = true
+    @INSTR = false
 
     @GAME_OVER = false
 
@@ -32,6 +37,12 @@ module.exports = class Game
     @itemsInteractedWith = []
     @charsInteractedWith = []
     @monstersInteractedWith = []
+
+  clearModes: =>
+    @INTRO = false
+    @HOME = false
+    @INSTR = false
+    @GAME_OVER = false
 
   init: () =>
     @img = document.createElement('img')
@@ -51,6 +62,9 @@ module.exports = class Game
     @loader.loadManifest manifest
 
     @intro = new Intro @
+    @home = new Home @
+    @instructions = new Instructions @
+
     @stage.update() #update the stage to show text
 
   handleClick: =>
@@ -66,7 +80,9 @@ module.exports = class Game
       if name isnt 'blankSprite'
         @[name] = val(@loader)
 
-    @restart()
+    #start game timer
+    createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
+
     if @isSoundOn()
       createjs.Sound.play 'music', createjs.Sound.INTERRUPT_NONE, 0, 0, true, 1
 
@@ -158,9 +174,6 @@ module.exports = class Game
     @healthBar.visible = true
     @stage.addChild @healthBar
 
-    #start game timer
-    createjs.Ticker.addEventListener "tick", @tick  unless createjs.Ticker.hasEventListener("tick")
-
   itemClick: (item, data, ev) =>
     @itemsInteractedWith.push item
     @objectClick ev
@@ -178,13 +191,41 @@ module.exports = class Game
     ev.stopPropagation()
 
   tick: (event) =>
+
+    if @HOME
+      if not @home.visible
+        @home.show()
+
+      @stage.x = 0
+      @stage.y = 0
+
+      @home.tick event
+
+      return
+
+    if @INSTR
+      if not @instructions.visible
+        @instructions.show()
+
+      @stage.x = 0
+      @stage.y = 0
+
+      @instructions.tick event
+
+      return
+
     if @INTRO
+      if not @intro.visible
+        @intro.show()
+
       @stage.x = 0
       @stage.y = 0
 
       @intro.tick event
       if @keyInput.escHeld
         @INTRO = false
+        @restart()
+        @intro.close()
 
       return
 
@@ -373,3 +414,15 @@ module.exports = class Game
 
   gameover: (msg) =>
     @GAME_OVER = msg
+
+  startGame: =>
+    @clearModes()
+    @INTRO = true
+
+  showHome: =>
+    @clearModes()
+    @HOME = true
+
+  showInstructions: =>
+    @clearModes()
+    @INSTR = true
