@@ -13,18 +13,40 @@ module.exports = class Home
     @controls = []
     @visible = false
     @selectedOption = 0
+    @img = document.createElement('img')
+    @img.src = '/images/rw.png';
 
   show: =>
     @selectedOption = 0
     @visible = true
+    @addHeader()
     @addStart()
     @addInstructions()
     @addSound()
 
+  addHeader: =>
+
+
+    scale = 800 / @img.width
+
+    header = new createjs.Bitmap(@img)
+    header.scaleX = scale
+    header.scaleY = 400 / @img.height
+    header.x = @stage.canvas.width/2 - 400
+    header.y = 0
+    @stage.addChild header
+    @components.push header
+
   addStart: =>
-    text = new createjs.Text("Play!", "20px Arial", "white")
-    text.x = 200
-    text.y = 300
+    t = "Play!"
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "36px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(t).width/2
+
+    text = new createjs.Text(t, "36px Arial", "white")
+    text.x = x
+    text.y = 400
     text.snapToPixel = true
     text.textBaseline = "alphabetic"
 
@@ -39,9 +61,15 @@ module.exports = class Home
     @stage.update()
 
   addInstructions: =>
-    text = new createjs.Text("Instructions", "20px Arial", "white")
-    text.x = 200
-    text.y = 350
+    t = "Instructions"
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "36px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(t).width/2
+
+    text = new createjs.Text(t, "36px Arial", "white")
+    text.x = x
+    text.y = 450
     text.snapToPixel = true
     text.textBaseline = "alphabetic"
 
@@ -56,9 +84,15 @@ module.exports = class Home
     @stage.update()
 
   addSound: =>
-    text = new createjs.Text("Toggle Sound", "20px Arial", "white")
-    text.x = 200
-    text.y = 400
+    t = "Toggle Sound"
+    ctx = @stage.canvas.getContext('2d')
+    ctx.font = "36px Arial"
+
+    x = @stage.canvas.width/2 - ctx.measureText(t).width/2
+
+    text = new createjs.Text(t, "36px Arial", "white")
+    text.x = x
+    text.y = 500
     text.snapToPixel = true
     text.textBaseline = "alphabetic"
 
@@ -94,6 +128,6 @@ module.exports = class Home
         @selectedOption--
       @keyInput.fwdHeld = false
 
-    @controls[@selectedOption]?.color = "rgb(0,255,0)"
+    @controls[@selectedOption]?.color = "rgb(175,0,0)"
 
     @stage.update()

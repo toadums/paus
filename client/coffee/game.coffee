@@ -155,7 +155,6 @@ module.exports = class Game
 
   isSoundOn: =>
     @soundOn
-    false
 
   #reset all game logic
   restart: =>
