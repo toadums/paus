@@ -66,6 +66,9 @@ module.exports = class Inventory
       @showInventory()
 
   showInventory: =>
+
+    @selected = 0 if @selected >= Inventory.items.length 
+
     # Position relative to the viewport
     @pos =
       x: @stage.x*-1 + 30
